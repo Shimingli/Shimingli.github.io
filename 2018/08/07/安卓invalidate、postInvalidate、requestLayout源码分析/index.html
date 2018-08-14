@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="最近在撸Golang有点上火了，来整理下安卓源码资料☺☺☺ 分析结果基于Audroid API 26">
+<meta name="keywords" content="源码解析,invalidate,postInvalidate,requestLayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓invalidate、postInvalidate、requestLayout源码分析">
+<meta property="og:url" content="http://yoursite.com/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="最近在撸Golang有点上火了，来整理下安卓源码资料☺☺☺ 分析结果基于Audroid API 26">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-727eb9d2da018f43.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-f43b39cd42720e77.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a267e92df57adf3e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T07:47:32.819Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓invalidate、postInvalidate、requestLayout源码分析">
+<meta name="twitter:description" content="最近在撸Golang有点上火了，来整理下安卓源码资料☺☺☺ 分析结果基于Audroid API 26">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-727eb9d2da018f43.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>安卓invalidate、postInvalidate、requestLayout源码分析 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-安卓invalidate、postInvalidate、requestLayout源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/" class="article-date">
+      <time datetime="2018-08-07T07:45:48.000Z" itemprop="datePublished">2018-08-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      安卓invalidate、postInvalidate、requestLayout源码分析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码解析/">源码解析</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>最近在撸<code>Golang</code>有点上火了，来整理下安卓源码资料☺☺☺</li>
+<li>分析结果基于<code>Audroid API 26</code><a id="more"></a>
+<h4 id="requestLayout-源码分析"><a href="#requestLayout-源码分析" class="headerlink" title="requestLayout()源码分析"></a><code>requestLayout()</code>源码分析</h4></li>
+<li><p>假如在一个页面上有个按钮，点击按钮就对一个 <code>view.requestLayout()</code>,这个 <code>view</code> 执行的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">InvalidateTextView------onMeasure</span><br><span class="line">InvalidateTextView------onMeasure</span><br><span class="line">InvalidateTextView-------layout</span><br><span class="line">InvalidateTextView--------onLayout</span><br><span class="line">InvalidateTextView----------draw</span><br><span class="line">InvalidateTextView------------onDraw</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>view.requestLayout()</code>  方法的详情</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@CallSuper</span><br><span class="line">  public void requestLayout() &#123;</span><br><span class="line">      // 清除绘制的缓存</span><br><span class="line">      if (mMeasureCache != null) mMeasureCache.clear();</span><br><span class="line"></span><br><span class="line">      if (mAttachInfo != null &amp;&amp; mAttachInfo.mViewRequestingLayout == null) &#123;</span><br><span class="line">          //只有在布局逻辑中触发请求，如果这是请求它的视图，而不是其父层次结构中的视图</span><br><span class="line">          ViewRootImpl viewRoot = getViewRootImpl();</span><br><span class="line">          //如果连续请求两次，其中一次自动返回！</span><br><span class="line">          if (viewRoot != null &amp;&amp; viewRoot.isInLayout()) &#123;</span><br><span class="line">              if (!viewRoot.requestLayoutDuringLayout(this)) &#123;</span><br><span class="line">                  return;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          mAttachInfo.mViewRequestingLayout = this;</span><br><span class="line">      &#125;</span><br><span class="line">     //todo   为当前view设置标记位 PFLAG_FORCE_LAYOUT</span><br><span class="line">      mPrivateFlags |= PFLAG_FORCE_LAYOUT;</span><br><span class="line">      mPrivateFlags |= PFLAG_INVALIDATED;</span><br><span class="line"></span><br><span class="line">      if (mParent != null &amp;&amp; !mParent.isLayoutRequested()) &#123;</span><br><span class="line">         //   todo  向父容器请求布局 这里是向父容器请求布局，即调用父容器的requestLayout方法，为父容器添加PFLAG_FORCE_LAYOUT标记位，而父容器又会调用它的父容器的requestLayout方法，即requestLayout事件层层向上传递，直到DecorView，即根View，而根View又会传递给ViewRootImpl，也即是说子View的requestLayout事件，最终会被ViewRootImpl接收并得到处理</span><br><span class="line">          mParent.requestLayout();</span><br><span class="line">      &#125;</span><br><span class="line">      if (mAttachInfo != null &amp;&amp; mAttachInfo.mViewRequestingLayout == this) &#123;</span><br><span class="line">          mAttachInfo.mViewRequestingLayout = null;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1、如果缓存不为<code>null</code>,清除绘制的缓存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (mMeasureCache != null) mMeasureCache.clear();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、这里判断了是否在<code>layout</code>，如果是，就返回，也就可以理解为： 如果连续请求两次，并且其中的一次正在<code>layout</code>中，其中一次返回！这样做是节约性能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if (mAttachInfo != null &amp;&amp; mAttachInfo.mViewRequestingLayout == null) &#123;</span><br><span class="line">         //只有在布局逻辑中触发请求，如果这是请求它的视图，而不是其父层次结构中的视图</span><br><span class="line">         ViewRootImpl viewRoot = getViewRootImpl();</span><br><span class="line">         //如果连续请求两次，其中一次自动返回！</span><br><span class="line">         if (viewRoot != null &amp;&amp; viewRoot.isInLayout()) &#123;</span><br><span class="line">             if (!viewRoot.requestLayoutDuringLayout(this)) &#123;</span><br><span class="line">                 return;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         mAttachInfo.mViewRequestingLayout = this;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、  为当前<code>view</code>设置标记位<code>PFLAG_FORCE_LAYOUT</code>,关于 <code>|=</code>符号：<code>a|=b</code>的意思就是把a和b按位或然后赋值给a 按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于<code>a=a|b</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mPrivateFlags |= PFLAG_FORCE_LAYOUT;</span><br><span class="line">mPrivateFlags |= PFLAG_INVALIDATED;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、向父容器请求布局，即调用<code>ViewGroup</code>父容器的<code>requestLayout()</code>方法，为父容器添加<code>PFLAG_FORCE_LAYOUT</code>标记位，而父容器又会调用它的父容器的<code>requestLayout()</code>方法，即<code>requestLayout()</code>事件层层向上传递，直到<code>DecorView</code>，即根<code>View</code>，而根<code>View</code>又会传递给<code>ViewRootImpl，</code>也即是说子View的<code>requestLayout()f</code>事件，最终会被<code>ViewRootImpl.requestLayout()</code>接收并得到处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (mParent != null &amp;&amp; !mParent.isLayoutRequested()) &#123;</span><br><span class="line">      mParent.requestLayout();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5、<code>ViewRootImpl.requestLayout()</code>方法详情</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void requestLayout() &#123;</span><br><span class="line">      if (!mHandlingLayoutInLayoutRequest) &#123;</span><br><span class="line">          // 检查是否在主线程，不在的话，抛出异常</span><br><span class="line">          checkThread();</span><br><span class="line">          mLayoutRequested = true;</span><br><span class="line">          scheduleTraversals();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>1、检查是否在主线程，不在的话，抛出异常<code>checkThread();</code>    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void checkThread() &#123;</span><br><span class="line">    if (mThread != Thread.currentThread()) &#123;</span><br><span class="line">        throw new CalledFromWrongThreadException(</span><br><span class="line">                &quot;Only the original thread that created a view hierarchy can touch its views.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2 、最终走到这个方法来<code>ViewRootImpl.scheduleTraversals()</code>,在其中可以看到一行非常有意思的代码<br><code>mChoreographer.postCallback( Choreographer.CALLBACK_TRAVERSAL, mTraversalRunnable, null);</code> ,其中有个对象<code>mTraversalRunnable</code>,这样下去就会重新的测量、布局和绘制；具体的流程可以看这篇文章<a href="https://www.jianshu.com/p/b63c6afa1844" target="_blank" rel="noopener">Android源码分析(View的绘制流程)</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   // requestLayout()  会调用这个方法 </span><br><span class="line">void scheduleTraversals() &#123;</span><br><span class="line">    if (!mTraversalScheduled) &#123;</span><br><span class="line">        mTraversalScheduled = true;</span><br><span class="line">        mTraversalBarrier = mHandler.getLooper().getQueue().postSyncBarrier();</span><br><span class="line">        // 最终调用的是这个方法</span><br><span class="line">        mChoreographer.postCallback(</span><br><span class="line">                Choreographer.CALLBACK_TRAVERSAL, mTraversalRunnable, null);</span><br><span class="line">        if (!mUnbufferedInputDispatch) &#123;</span><br><span class="line">            scheduleConsumeBatchedInput();</span><br><span class="line">        &#125;</span><br><span class="line">        notifyRendererOfFramePending();</span><br><span class="line">        pokeDrawLockIfNeeded();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>有个问题，我先抛出结论，<code>requessLayout() 、invalidate()、postInvalidate()</code>最终的底层调用的是 <code>ViewRootImpl.scheduleTraversals()</code>的方法,为什么仅仅<code>requessLayout()</code>才会执行<code>onMeasure()  onLayout()  onDraw()</code>这几个方法？</p>
+</li>
+<li><p>关于<code>view.measure()</code>方法:在前面我们知道 <code>mPrivateFlags |= PFLAG_FORCE_LAYOUT</code> 所以 <code>forceLayout = true</code>,也就是会执行<code>onMeasure(widthMeasureSpec, heightMeasureSpec);</code>,同时执行完了以后呢，最后为标记位设置为<code>mPrivateFlags |=PFLAG_LAYOUT_REQUIRED</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public final void measure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">       ...</span><br><span class="line">       // requestLayout的方法改变的  mPrivateFlags |= PFLAG_FORCE_LAYOUT; 所以 forceLayout = true</span><br><span class="line">       final boolean forceLayout = (mPrivateFlags &amp; PFLAG_FORCE_LAYOUT) == PFLAG_FORCE_LAYOUT;</span><br><span class="line">       ...</span><br><span class="line">       if (forceLayout || needsLayout) &#123;</span><br><span class="line">       ...</span><br><span class="line">           if (cacheIndex &lt; 0 || sIgnoreMeasureCache) &#123;</span><br><span class="line">               //最终会走到这方法来</span><br><span class="line">               onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">               mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">           &#125; </span><br><span class="line">           // 接着最后为标记位设置为PFLAG_LAYOUT_REQUIRED</span><br><span class="line">           mPrivateFlags |= PFLAG_LAYOUT_REQUIRED;</span><br><span class="line">       &#125;</span><br><span class="line">      ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关于<code>view.layout()</code>方法：判断标记位是否为<code>PFLAG_LAYOUT_REQUIRED</code>，如果有，则对该<code>View</code>进行布局,也就是走到<code>onLayout(changed, l, t, r, b);</code>,最后清除标记<code>mPrivateFlags &amp;= ~PFLAG_FORCE_LAYOUT;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&#123;&quot;unchecked&quot;&#125;)</span><br><span class="line">   public void layout(int l, int t, int r, int b) &#123;</span><br><span class="line">       if ((mPrivateFlags3 &amp; PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT) != 0) &#123;</span><br><span class="line">           //第二次调用这个方法，，，</span><br><span class="line">           onMeasure(mOldWidthMeasureSpec, mOldHeightMeasureSpec);</span><br><span class="line">           mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       int oldL = mLeft;</span><br><span class="line">       int oldT = mTop;</span><br><span class="line">       int oldB = mBottom;</span><br><span class="line">       int oldR = mRight;</span><br><span class="line"></span><br><span class="line">       boolean changed = isLayoutModeOptical(mParent) ?</span><br><span class="line">               setOpticalFrame(l, t, r, b) : setFrame(l, t, r, b);</span><br><span class="line">          //判断标记位是否为PFLAG_LAYOUT_REQUIRED，如果有，则对该View进行布局</span><br><span class="line">       if (changed || (mPrivateFlags &amp; PFLAG_LAYOUT_REQUIRED) == PFLAG_LAYOUT_REQUIRED) &#123;</span><br><span class="line">           onLayout(changed, l, t, r, b);</span><br><span class="line"></span><br><span class="line">           if (shouldDrawRoundScrollbar()) &#123;</span><br><span class="line">               if(mRoundScrollbarRenderer == null) &#123;</span><br><span class="line">                   mRoundScrollbarRenderer = new RoundScrollbarRenderer(this);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               mRoundScrollbarRenderer = null;</span><br><span class="line">           &#125;</span><br><span class="line">           //  onLayout方法完成后，清除PFLAG_LAYOUT_REQUIRED标记位</span><br><span class="line">           mPrivateFlags &amp;= ~PFLAG_LAYOUT_REQUIRED;</span><br><span class="line">       &#125;</span><br><span class="line">   //  //最后清除PFLAG_FORCE_LAYOUT标记位</span><br><span class="line">       mPrivateFlags &amp;= ~PFLAG_FORCE_LAYOUT;</span><br><span class="line">       mPrivateFlags3 |= PFLAG3_IS_LAID_OUT;</span><br><span class="line">      ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以上就是 <code>requestLayout()</code>的分析的结果:<code>view</code>调用了这个方法，其实会从<code>view</code>树重新进行一次测量、布局、绘制这三个流程。</p>
+</li>
+<li>做了一张图<br><img src="https://upload-images.jianshu.io/upload_images/5363507-727eb9d2da018f43.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="requestLayout()的原理.jpg"></li>
+</ul>
+<h4 id="invalidate-源码分析"><a href="#invalidate-源码分析" class="headerlink" title="invalidate()源码分析"></a><code>invalidate()源码分析</code></h4><ul>
+<li><p><code>view.invalidate()</code>;继承一个Textview，然后重写方法，设置一个but，同时请求方法，打印日志：请求一次的输出的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InvalidateTextView----------draw</span><br><span class="line">InvalidateTextView------------onDraw</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法详情 : <code>view.invalidate()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void invalidate() &#123;</span><br><span class="line">      invalidate(true);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>该视图的绘图缓存是否也应无效。对于完全无效,设置为true，但是如果视图的内容或维度没有改变，则可以设置为false。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void invalidate(boolean invalidateCache) &#123;</span><br><span class="line">     invalidateInternal(0, 0, mRight - mLeft, mBottom - mTop, invalidateCache, true);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>invalidateInternal()</code>方法详情：其实关键的方法就是<code>invalidateChild()</code></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">void invalidateInternal(int l, int t, int r, int b, boolean invalidateCache,</span><br><span class="line">          boolean fullInvalidate) &#123;</span><br><span class="line">      if (mGhostView != null) &#123;</span><br><span class="line">          mGhostView.invalidate(true);</span><br><span class="line">          return;</span><br><span class="line">      &#125;</span><br><span class="line">      // 判断是否可见，是否在动画中，是否不是ViewGroup，三项满足一项，直接返回</span><br><span class="line">      if (skipInvalidate()) &#123;</span><br><span class="line">          return;</span><br><span class="line">      &#125;</span><br><span class="line">//根据View的标记位来判断该子View是否需要重绘，假如View没有任何变化，那么就不需要重绘</span><br><span class="line">      if ((mPrivateFlags &amp; (PFLAG_DRAWN | PFLAG_HAS_BOUNDS)) == (PFLAG_DRAWN | PFLAG_HAS_BOUNDS)</span><br><span class="line">              || (invalidateCache &amp;&amp; (mPrivateFlags &amp; PFLAG_DRAWING_CACHE_VALID) == PFLAG_DRAWING_CACHE_VALID)</span><br><span class="line">              || (mPrivateFlags &amp; PFLAG_INVALIDATED) != PFLAG_INVALIDATED</span><br><span class="line">              || (fullInvalidate &amp;&amp; isOpaque() != mLastIsOpaque)) &#123;</span><br><span class="line">          if (fullInvalidate) &#123;</span><br><span class="line">              mLastIsOpaque = isOpaque();</span><br><span class="line">              mPrivateFlags &amp;= ~PFLAG_DRAWN;</span><br><span class="line">          &#125;</span><br><span class="line">          //设置PFLAG_DIRTY标记位</span><br><span class="line">          mPrivateFlags |= PFLAG_DIRTY;</span><br><span class="line"></span><br><span class="line">          if (invalidateCache) &#123;</span><br><span class="line">              mPrivateFlags |= PFLAG_INVALIDATED;</span><br><span class="line">              mPrivateFlags &amp;= ~PFLAG_DRAWING_CACHE_VALID;</span><br><span class="line">          &#125;</span><br><span class="line">          //把需要重绘的区域传递给父容器</span><br><span class="line">          // Propagate the damage rectangle to the parent view.</span><br><span class="line">          final AttachInfo ai = mAttachInfo;</span><br><span class="line">          final ViewParent p = mParent;</span><br><span class="line">          if (p != null &amp;&amp; ai != null &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">              final Rect damage = ai.mTmpInvalRect;</span><br><span class="line">              damage.set(l, t, r, b);</span><br><span class="line">              //调用父容器的方法，向上传递事件</span><br><span class="line">              p.invalidateChild(this, damage);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          // Damage the entire projection receiver, if necessary.</span><br><span class="line">          // 损坏整个投影接收机，如果不需要。</span><br><span class="line">          if (mBackground != null &amp;&amp; mBackground.isProjected()) &#123;</span><br><span class="line">              final View receiver = getProjectionReceiver();</span><br><span class="line">              if (receiver != null) &#123;</span><br><span class="line">                  receiver.damageInParent();</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>1、判断是否可见，是否在动画中，是否不是<code>ViewGroup</code>，三项满足一项，直接返回，这个方法也可以知道，<code>invalidate()</code>针对的是<code>View</code>，而不是<code>ViewGroup</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private boolean skipInvalidate() &#123;</span><br><span class="line">      return (mViewFlags &amp; VISIBILITY_MASK) != VISIBLE &amp;&amp; mCurrentAnimation == null &amp;&amp;</span><br><span class="line">              (!(mParent instanceof ViewGroup) ||</span><br><span class="line">                      !((ViewGroup) mParent).isViewTransitioning(this));</span><br><span class="line">  &#125;</span><br><span class="line"> ``` </span><br><span class="line">   *  2、通过View的标记位来判断孩子View是否需要重新绘制，如果没有变化的话，那么就不需要重新绘制</span><br></pre></td></tr></table></figure>
+<p>mPrivateFlags &amp; (PFLAG_DRAWN | PFLAG_HAS_BOUNDS)) == (PFLAG_DRAWN |<br>PFLAG_HAS_BOUNDS)</p>
+<pre><code>|| (invalidateCache &amp;&amp; (mPrivateFlags &amp; PFLAG_DRAWING_CACHE_VALID) == 
+</code></pre><p>PFLAG_DRAWING_CACHE_VALID)</p>
+<pre><code>     || (mPrivateFlags &amp; PFLAG_INVALIDATED) != PFLAG_INVALIDATED
+|| (fullInvalidate &amp;&amp; isOpaque() != mLastIsOpaque)
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*  3、需要重新绘制的区域传递给父容器，向上传递事件，记住在这里 `damage`这个变量肯定不为`null`,要不然在这个方法里面就会直接抛出空指针异常。</span><br></pre></td></tr></table></figure>
+<p>p.invalidateChild(this, damage);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*  4、损坏整个投影接收机，如果不需要。` mBackground.isProjected()`： 这张画是否需要投影。</span><br></pre></td></tr></table></figure>
+<p>if (mBackground != null &amp;&amp; mBackground.isProjected()) {</p>
+<pre><code>    final View receiver = getProjectionReceiver();
+    if (receiver != null) {
+        receiver.damageInParent();
+    }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">* 关键的方法：`ViewRootImpl.invalidateChild(this, damage);`</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>@Override<br>  public void invalidateChild(View child, Rect dirty) {</p>
+<pre><code>invalidateChildInParent(null, dirty);
+</code></pre><p>  }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">*    invalidateChildInParent(null, dirty);进行了offset和union对坐标的调整，然后把dirty区域的信息保存在mDirty中，最后调用了`scheduleTraversals()`方法，触发View的工作流程，由于没有添加measure和layout的标记位，因此measure、layout流程不会执行，而是直接从`draw`流程开始.</span><br><span class="line">       ``` </span><br><span class="line">      @Override</span><br><span class="line">       public ViewParent invalidateChildInParent(int[] location, Rect dirty) &#123;</span><br><span class="line">        // 检查线程，不是ui线程，直接抛出异常</span><br><span class="line">        checkThread();</span><br><span class="line">         if (DEBUG_DRAW) Log.v(mTag, &quot;Invalidate child: &quot; + dirty);</span><br><span class="line"> </span><br><span class="line">        if (dirty == null) &#123;</span><br><span class="line">             invalidate();</span><br><span class="line">            return null;</span><br><span class="line">           &#125; else if (dirty.isEmpty() &amp;&amp; !mIsAnimating) &#123;</span><br><span class="line">              return null;</span><br><span class="line">          &#125;</span><br><span class="line">   </span><br><span class="line">          if (mCurScrollY != 0 || mTranslator != null) &#123;</span><br><span class="line">            mTempRect.set(dirty);</span><br><span class="line">             dirty = mTempRect;</span><br><span class="line">            if (mCurScrollY != 0) &#123;</span><br><span class="line">                // 将dirty中的坐标转化为父容器中的坐标，考虑mScrollX和mScrollY的影响</span><br><span class="line">                dirty.offset(0, -mCurScrollY);</span><br><span class="line">            &#125;</span><br><span class="line">            if (mTranslator != null) &#123;</span><br><span class="line">                mTranslator.translateRectInAppWindowToScreen(dirty);</span><br><span class="line">            &#125;</span><br><span class="line">            if (mAttachInfo.mScalingRequired) &#123;</span><br><span class="line">                dirty.inset(-1, -1);</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         //进行了offset和union对坐标的调整</span><br><span class="line">         invalidateRectOnScreen(dirty);</span><br><span class="line"></span><br><span class="line">         return null;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>*  1、检查线程，不是ui线程，直接抛出异常.和`requestLayout()`一样的
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkThread();</span><br></pre></td></tr></table></figure>
+
+ *  2、如果是从 invalidate() 方法过来的话，那么dirty 肯定不为null  因为要是为null的话，前面调用方法的地方就抛出了空指针的异常
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (dirty == null) &#123;</span><br><span class="line">    invalidate();</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+ * 3、通过将dx=0添加到其左、右坐标，并将 mCurScrollY 添加到其顶部和底部坐标来抵消矩形。
+
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirty.offset(0, -mCurScrollY);</span><br></pre></td></tr></table></figure>
+
+  *   4、进行了offset和union对坐标的调整
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invalidateRectOnScreen(dirty);</span><br></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>关于<code>invalidateRectOnScreen(dirty)</code>方法:最终的关键的方法： scheduleTraversals();</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private void invalidateRectOnScreen(Rect dirty) &#123;</span><br><span class="line">    final Rect localDirty = mDirty;</span><br><span class="line">    if (!localDirty.isEmpty() &amp;&amp; !localDirty.contains(dirty)) &#123;</span><br><span class="line">        mAttachInfo.mSetIgnoreDirtyState = true;</span><br><span class="line">        mAttachInfo.mIgnoreDirtyState = true;</span><br><span class="line">    &#125;</span><br><span class="line">    // Add the new dirty rect to the current one</span><br><span class="line">    // 添加一个新的 dirty rect 给当前的Rect</span><br><span class="line">    localDirty.union(dirty.left, dirty.top, dirty.right, dirty.bottom);</span><br><span class="line">    // Intersect with the bounds of the window to skip</span><br><span class="line">    // updates that lie outside of the visible region</span><br><span class="line">    final float appScale = mAttachInfo.mApplicationScale;</span><br><span class="line">    final boolean intersected = localDirty.intersect(0, 0,</span><br><span class="line">            (int) (mWidth * appScale + 0.5f), (int) (mHeight * appScale + 0.5f));</span><br><span class="line">    if (!intersected) &#123;</span><br><span class="line">        localDirty.setEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">    if (!mWillDrawSoon &amp;&amp; (intersected || mIsAnimating)) &#123;</span><br><span class="line">        scheduleTraversals();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最终的关键的方法：<code>ViewRootImpl.scheduleTraversals();</code>，也就是会调用到这个对象<code>mTraversalRunnable</code>;也就是和<code>requessLaout()</code>最终调用的底层的方法一样，只不过对于<code>invalidate()</code>没有添加<code>measure()</code>和<code>layout()</code>的标记位，后面的流程也就不会执行！具体的流程可以看这篇文章<a href="https://www.jianshu.com/p/b63c6afa1844" target="_blank" rel="noopener">Android源码分析(View的绘制流程)</a></p>
+</li>
+<li>该方法的调用会引起<code>View</code>树的重绘，常用于内部调用(比如 setVisiblity())或者需要刷新界面的时候,需要在主线程(即UI线程)中调用该方法，<code>invalidate</code>有多个重载方法，但最终都会调用<code>invalidateInternal</code>方法，在这个方法内部，进行了一系列的判断，判断<code>View</code>是否需要重绘，接着为该<code>View</code>设置标记位，然后把需要重绘的区域传递给父容器，即调用父容器的<code>invalidateChild</code>方法。</li>
+<li>做了一张图<br><img src="https://upload-images.jianshu.io/upload_images/5363507-f43b39cd42720e77.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="invalidate()的原理.jpg"></li>
+</ul>
+<h4 id="postInvalidate-的源码解析"><a href="#postInvalidate-的源码解析" class="headerlink" title="postInvalidate()的源码解析"></a>postInvalidate()的源码解析</h4><ul>
+<li><p><code>view.postInvalidate()</code>继承一个Textview，然后重写方法，设置一个but，同时请求方法，打印日志：请求一次的输出的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InvalidateTextView----------draw</span><br><span class="line">InvalidateTextView------------onDraw</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>view.postInvalidate()</code>详情,由于方法是public，也可以调用一个时间，延迟多久开始执行，这里是delayMilliseconds，毫秒</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void postInvalidate() &#123;</span><br><span class="line">     postInvalidateDelayed(0);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>view.postInvalidateDelayed（）</code> 只有<code>attachInfo</code>不为null的时候才会继续执行，即只有确保视图被添加到窗口的时候才会通知view树重绘，因为这是一个异步方法，如果在视图还未被添加到窗口就通知重绘的话会出现错误，所以这样要做一下判断!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public void postInvalidateDelayed(long delayMilliseconds) &#123;</span><br><span class="line">     final AttachInfo attachInfo = mAttachInfo;</span><br><span class="line">     if (attachInfo != null) &#123;</span><br><span class="line">         attachInfo.mViewRootImpl.dispatchInvalidateDelayed(this, delayMilliseconds);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ViewRootImpl.dispatchInvalidateDelayed()</code> 用了Handler，发送了一个异步消息到主线程，显然这里发送的是MSG_INVALIDATE，即通知主线程刷新视图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 用了Handler，发送了一个异步消息到主线程，显然这里发送的是`MSG_INVALIDATE`，即通知主线程刷新视图</span><br><span class="line">    * @param view  只有 postInvalidate() 使用了handler 来发送消息</span><br><span class="line">   * @param delayMilliseconds</span><br><span class="line">   */</span><br><span class="line">  public void dispatchInvalidateDelayed(View view, long delayMilliseconds) &#123;</span><br><span class="line">      Message msg = mHandler.obtainMessage(MSG_INVALIDATE, view);</span><br><span class="line">      mHandler.sendMessageDelayed(msg, delayMilliseconds);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通知对象去<code>invalidate()</code> ，底层也是调用的是<code>invalidate()</code>，只不过使用了<code>mHandler</code>发送消息,在这里就发送到主线程了，去调用<code>invalidate()</code>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">case MSG_INVALIDATE:</span><br><span class="line">              //通知对象去 invalidate ，底层也是调用的是 invalidate，只不过使用了handler发送消息</span><br><span class="line">              ((View) msg.obj).invalidate();</span><br><span class="line">              break;0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法的解释 ：<code>postInvalidate</code>是在非UI线程中调用,但是底层使用的是 <code>invalidate()</code>,通过<code>ViewRootImpl的内部handler： ViewRootHandler</code>发送的消息，但是也可以在 主线程中使用，如果在强制在主线程中使用，内部有个 <code>handler</code> 在工作，是不是显得有点浪费 ，对吧！</p>
+</li>
+<li><code>postInvalidate()</code>这个方法也可以主线程中使用</li>
+<li><p>做了一张图<br><img src="https://upload-images.jianshu.io/upload_images/5363507-a267e92df57adf3e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="postInvalidate()的原理.jpg"></p>
+</li>
+<li><p>最后说明几点</p>
+<ul>
+<li><code>invalidate()、postInvalidate()、requestLayout()</code>,最底层处调用的是<code>viewRootImpl.scheduleTraversals()</code> 这个方法，<code>requestLayout</code>由于设置了<code>measure</code>和<code>layout</code>的标记位，所以<code>requestLayout</code>可以重新走一次绘制的流程<ul>
+<li><code>postInvalidate()</code> 底层通过<code>Handler</code>把非UI线程的工作，调用的是<code>invalidate()</code>.</li>
+<li><code>invalidate()、requestLayout()</code>,方法都检查了是否在<code>UI</code>线程,不在的话，直接抛出异常，所以他们只能在UI线程中使用，<code>postInvalidate()</code>可以在UI线程和非UI线程中使用。</li>
+<li><code>view</code>自身不在适合某个区域，比如说<code></code>LayoutParams<code>发生了改变，需要对其重新的测量、布局和绘制的三个流程，那么使用这个方法最合适</code>requestLayout()`。</li>
+<li>如果说是在刷新当前的view，是当前的view进行重新的绘制，不会进行测量、布局流程。仅仅需要某个<code>view</code>重新绘制而不需要测量，使用<code>invalidate()方法往往比requestLayout()方法更高效</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-08-07, 15:45:48</p>
+        <p><span>最后更新:</span>2018-08-14, 15:47:32</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/" title="安卓invalidate、postInvalidate、requestLayout源码分析">http://yoursite.com/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/08/14/Android-9-Pie-正式版总结/">
+                    Android 9 Pie 正式版总结
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/07/19/Go语言实现RPC/">
+                    Go语言实现RPC
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#requestLayout-源码分析"><span class="toc-number">1.</span> <span class="toc-text">requestLayout()源码分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#invalidate-源码分析"><span class="toc-number">2.</span> <span class="toc-text">invalidate()源码分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#postInvalidate-的源码解析"><span class="toc-number">3.</span> <span class="toc-text">postInvalidate()的源码解析</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"安卓invalidate、postInvalidate、requestLayout源码分析　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/08/14/Android-9-Pie-正式版总结/" title="上一篇: Android 9 Pie 正式版总结">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/07/19/Go语言实现RPC/" title="下一篇: Go语言实现RPC">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

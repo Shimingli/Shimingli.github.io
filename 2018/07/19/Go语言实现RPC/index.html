@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="RPC定义，来源于百度百科 RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI网络通信模型中，RPC跨越了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。">
+<meta name="keywords" content="Go,Golang,RPC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语言实现RPC">
+<meta property="og:url" content="http://yoursite.com/2018/07/19/Go语言实现RPC/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="RPC定义，来源于百度百科 RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI网络通信模型中，RPC跨越了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-147298372fc05727.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-2ebbd9d70053e8e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a4168e88f7eaf474.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-48090786abf0e69c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T07:51:26.625Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go语言实现RPC">
+<meta name="twitter:description" content="RPC定义，来源于百度百科 RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI网络通信模型中，RPC跨越了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-147298372fc05727.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Go语言实现RPC | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Go语言实现RPC" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/19/Go语言实现RPC/" class="article-date">
+      <time datetime="2018-07-19T07:48:40.000Z" itemprop="datePublished">2018-07-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go语言实现RPC
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Golang/">Golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RPC/">RPC</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="RPC定义，来源于百度百科"><a href="#RPC定义，来源于百度百科" class="headerlink" title="RPC定义，来源于百度百科"></a>RPC定义，来源于百度百科</h4><ul>
+<li>RPC（Remote Procedure Call）—<a href="https://baike.baidu.com/item/%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8" target="_blank" rel="noopener">远程过程调用</a>，它是一种通过<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C" target="_blank" rel="noopener">网络</a>从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。<a href="https://baike.baidu.com/item/RPC%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">RPC协议</a>假定某些<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">传输协议</a>的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1" target="_blank" rel="noopener">网络通信</a>模型中，RPC跨越了<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%B1%82" target="_blank" rel="noopener">传输层</a>和<a href="https://baike.baidu.com/item/%E5%BA%94%E7%94%A8%E5%B1%82" target="_blank" rel="noopener">应用层</a>。RPC使得开发包括网络<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F" target="_blank" rel="noopener">分布式</a>多程序在内的应用程序更加容易。<a id="more"></a></li>
+<li><p>RPC采用客户机/服务器模式。请求程序就是一个客户机，而服务提供程序就是一个服务器。首先，客户机调用进程发送一个有进程参数的调用信息到服务进程，然后等待应答信息。在服务器端，进程保持睡眠状态直到调用信息到达为止。当一个调用信息到达，服务器获得进程参数，计算结果，发送答复<a href="https://baike.baidu.com/item/%E4%BF%A1%E6%81%AF" target="_blank" rel="noopener">信息</a>，然后等待下一个调用信息，最后，客户端调用进程接收答复信息，获得进程结果，然后调用执行继续进行。</p>
+</li>
+<li><p>有多种 RPC模式和执行。最初由 Sun 公司提出。IETF ONC 宪章重新修订了 Sun 版本，使得 ONC RPC 协议成为 IETF 标准协议。现在使用最普遍的模式和执行是开放式软件基础的分布式计算<a href="https://baike.baidu.com/item/%E7%8E%AF%E5%A2%83" target="_blank" rel="noopener">环境</a>（DCE）。</p>
+</li>
+<li>个人的理解：不用管什么底层网络技术的协议，是一种通过网络从计算机程序上请求服务，通俗一点，我们写代码，要在一个地方，比如安卓，就需要在一个工程里面，才可以调用到其他的程序代码执行的过程。Go语言提供RPC支持使得开发网络分布式多程序在内的应用程序更加的<code>easy</code></li>
+</ul>
+<h4 id="RPC工作流程图"><a href="#RPC工作流程图" class="headerlink" title="RPC工作流程图"></a>RPC工作流程图</h4><p><img src="https://upload-images.jianshu.io/upload_images/5363507-147298372fc05727.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来源于gitHub"></p>
+<ul>
+<li>1.调用客户端句柄；执行传送参数</li>
+<li>2.调用本地系统内核发送网络消息</li>
+<li>3.消息传送到远程主机</li>
+<li>4.服务器句柄得到消息并取得参数</li>
+<li>5.执行远程过程</li>
+<li>6.执行的过程将结果返回服务器句柄</li>
+<li>7.服务器句柄返回结果，调用远程系统内核</li>
+<li>8.消息传回本地主机</li>
+<li>9.客户句柄由内核接收消息</li>
+<li>10.客户接收句柄返回的数据</li>
+</ul>
+<h4 id="Go语言提供对RPC的支持：HTTP、TCP、JSPNRPC-但是在Go中RPC是独一无二的，它采用了GoLang-Gob编码-只能支持Go语言！"><a href="#Go语言提供对RPC的支持：HTTP、TCP、JSPNRPC-但是在Go中RPC是独一无二的，它采用了GoLang-Gob编码-只能支持Go语言！" class="headerlink" title="Go语言提供对RPC的支持：HTTP、TCP、JSPNRPC,但是在Go中RPC是独一无二的，它采用了GoLang Gob编码,只能支持Go语言！"></a>Go语言提供对RPC的支持：<code>HTTP、TCP、JSPNRPC</code>,但是在<code>Go</code>中<code>RPC</code>是独一无二的，它采用了<code>GoLang Gob</code>编码,只能支持Go语言！</h4><ul>
+<li>GoLang Gob:是Golang包自带的一个数据结构序列化的编码/解码工具。编码使用Encoder，解码使用Decoder。一种典型的应用场景就是RPC(remote procedure calls)。</li>
+</ul>
+<h4 id="HTTP-RPC-Demo"><a href="#HTTP-RPC-Demo" class="headerlink" title="HTTP RPC Demo"></a>HTTP RPC Demo</h4><ul>
+<li><p>服务端的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;net/rpc&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">)</span><br><span class="line">func main() &#123;</span><br><span class="line">     rpcDemo()</span><br><span class="line">&#125;</span><br><span class="line">type Arith int</span><br><span class="line">func rpcDemo() &#123;</span><br><span class="line">	arith:=new(Arith)</span><br><span class="line">	//arith=== 0xc04204e090</span><br><span class="line">	fmt.Println(&quot;arith===&quot;,arith)</span><br><span class="line"></span><br><span class="line">	rpc.Register(arith)</span><br><span class="line">	//HandleHTTP将RPC消息的HTTP处理程序注册到Debug服务器</span><br><span class="line">	//DEFAUTUPCPATH和Debug调试路径上的调试处理程序。</span><br><span class="line">	//仍然需要调用http.Services（），通常是在GO语句中。</span><br><span class="line">    rpc.HandleHTTP()</span><br><span class="line">	err:=http.ListenAndServe(&quot;:1234&quot;,nil)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;err=====&quot;,err.Error())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">type Args struct &#123;</span><br><span class="line">	A, B int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Quotient struct &#123;</span><br><span class="line">	Quo, Rem int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//函数必须是导出的(首字母大写)</span><br><span class="line">//必须有两个导出类型的参数，</span><br><span class="line">//第一个参数是接收的参数，第二个参数是返回给客户端的参数，第二个参数必须是指针类型的</span><br><span class="line">//函数还要有一个返回值error</span><br><span class="line">func (t *Arith) Multiply(args *Args, reply *int) error &#123;</span><br><span class="line">	*reply = args.A * args.B</span><br><span class="line">	fmt.Println(&quot;这个方法执行了啊---嘿嘿--- Multiply &quot;,reply)</span><br><span class="line">	return nil</span><br><span class="line">&#125;</span><br><span class="line">func (t *Arith) Divide(args *Args, quo *Quotient) error &#123;</span><br><span class="line">	if args.B == 0 &#123;</span><br><span class="line">		return errors.New(&quot;divide by zero&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">	quo.Quo = args.A / args.B</span><br><span class="line">	quo.Rem = args.A % args.B</span><br><span class="line">	fmt.Println(&quot;这个方法执行了啊---嘿嘿--- Divide quo==&quot;,quo)</span><br><span class="line">	return nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Go RPC 的函数只有符合四个条件才能够被远程访问，不然会被忽略</p>
+<ul>
+<li>函数必须是首字母大写（可以导出的）</li>
+<li>必须有两个导出类型的参数 </li>
+<li>第一个参数是接受的参数，第二个参数是返回给客户端的参数，而且第二个参数是指针的类型 </li>
+<li>函数还要有一个返回值<code>error</code> </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func (t *T) MethodName(argType T1, replyType *T2) error</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>T、T1和T2类型必须能被<code>encoding/gob</code>包编解码。</p>
+</li>
+<li><p>客户端的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;net/rpc&quot;</span><br><span class="line">	&quot;strconv&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type ArgsTwo struct &#123;</span><br><span class="line">	A, B int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type QuotientTwo struct &#123;</span><br><span class="line">	Quo, Rem int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	// 如果什么都不输入的话 ，就是以下的这个值</span><br><span class="line">	//os***************** [C:\Users\win7\AppData\Local\Temp\go-build669605574\command-</span><br><span class="line">	//line-arguments\_obj\exe\GoRPCWeb.exe 127.0.0.1] **********************</span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;os*****************&quot;,os.Args,&quot;**********************&quot;)</span><br><span class="line">	if len(os.Args) != 4 &#123; //   todo  第二个地址是  我们本地的地址</span><br><span class="line">		fmt.Println(&quot;老子要退出了哦 傻逼 一号start--------》》》&quot;, os.Args[0], &quot;《《《---------------server  end&quot;)</span><br><span class="line">		os.Exit(1)</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		fmt.Println(&quot;长度是多少 &quot;+strconv.Itoa( len(os.Args))+&quot;才是准确的长度 哦---》&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">    //获取输入的地址是获取输入得 os 数据的 第一个位置的值</span><br><span class="line">	serverAddress := os.Args[1]</span><br><span class="line">    fmt.Println(&quot;severAddress==&quot;,serverAddress)</span><br><span class="line">	// //DelayHTTP在指定的网络地址连接到HTTP RPC服务器</span><br><span class="line">	///在默认HTTP RPC路径上监听。</span><br><span class="line">	client, err := rpc.DialHTTP(&quot;tcp&quot;, serverAddress)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(&quot;发生错误了 在这里地方  DialHTTP&quot;, err)</span><br><span class="line">	&#125;</span><br><span class="line">	i1,_:=strconv.Atoi( os.Args[2])</span><br><span class="line">	i2,_:=strconv.Atoi( os.Args[3])</span><br><span class="line">	args := ArgsTwo&#123;i1, i2&#125;</span><br><span class="line">	var reply int</span><br><span class="line">	//调用调用命名函数，等待它完成，并返回其错误状态。</span><br><span class="line">	err = client.Call(&quot;Arith.Multiply&quot;, args, &amp;reply)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(&quot;Call Multiply  发生错误了哦   arith error:&quot;, err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Printf(&quot;Arith 乘法: %d*%d=%d\n&quot;, args.A, args.B, reply)</span><br><span class="line"></span><br><span class="line">	var quot QuotientTwo</span><br><span class="line">	//调用调用命名函数，等待它完成，并返回其错误状态。</span><br><span class="line">	err = client.Call(&quot;Arith.Divide&quot;, args, &amp;quot)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(&quot;arith error:&quot;, err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Printf(&quot;Arith 除法取整数: %d/%d=%d 余数 %d\n&quot;, args.A, args.B, quot.Quo, quot.Rem)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-2ebbd9d70053e8e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行的结果图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">E:\new_code\GoDemo\web_server&gt;go run GoRPCWeb8.go 127.0.0.1:1234  20 3</span><br><span class="line">os***************** [C:\Users\win7\AppData\Local\Temp\go-build011170718\command-</span><br><span class="line">line-arguments\_obj\exe\GoRPCWeb8.exe 127.0.0.1:1234 20 3] *********************</span><br><span class="line">*</span><br><span class="line">长度是多少 4才是准确的长度 哦---》</span><br><span class="line">severAddress== 127.0.0.1:1234</span><br><span class="line">Arith 乘法: 20*3=60</span><br><span class="line">Arith 除法取整数: 20/3=6 余数 2</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>go run GoRPCWeb8.go 127.0.0.1:1234  20 3 <ul>
+<li>go run 运行的命令 </li>
+<li>GoRPCWeb8.go ：这是文件的名称，需要到指定的目录下启动<code>cmd</code> <ul>
+<li>127.0.0.1:1234  ： ip地址和端口号</li>
+</ul>
+</li>
+<li>20 3 这是客服端传入的值：一个除数，一个被除数，传入到服务器做乘法运算 乘法: <code>20*3=60</code>和除法取整数: <code>20/3=6</code> 余数 <code>2</code>,怎么做的，客户端不关心，给到服务端去完成</li>
+</ul>
+</li>
+<li><code>os.Args[0]</code>=<code>[C:\Users\win7\AppData\Local\Temp\go-build011170718\command-
+line-arguments\_obj\exe\GoRPCWeb8.exe 127.0.0.1:1234 20 3]</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if len(os.Args) != 4 &#123; //   todo  第二个地址是  我们本地的地址</span><br><span class="line">	fmt.Println(&quot;老子要退出了哦 傻逼 一号start--------》》》&quot;, os.Args[0], &quot;《《《---------------server  end&quot;)</span><br><span class="line">	os.Exit(1)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	fmt.Println(&quot;长度是多少 &quot;+strconv.Itoa( len(os.Args))+&quot;才是准确的长度 哦---》&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="TCP-RPC-Demo"><a href="#TCP-RPC-Demo" class="headerlink" title="TCP RPC Demo"></a>TCP RPC Demo</h4><ul>
+<li><p>基于TCP协议实现的RPC，服务端的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;net/rpc&quot;</span><br><span class="line">	&quot;net&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">	fmt.Println(&quot;基于TCP协议实现的RPC，服务端的代码如下&quot;)</span><br><span class="line">&#125;</span><br><span class="line">type Me struct &#123;</span><br><span class="line">	A,B int</span><br><span class="line">&#125;</span><br><span class="line">type You struct &#123;</span><br><span class="line">	CC,D int</span><br><span class="line">&#125;</span><br><span class="line">type Num int</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">Go RPC的函数只有符合下面的条件才能够被远程访问，不然会被忽略</span><br><span class="line">1 函数必须是导出的（首字母大写）</span><br><span class="line">2 必须有两个导出类型的参数</span><br><span class="line">3 第一个参数是接受的参数，第二个参数是返回给客户端的参数，第二个参数必须是指正类型的</span><br><span class="line">4 函数还必须有一个返回值error</span><br><span class="line"> */</span><br><span class="line">func (n *Num) M(args *Me,reply *int) error  &#123;</span><br><span class="line">	*reply=args.A * args.B</span><br><span class="line">	return nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func (n *Num) F(args * Me,u *You ) error  &#123;</span><br><span class="line">	if  args.B==0&#123;</span><br><span class="line">		return errors.New(&quot;输入不能够为0 被除数&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">	u.D=args.A/args.B</span><br><span class="line">	u.CC=args.A % args.B</span><br><span class="line">	return nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	//内建函数new本质上说跟其它语言中的同名函数功能一样：new(T)分配了零值填充的T类型的内存空间，并且返回其地址，即一个*T类型的值。用Go的术语说，它返回了一个指针，指向新分配的类型T的零值。有一点非常重要：</span><br><span class="line">	//new返回指针。</span><br><span class="line">    num:=new(Num)</span><br><span class="line">    rpc.Register(num)</span><br><span class="line">    //ResolveTCPAddr返回TCP端点的地址。</span><br><span class="line">	//网络必须是TCP网络名称。</span><br><span class="line">    tcpAddr,err:=net.ResolveTCPAddr(&quot;tcp&quot;,&quot;:1234&quot;)</span><br><span class="line"></span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;错误了哦&quot;)</span><br><span class="line">		os.Exit(1)</span><br><span class="line">	&#125;</span><br><span class="line">    listener,err:=net.ListenTCP(&quot;tcp&quot;,tcpAddr)</span><br><span class="line">	for  &#123;</span><br><span class="line">		// todo   需要自己控制连接，当有客户端连接上来后，我们需要把这个连接交给rpc 来处理</span><br><span class="line">		conn,err:=listener.Accept()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			continue</span><br><span class="line">		&#125;</span><br><span class="line">		rpc.ServeConn(conn)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>基于TCP客户端代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;net/rpc&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;strconv&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	fmt.Println(&quot;客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go&quot;)</span><br><span class="line"></span><br><span class="line">	if len(os.Args)==4&#123;</span><br><span class="line">		fmt.Println(&quot;长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip=&quot;,os.Args[1],&quot;嘿嘿,加上后面的被除数os.Args[2]=&quot;,os.Args[2],&quot;和除数os.Args[3]=&quot;,os.Args[3])</span><br><span class="line">		//os.Exit(1)</span><br><span class="line">	&#125;</span><br><span class="line">    // 获取 ip 地址</span><br><span class="line">    service:= os.Args[1]</span><br><span class="line">    //连接 拨号连接到指定的网络地址的RPC服务器。</span><br><span class="line">    client,err:=rpc.Dial(&quot;tcp&quot;,service)</span><br><span class="line">	if err!=nil &#123;</span><br><span class="line">		log.Fatal(&quot;老子在连接Dial的发生了错误，我要退出了&quot;,err)</span><br><span class="line">	&#125;</span><br><span class="line">	num1:=os.Args[2]</span><br><span class="line">	i1,error1:=strconv.Atoi(num1)</span><br><span class="line">	if error1!=nil &#123;</span><br><span class="line">		fmt.Println(&quot;自己不知道 自己输入错误了啊 请看error ：&quot;,error1)</span><br><span class="line">		os.Exit(1)</span><br><span class="line">	&#125;</span><br><span class="line">	num2:=os.Args[3]</span><br><span class="line">	i2,error2:=strconv.Atoi(num2)</span><br><span class="line">	if error2!=nil &#123;</span><br><span class="line">		fmt.Println(&quot;自己不知道 自己输入错误了啊 请看error ：&quot;,error2)</span><br><span class="line">		os.Exit(1)</span><br><span class="line">	&#125;</span><br><span class="line">	aa:=AAA&#123;i1,i2&#125;</span><br><span class="line">	var reply  int</span><br><span class="line">	err1:=client.Call(&quot;Num.M&quot;,aa,&amp;reply)</span><br><span class="line"></span><br><span class="line">	if err1 != nil&#123;</span><br><span class="line">		log.Fatal(&quot;我要退出了，因为我在Call的时候发生了 错误&quot;,err1)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(&quot;我进行正常结果如下&quot;)</span><br><span class="line">	fmt.Printf(&quot;Num : %d*%d=%d\n&quot;,aa.A,aa.B,reply)</span><br><span class="line"></span><br><span class="line">	var bb BDemo</span><br><span class="line">	//调用调用命名函数，等待它完成，并返回其错误状态。</span><br><span class="line">	err= client.Call(&quot;Num.F&quot;,aa,&amp;bb)</span><br><span class="line">	if err!=nil &#123;</span><br><span class="line">		log.Fatal(&quot;我对这个方法发生了过敏的反应 哈哈哈哈  err=====&quot;,err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Printf(&quot;Num: %d/%d=%d 余数 %d\n&quot;,aa.A,aa.B,bb.DD,bb.CC)</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 定义两个类，那边需要操作的类</span><br><span class="line">type AAA struct &#123;</span><br><span class="line">	A,B int</span><br><span class="line">&#125;</span><br><span class="line">//记住这里不能够大写 两个连着一起大写 有点意思</span><br><span class="line">//reading body gob: type mismatch: no fields matched compiling decoder for  DDDD</span><br><span class="line">//  todo 为啥 第二个参数  只要是两个连在一起的DDDD   就会报错   reading body gob: type mismatch: no fields matched compiling decoder for</span><br><span class="line">type BDemo struct &#123;</span><br><span class="line">	DD, CC int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行结果图<br><img src="https://upload-images.jianshu.io/upload_images/5363507-a4168e88f7eaf474.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果图"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">E:\new_code\GoDemo\web_server&gt;go run GoTCPRPCWeb10.go 127.0.0.1:1234  20 1</span><br><span class="line">客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go</span><br><span class="line">长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip= 127.0.0.1:1234 嘿嘿,加上后面</span><br><span class="line">的被除数os.Args[2]= 20 和除数os.Args[3]= 1</span><br><span class="line">我进行正常结果如下</span><br><span class="line">Num : 20*1=20</span><br><span class="line">Num: 20/1=0 余数 0</span><br><span class="line"></span><br><span class="line">E:\new_code\GoDemo\web_server&gt;go run GoTCPRPCWeb10.go 127.0.0.1:1234  20 2</span><br><span class="line">客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go</span><br><span class="line">长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip= 127.0.0.1:1234 嘿嘿,加上后面</span><br><span class="line">的被除数os.Args[2]= 20 和除数os.Args[3]= 2</span><br><span class="line">我进行正常结果如下</span><br><span class="line">Num : 20*2=40</span><br><span class="line">Num: 20/2=0 余数 0</span><br><span class="line"></span><br><span class="line">E:\new_code\GoDemo\web_server&gt;go run GoTCPRPCWeb10.go 127.0.0.1:1234  20 3</span><br><span class="line">客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go</span><br><span class="line">长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip= 127.0.0.1:1234 嘿嘿,加上后面</span><br><span class="line">的被除数os.Args[2]= 20 和除数os.Args[3]= 3</span><br><span class="line">我进行正常结果如下</span><br><span class="line">Num : 20*3=60</span><br><span class="line">Num: 20/3=0 余数 2</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在定义<code>BDemo</code> 的时候，  如果定义的<code>DD, CC int</code>和服务端不一样，就会报错  <code>reading body gob: type mismatch: no fields matched compiling decoder for</code> ,其实发现好多种情况，也会出现这种错误，但是目前不知道为啥会这样，后续，等源码深入一点，回来看这个问题    todo2018/07/19 </li>
+<li><p>这种<code>TCP</code>方式和上面的<code>HTTP</code>不同的是</p>
+<ul>
+<li><p>HTTP:指定的网络地址连接到HTTP RPC服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        //DelayHTTP在指定的网络地址连接到HTTP RPC服务器</span><br><span class="line">///在默认HTTP RPC路径上监听。</span><br><span class="line">client, err := rpc.DialHTTP(&quot;tcp&quot;, serverAddress)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TCP:指定的网络地址连接到HTTP RPC服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client,err:=rpc.Dial(&quot;tcp&quot;,service)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="JSON-RPC"><a href="#JSON-RPC" class="headerlink" title="JSON RPC"></a>JSON RPC</h4><ul>
+<li><p><code>JSON RPC</code>是数据编码采用了<code>JSON</code>，而不是<code>gob</code>编码，其他和上面介绍的<code>RPC</code>概念一模一样的。</p>
+</li>
+<li><p>服务端的代码如下</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;net/rpc&quot;</span><br><span class="line">	&quot;net&quot;</span><br><span class="line">	&quot;net/rpc/jsonrpc&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">//使用Go提供的json-rpc 标准包</span><br><span class="line">func init() &#123;</span><br><span class="line">	fmt.Println(&quot;JSON RPC 采用了JSON，而不是 gob编码，和RPC概念一模一样，&quot;)</span><br><span class="line">&#125;</span><br><span class="line">type Work struct &#123;</span><br><span class="line">	Who,DoWhat string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type DemoM string</span><br><span class="line"></span><br><span class="line">func (m *DemoM) DoWork(w *Work,whoT *string) error  &#123;</span><br><span class="line">    *whoT=&quot;是谁：&quot;+w.Who+&quot;，在做什么---&quot;+w.DoWhat</span><br><span class="line">	return nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    str:=new(DemoM)</span><br><span class="line">    rpc.Register(str)</span><br><span class="line"></span><br><span class="line">    tcpAddr,err:=net.ResolveTCPAddr(&quot;tcp&quot;,&quot;:8080&quot;)</span><br><span class="line">	if  err!=nil&#123;</span><br><span class="line">		fmt.Println(&quot;大哥发生错误了啊，请看错误 ResolveTCPAddr err=&quot;,err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    listener,err:=net.ListenTCP(&quot;tcp&quot;,tcpAddr)</span><br><span class="line">	if err!=nil &#123;</span><br><span class="line">		fmt.Println(&quot;发生错误了--》err=&quot;,err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for  &#123;</span><br><span class="line">		 conn,err:= listener.Accept()</span><br><span class="line">		if err!=nil &#123;</span><br><span class="line">			continue</span><br><span class="line">		&#125;</span><br><span class="line">		jsonrpc.ServeConn(conn)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>客户端的代码 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;net/rpc/jsonrpc&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	fmt.Println(&quot;这是客户端，用来启动，通过命令行来启动&quot;)</span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go&quot;)</span><br><span class="line"></span><br><span class="line">	if len(os.Args)==4&#123;</span><br><span class="line">		fmt.Println(&quot;长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip=&quot;,os.Args[1],&quot;嘿嘿,加上后面的被除数os.Args[2]=&quot;,os.Args[2],&quot;和除数os.Args[3]=&quot;,os.Args[3])</span><br><span class="line">		//os.Exit(1)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	 service:=os.Args[1]</span><br><span class="line">	 client,err:=jsonrpc.Dial(&quot;tcp&quot;,service)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatal(&quot;Dial 发生了错误了哦 错误的信息为   err=&quot;,err)</span><br><span class="line">	&#125;</span><br><span class="line">	send:=Send&#123;os.Args[2],os.Args[3]&#125;</span><br><span class="line">	var  resive  string</span><br><span class="line">	err1:=client.Call(&quot;DemoM.DoWork&quot;,send,&amp;resive)</span><br><span class="line">	if err1!=nil &#123;</span><br><span class="line">		fmt.Println(&quot;shiming call error    &quot;)</span><br><span class="line">		fmt.Println(&quot;Call 的时候发生了错误了哦  err=&quot;,err1)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(&quot;收到信息了&quot;,resive)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// 类可以不一样 但是 Who 和DoWhat 要必须一样  要不然接收到不到值，等我在详细的了解了 才去分析下原因  感觉有点蒙蔽啊</span><br><span class="line">type Send struct &#123;</span><br><span class="line">	Who, DoWhat string</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行的结果如下<br><img src="https://upload-images.jianshu.io/upload_images/5363507-48090786abf0e69c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行结果"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">E:\new_code\GoDemo\web_server&gt;go run GoJSONRPCWeb11.go 127.0.0.1:8080  shiming g</span><br><span class="line">ongzuo</span><br><span class="line">这是客户端，用来启动，通过命令行来启动</span><br><span class="line">客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go</span><br><span class="line">长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip= 127.0.0.1:8080 嘿嘿,加上后面</span><br><span class="line">的被除数os.Args[2]= shiming 和除数os.Args[3]= gongzuo</span><br><span class="line">收到信息了 是谁：shiming，在做什么---gongzuo</span><br><span class="line"></span><br><span class="line">E:\new_code\GoDemo\web_server&gt;go run GoJSONRPCWeb11.go 127.0.0.1:8080  shiming q</span><br><span class="line">iaodaima</span><br><span class="line">这是客户端，用来启动，通过命令行来启动</span><br><span class="line">客户端 其他端 去调用的地方  对应的例子是 GoTCPRPC9.go</span><br><span class="line">长度必须等于4,因为呢，你输入的肯定是一个ip的地址ip= 127.0.0.1:8080 嘿嘿,加上后面</span><br><span class="line">的被除数os.Args[2]= shiming 和除数os.Args[3]= qiaodaima</span><br><span class="line">收到信息了 是谁：shiming，在做什么---qiaodaima</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>os.Args</code>是一个数组  <code>var Args []string</code>,通过输入获取到，然后把这个客户端输入的内容传送到服务端，服务端做些操作，然后在返回给客户端 </li>
+<li><code>Go</code>已经提供了<code>RPC</code>良好的支持，通过<code>HTTP</code> <code>TCP</code> <code>JSONRPC</code>的实现，可以很方便开发分布式的<code>Web</code>应用，但是我目前还不会，在学习中。遗憾的是<code>Go</code>没有提供<code>SOAP RPC</code>的支持~~~</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-07-19, 15:48:40</p>
+        <p><span>最后更新:</span>2018-08-14, 15:51:26</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/19/Go语言实现RPC/" title="Go语言实现RPC">http://yoursite.com/2018/07/19/Go语言实现RPC/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/07/19/Go语言实现RPC/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">
+                    安卓invalidate、postInvalidate、requestLayout源码分析
+                </a>
+            </div>
+        
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#RPC定义，来源于百度百科"><span class="toc-number">1.</span> <span class="toc-text">RPC定义，来源于百度百科</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RPC工作流程图"><span class="toc-number">2.</span> <span class="toc-text">RPC工作流程图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Go语言提供对RPC的支持：HTTP、TCP、JSPNRPC-但是在Go中RPC是独一无二的，它采用了GoLang-Gob编码-只能支持Go语言！"><span class="toc-number">3.</span> <span class="toc-text">Go语言提供对RPC的支持：HTTP、TCP、JSPNRPC,但是在Go中RPC是独一无二的，它采用了GoLang Gob编码,只能支持Go语言！</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-RPC-Demo"><span class="toc-number">4.</span> <span class="toc-text">HTTP RPC Demo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-RPC-Demo"><span class="toc-number">5.</span> <span class="toc-text">TCP RPC Demo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSON-RPC"><span class="toc-number">6.</span> <span class="toc-text">JSON RPC</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Go语言实现RPC　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/" title="上一篇: 安卓invalidate、postInvalidate、requestLayout源码分析">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
