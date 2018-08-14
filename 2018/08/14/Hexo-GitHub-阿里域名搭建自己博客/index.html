@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="效果 博客的地址：我的博客 PC端的效果">
+<meta name="keywords" content="Hexo,阿里域名,博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo+GitHub+阿里域名搭建自己博客">
+<meta property="og:url" content="http://yoursite.com/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="效果 博客的地址：我的博客 PC端的效果">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-ba3860adcb584a57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-ad4a55e07594b58a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-c5ae27aabcc81fa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-bbd42440357260be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-b2dfbb9ab09bd1d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a1df65f662543ba9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-55824b1a93001047.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-eca8fae000cea2c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-87e99bbe6ab338b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-749dd96e0302437f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-18d0bbbd77f7c421.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-c1433f718015480e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a96c5f5b6d006718.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-2c71934724bc4f9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T10:40:02.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo+GitHub+阿里域名搭建自己博客">
+<meta name="twitter:description" content="效果 博客的地址：我的博客 PC端的效果">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-ba3860adcb584a57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Hexo+GitHub+阿里域名搭建自己博客 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Hexo-GitHub-阿里域名搭建自己博客" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/" class="article-date">
+      <time datetime="2018-08-14T10:39:00.000Z" itemprop="datePublished">2018-08-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo+GitHub+阿里域名搭建自己博客
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><ul>
+<li>博客的地址：<a href="http://www.shiming.site/" target="_blank" rel="noopener">我的博客</a><ul>
+<li>PC端的效果<br><img src="https://upload-images.jianshu.io/upload_images/5363507-ba3860adcb584a57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="PC端的效果"><a id="more"></a></li>
+<li>手机端效果<br><img src="https://upload-images.jianshu.io/upload_images/5363507-ad4a55e07594b58a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="手机端效果一"></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-c5ae27aabcc81fa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="手机端效果二"></p>
+<ul>
+<li>最近抽空终于搭建完成，网上的资料很多，这篇文章只记录下遇到的问题，如果你想搭建一个博客！可能对你有些帮助。</li>
+<li><a href="https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ikk1hmxh" target="_blank" rel="noopener">推广：阿里云代金券</a></li>
+</ul>
+<h2 id="Hexo-GitHub"><a href="#Hexo-GitHub" class="headerlink" title="Hexo+GitHub"></a>Hexo+GitHub</h2><ul>
+<li>现在网络上很多，有好多的文章写得很好，在这里推荐两篇文章！只要按照这步骤来，基本上都可以完成!没有什么技术的难度，就是体力活☺☺☺<ul>
+<li><a href="https://blog.csdn.net/u011974987/article/details/51331822/" target="_blank" rel="noopener">基于Hexo+GitHub Pages 搭建博客详细教程</a></li>
+<li><a href="https://www.jianshu.com/p/465830080ea9" target="_blank" rel="noopener">HEXO+Github,搭建属于自己的博客</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><ul>
+<li>域名我是在阿里云上买的 <a href="https://wanwang.aliyun.com/?spm=5176.8142029.735711.56.a72376f4MMmf6X" target="_blank" rel="noopener">阿里云</a> </li>
+<li>输入你想要买的域名地址，如图所示!选择一个您觉得合适的域名，加入到清单，然后购买就可以了<br><img src="https://upload-images.jianshu.io/upload_images/5363507-bbd42440357260be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="域名"><ul>
+<li>购买成功了，进入域名控制台<br><img src="https://upload-images.jianshu.io/upload_images/5363507-b2dfbb9ab09bd1d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="控制台"></li>
+<li>点击解析设置，然后添加记录，就会出现下面的窗口<br><img src="https://upload-images.jianshu.io/upload_images/5363507-a1df65f662543ba9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置"></li>
+<li>设置值，结果如下<br><img src="https://upload-images.jianshu.io/upload_images/5363507-55824b1a93001047.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置结果"></li>
+</ul>
+</li>
+<li>这个记录值是什么？如图所示，其实就是 ：<code>https://shimingli.github.io/</code> 的<code>ip</code>值，当然你需要设置成你的<br><img src="https://upload-images.jianshu.io/upload_images/5363507-eca8fae000cea2c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><ul>
+<li>设置完成了，还有关键的一步，就是实名认证，认证通过了，域名才可以使用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="GitHub-Pages的设置"><a href="#GitHub-Pages的设置" class="headerlink" title="GitHub Pages的设置"></a><code>GitHub Pages</code>的设置</h2><ul>
+<li>进入到 <code>name.github.io</code>的工程目录下，然后进入到<code>Settings</code>,最后定位到<code>Github Pages</code>的选项,输入你自己购买的域名，我这域名 7块一年，物超所值！<br><img src="https://upload-images.jianshu.io/upload_images/5363507-87e99bbe6ab338b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="settings"></li>
+</ul>
+<h2 id="主题选择"><a href="#主题选择" class="headerlink" title="主题选择"></a>主题选择</h2><ul>
+<li><p>个人看了几个，我还是比较喜欢这个 <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" rel="noopener">Yelee</a>。感觉比较闷骚</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/MOxFIVE/hexo-theme-yelee.git themes/yelee</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用的步骤建议参考 官方的文档，非常的详细 <a href="http://moxfive.coding.me/yelee" target="_blank" rel="noopener">Yelee 主题使用说明 [简中] </a><br><img src="https://upload-images.jianshu.io/upload_images/5363507-749dd96e0302437f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录结构"></p>
+<ul>
+<li><code>public</code>:<code>pull</code>到<code>Github</code></li>
+<li><code>themes</code>：博客的主题`<ul>
+<li><code>soure</code>：就是文章存放的地方</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>然后把<code>clone</code>的<code>yelee</code>放到<code>themes</code>目录下</p>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-18d0bbbd77f7c421.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>在博客的根目录下设置<code>theme: Yelee</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: Yelee</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-c1433f718015480e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置"></p>
+<h2 id="Hexo-几个常用的命令"><a href="#Hexo-几个常用的命令" class="headerlink" title="Hexo 几个常用的命令"></a><code>Hexo</code> 几个常用的命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo generate (hexo g) 生成静态文件，会在当前目录下生成一个新的叫做public的文件夹</span><br><span class="line">hexo server (hexo s) 启动本地web服务，用于博客的预览</span><br><span class="line">hexo deploy (hexo d) 部署博客到远端服务器</span><br><span class="line">hexo new &quot;postName&quot; #新建文章</span><br><span class="line">hexo new page &quot;pageName&quot; #新建页面</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>简写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n == hexo new</span><br><span class="line">$ hexo g == hexo generate</span><br><span class="line">$ hexo s == hexo server</span><br><span class="line">$ hexo d == hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果一切配置ok的话，打开<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 就可以看到刚才搭建的本地博客了，Hexo会默认生成一个Hello World的博文。</p>
+</li>
+</ul>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ul>
+<li><p><code>Hexo</code>中的<code>Yelee</code>主题，首页不显示文章,需要把<code>themes</code>中的文件<code>_config.yml</code>的<code>search</code>中的<code>on: true</code>的注释去掉，同时必须注释掉<code>onload</code>，同时需要去安装插件!,然后就可以检索了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Local Site Search | 本地站内搜索</span><br><span class="line">## Insatall below plugin to take effect | 使用搜索需先安装对应插件</span><br><span class="line">## https://github.com/PaicHyperionDev/hexo-generator-search</span><br><span class="line">search: </span><br><span class="line">  on: true</span><br><span class="line">  #onload: false     （Hexo中的Yelee主题，首页不显示文章）</span><br><span class="line">  ## true: get search.xml file when the page has loaded</span><br><span class="line">  ## false: get the file when search box gets focus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文章的多<code>tags</code>,需要用<code>[]</code>，其中用逗号分隔</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Go语言实现的WebSocket</span><br><span class="line">date: 2018-07-15 16:02:08</span><br><span class="line">tags: [Go,WebSocket]</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>md</code>，文件对空格敏感，如图所示，<br><img src="https://upload-images.jianshu.io/upload_images/5363507-a96c5f5b6d006718.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>通过命令<code>hexo g</code>命令的时候，会报如下的错误<br><img src="https://upload-images.jianshu.io/upload_images/5363507-2c71934724bc4f9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="error"></li>
+</ul>
+</li>
+<li>关于文章的摘要，需要使用到  &lt;!—-  more  –&gt; ,具体使用的方式如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Go语言实现的WebSocket</span><br><span class="line">date: 2018-07-15 16:02:08</span><br><span class="line">tags: [Go,WebSocket]</span><br><span class="line">---</span><br><span class="line">* 最终的效果如下</span><br><span class="line">![Web端上传的信息](https://upload-images.jianshu.io/upload_images/5363507-1df3bbfdd7b78fff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">![Web端得到的打印的信息](https://upload-images.jianshu.io/upload_images/5363507-394f230f0c32cdab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">&lt;!--  more  --&gt;</span><br><span class="line">![服务端的代码的实现](https://upload-images.jianshu.io/upload_images/5363507-1c4e57241edf86c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-08-14, 18:39:00</p>
+        <p><span>最后更新:</span>2018-08-14, 18:40:02</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/" title="Hexo+GitHub+阿里域名搭建自己博客">http://yoursite.com/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/08/14/Android-9-Pie-正式版总结/">
+                    Android 9 Pie 正式版总结
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#效果"><span class="toc-number">1.</span> <span class="toc-text">效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-GitHub"><span class="toc-number">2.</span> <span class="toc-text">Hexo+GitHub</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#域名"><span class="toc-number">3.</span> <span class="toc-text">域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Pages的设置"><span class="toc-number">4.</span> <span class="toc-text">GitHub Pages的设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主题选择"><span class="toc-number">5.</span> <span class="toc-text">主题选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-几个常用的命令"><span class="toc-number">6.</span> <span class="toc-text">Hexo 几个常用的命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的问题"><span class="toc-number">7.</span> <span class="toc-text">遇到的问题</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Hexo+GitHub+阿里域名搭建自己博客　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/08/14/Android-9-Pie-正式版总结/" title="下一篇: Android 9 Pie 正式版总结">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
