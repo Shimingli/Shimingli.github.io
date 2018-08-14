@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="Demo的下载地址">
+<meta name="keywords" content="田字格Demo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓画笔笔锋的实现探索（三）田字格Demo">
+<meta property="og:url" content="http://yoursite.com/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="Demo的下载地址">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-fd626ece6fbccfb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-408927f77c209be3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:31:10.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓画笔笔锋的实现探索（三）田字格Demo">
+<meta name="twitter:description" content="Demo的下载地址">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5363507-fd626ece6fbccfb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>安卓画笔笔锋的实现探索（三）田字格Demo | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-安卓画笔笔锋的实现探索（三）田字格Demo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/" class="article-date">
+      <time datetime="2018-02-24T08:30:33.000Z" itemprop="datePublished">2018-02-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      安卓画笔笔锋的实现探索（三）田字格Demo
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="Demo的下载地址"><a href="#Demo的下载地址" class="headerlink" title="Demo的下载地址"></a>Demo的下载地址</h3><p><img src="http://upload-images.jianshu.io/upload_images/5363507-fd626ece6fbccfb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="下载地址"><br><a id="more"></a></p>
+<h3 id="效果图：如果对的效果不太明确的地方，请移步上两篇文章"><a href="#效果图：如果对的效果不太明确的地方，请移步上两篇文章" class="headerlink" title="效果图：如果对的效果不太明确的地方，请移步上两篇文章"></a>效果图：如果对的效果不太明确的地方，请移步上两篇文章</h3><p><img src="http://upload-images.jianshu.io/upload_images/5363507-408927f77c209be3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果图"></p>
+<p>####Demo中做了哪些事情<br>1、提供画板，以及收起画板的动作<br>2、插入空格<br>3、换行<br>4、删除或者长按删除<br>5、切换笔的样式<br>6、根据手指抬起来自动插入已绘制的图形到EditText中<br>7、待续</p>
+<p>####1、提供画板，以及收起画板的动作<br>使用DrawViewLayout 继承FrameLayout<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public class DrawViewLayout extends FrameLayout implements View.OnClickListener, View.OnLongClickListener &#123;</span><br><span class="line"></span><br><span class="line">    private RelativeLayout mShowKeyboard;</span><br><span class="line">    private RelativeLayout mGotoPreviousStep;</span><br><span class="line">    private RelativeLayout mClearCanvas;</span><br><span class="line">    private NewDrawPenView mDrawView;</span><br><span class="line">    private RelativeLayout mSaveBitmap;</span><br><span class="line">    private ViewStub mViewStub;</span><br><span class="line">    private View mChild;</span><br><span class="line">    private Context mContext;</span><br><span class="line">    private ImageView mUpOrDownIcon;</span><br><span class="line">    private LayoutInflater mInflater;</span><br><span class="line">    private int mPenConfig;</span><br><span class="line">    private boolean mIsShowKeyB;</span><br><span class="line"></span><br><span class="line">    public DrawViewLayout(@NonNull Context context) &#123;</span><br><span class="line">        this(context, null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public DrawViewLayout(@NonNull Context context, @Nullable AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        mContext = context;</span><br><span class="line">        initView();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    private void initView() &#123;</span><br><span class="line">        mInflater = LayoutInflater.from(getContext());</span><br><span class="line">        mChild = mInflater.inflate(R.layout.brush_weight_layout, this, false);</span><br><span class="line">        addView(mChild);</span><br><span class="line">        mShowKeyboard = (RelativeLayout) findViewById(R.id.rll_show_keyb_container);</span><br><span class="line">        mGotoPreviousStep = (RelativeLayout) findViewById(R.id.rll_show_space_container);//空格</span><br><span class="line">        mClearCanvas = (RelativeLayout) findViewById(R.id.rll_show_newline_container);</span><br><span class="line">        mSaveBitmap = (RelativeLayout) findViewById(R.id.rll_show_delete_container);</span><br><span class="line">        mViewStub = (ViewStub) findViewById(R.id.draw_view);</span><br><span class="line">        //需要关心的selector的id</span><br><span class="line">        mUpOrDownIcon = (ImageView) findViewById(R.id.rll_show_keyb_container_icon);</span><br><span class="line">        setOnClickListenerT();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>布局文件使用的ViewStub轻量级的控件:使用Viewstub的在不需要弹出键盘的时候，渲染不占内存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;ViewStub</span><br><span class="line">    android:id=&quot;@+id/draw_view&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;@dimen/dp_280&quot;</span><br><span class="line">    android:layout_gravity=&quot;center&quot;</span><br><span class="line">    android:layout_marginLeft=&quot;@dimen/dp_40&quot;</span><br><span class="line">    android:layout_marginRight=&quot;@dimen/dp_40&quot;</span><br><span class="line">    android:layout_marginTop=&quot;@dimen/dp_10&quot;</span><br><span class="line">    android:layout_marginBottom=&quot;@dimen/dp_10&quot;</span><br><span class="line">    android:layout=&quot;@layout/draw_view_layout&quot;</span><br><span class="line">    android:visibility=&quot;visible&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>判断是否填充过，没有的话就不填充，第一版设计的时候，产品经理说不用进入页面就弹出软件盘，那使用ViewStub，只要没有弹出来，渲染不占内存，后续产品经理说要弹出来，所以这里进入的时候，我都设计出弹出键盘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  if (mViewStub.getParent() != null) &#123;</span><br><span class="line">            mViewStub.inflate();</span><br><span class="line">       &#125;</span><br><span class="line">//隐藏软键盘</span><br><span class="line">  if (mDrawView.getVisibility() == GONE) &#123;</span><br><span class="line">            mIsShowKeyB=true;</span><br><span class="line">            mViewStub.setVisibility(VISIBLE);</span><br><span class="line">            mUpOrDownIcon.setSelected(true);</span><br><span class="line">            Toast.makeText(mContext,&quot;显示键盘&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            mDrawView.setVisibility(VISIBLE);</span><br><span class="line">        &#125; else if (mDrawView.getVisibility() == VISIBLE) &#123;</span><br><span class="line">            mIsShowKeyB=false;</span><br><span class="line">            Toast.makeText(mContext,&quot;隐藏键盘&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            mDrawView.setVisibility(GONE);</span><br><span class="line">            mViewStub.setVisibility(GONE);</span><br><span class="line">            mUpOrDownIcon.setSelected(false);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####2、插入空格<br>在这里说个开发中的趣事，当说要插入一个空格的时候，无非就是往EditText中插入一个空格吧，就用代码插入，但是后面ui说，你咋插入的空格那么小，我说本来就只有插入这样小啊，我能咋办，我也很绝望，后续使用的是插入一张空白的图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public void needSpace() &#123;</span><br><span class="line">     NewDrawPenView view = mDrawViewLayout.getSaveBitmap();</span><br><span class="line">     if (view != null) &#123;</span><br><span class="line">         if (view.getHasDraw()) &#123;</span><br><span class="line">             mBitmap = view.getBitmap();</span><br><span class="line">             mHandler.post(runnableUi);</span><br><span class="line">             //保持一个联系</span><br><span class="line">             mHandler.postDelayed(new Runnable() &#123;</span><br><span class="line">                 @Override</span><br><span class="line">                 public void run() &#123;</span><br><span class="line">                     mIsCreateBitmap = true;</span><br><span class="line">                     if (mCreatBimap == null) &#123;</span><br><span class="line">                         mCreatBimap = creatBimap();</span><br><span class="line">                     &#125;</span><br><span class="line">                     mHandler.post(runnableUi);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;, 100);</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             mIsCreateBitmap = true;</span><br><span class="line">             if (mCreatBimap == null) &#123;</span><br><span class="line">                 mCreatBimap = creatBimap();</span><br><span class="line">             &#125;</span><br><span class="line">             mHandler.post(runnableUi);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     mHandler.removeCallbacks(runnable);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个空白的bitmap  这里其实不用创建一个和手机设备一样大的空白的bitmap，只创建一个和文本生成的字体一样大的就行了，总感觉浪费性能，哈哈<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建一个bitmap </span><br><span class="line">    private Bitmap creatBimap() &#123;</span><br><span class="line">        ColorDrawable drawable = new ColorDrawable(Color.TRANSPARENT);</span><br><span class="line">        DisplayMetrics dm = new DisplayMetrics();</span><br><span class="line">        getWindowManager().getDefaultDisplay().getMetrics(dm);</span><br><span class="line">        Bitmap bitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, Bitmap.Config.ARGB_8888);</span><br><span class="line">        Canvas canvas = new Canvas(bitmap);</span><br><span class="line">        drawable.draw(canvas);</span><br><span class="line">        return bitmap;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>把bitmap插入到edittext的线程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Runnable runnableUi = new Runnable() &#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void run() &#123;</span><br><span class="line">          if (mIsCreateBitmap) &#123;</span><br><span class="line">              //110</span><br><span class="line">              mBitmapResize = BitmapDrawUtils.resizeImage(mCreatBimap, mAllHandDrawSize, mAllHandDrawSize);</span><br><span class="line">              mIsCreateBitmap = false;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              mBitmapResize = BitmapDrawUtils.resizeImage(mBitmap, mAllHandDrawSize, mAllHandDrawSize);</span><br><span class="line">          &#125;</span><br><span class="line">          if (mBitmapResize != null) &#123;</span><br><span class="line">              //根据Bitmap对象创建ImageSpan对象</span><br><span class="line">              ImageSpan imageSpan = new ImageSpan(FieldCharacterShapeActivity.this, mBitmapResize);</span><br><span class="line">              //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像</span><br><span class="line">              full_name = LAST_NAME + System.currentTimeMillis();</span><br><span class="line">              String s =FONT_NAME_HEAD + full_name + FONT_NAME_TAIL;</span><br><span class="line">              SpannableString spannableString = new SpannableString(s);</span><br><span class="line">              //  用ImageSpan对象替换face</span><br><span class="line">              spannableString.setSpan(imageSpan, 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);</span><br><span class="line">              //将选择的图片追加到EditText中光标所在位置</span><br><span class="line">              //                EditText ed = mSvContent.getFocusEditText();</span><br><span class="line">              EditText ed = mRetContent.getLastFocusEdit();</span><br><span class="line">              int index = ed.getSelectionStart(); //获取光标所在位置</span><br><span class="line">              Editable edit_text = ed.getEditableText();</span><br><span class="line">              if (index &lt; 0 || index &gt;= edit_text.length()) &#123;</span><br><span class="line">                  edit_text.append(spannableString);</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  edit_text.insert(index, spannableString);</span><br><span class="line">              &#125;</span><br><span class="line">              testStorage();</span><br><span class="line">          &#125;</span><br><span class="line">          mDrawViewLayout.clearScreen();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">   /**</span><br><span class="line">     * 图片缩放</span><br><span class="line">     * @param originalBitmap 原始的Bitmap</span><br><span class="line">     * @param newWidth 自定义宽度</span><br><span class="line">     * @return 缩放后的Bitmap</span><br><span class="line">     */</span><br><span class="line">    public static Bitmap resizeImage(Bitmap originalBitmap, int newWidth, int newHeight)&#123;</span><br><span class="line">        if (originalBitmap==null||originalBitmap.getWidth()==0||originalBitmap.getHeight()==0)&#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        int width = originalBitmap.getWidth();</span><br><span class="line">        int height = originalBitmap.getHeight();</span><br><span class="line">        //定义欲转换成的宽、高</span><br><span class="line">//            int newWidth = 200;</span><br><span class="line">//            int newHeight = 200;</span><br><span class="line">        //计算宽、高缩放率</span><br><span class="line">        float scanleWidth = (float)newWidth/width;</span><br><span class="line">        float scanleHeight = (float)newHeight/height;</span><br><span class="line">        //创建操作图片用的matrix对象 Matrix</span><br><span class="line">        Matrix matrix = new Matrix();</span><br><span class="line">        matrix.postScale(scanleWidth,scanleHeight);</span><br><span class="line">        // 创建新的图片Bitmap</span><br><span class="line">        Bitmap resizedBitmap = Bitmap.createBitmap(originalBitmap,0,0,width,height,matrix,true);</span><br><span class="line">        return resizedBitmap;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>####3、换行<br>获取ScrollView最后的一个EditText，对了，这里没说，由于，需要滑动，所以自定义了一个ScrollView，可以插入很多控件，图片，文字和语音等等，好多的控件，由于这里不需要那么多，所以只保留了一个EditText<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 这里是换行的需要</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void creatNewLine() &#123;</span><br><span class="line">    EditText ed = mRetContent.getLastFocusEdit();</span><br><span class="line">    int index = ed.getSelectionStart();</span><br><span class="line">    Editable editable = ed.getText();</span><br><span class="line">    editable.insert(index, &quot;\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####4、删除或者长按删除</p>
+<p>代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void deleteOnClick() &#123;</span><br><span class="line">    if (mRetContent.getLastFocusEdit().getSelectionStart() == 0) &#123;</span><br><span class="line">        mRetContent.onBackspacePress(mRetContent.getLastFocusEdit());</span><br><span class="line">        if (mHandler!=null) &#123;</span><br><span class="line">            mHandler.removeCallbacks(runnable);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        SystemUtils.sendKeyCode(67);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * &lt;pre&gt;</span><br><span class="line">    * 使用Instrumentation接口：对于非自行编译的安卓系统，无法获取系统签名，只能在前台模拟按键，不能后台模拟</span><br><span class="line">    * 注意:调用Instrumentation的sendKeyDownUpSync方法必须另起一个线程，否则无效</span><br><span class="line">    * @param keyCode</span><br><span class="line">    *            按键事件(KeyEvent)的按键值</span><br><span class="line">    * &lt;/pre&gt;</span><br><span class="line">    */</span><br><span class="line">   public static void sendKeyCode(final int keyCode) &#123;</span><br><span class="line">       new Thread(new Runnable() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void run() &#123;</span><br><span class="line">               try &#123;</span><br><span class="line">                   // 创建一个Instrumentation对象</span><br><span class="line">                   Instrumentation inst = new Instrumentation();</span><br><span class="line">                   // 调用inst对象的按键模拟方法</span><br><span class="line">                   inst.sendKeyDownUpSync(keyCode);</span><br><span class="line">               &#125; catch (Exception e) &#123;</span><br><span class="line">                   e.printStackTrace();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;).start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>长按删除的事件呢，其实无非就是让这个方法不断的执行SystemUtils.sendKeyCode(67);在这里我使用枚举的单利模式，其实这样做不太好，因为枚举的单利比较消耗内存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">package com.shiming.pen.field_character;</span><br><span class="line"></span><br><span class="line">import android.annotation.SuppressLint;</span><br><span class="line">import android.os.Handler;</span><br><span class="line">import android.os.Message;</span><br><span class="line"></span><br><span class="line">import com.shiming.pen.R;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line">import java.util.concurrent.ScheduledExecutorService;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author shiming</span><br><span class="line"> * @version v1.0 create at 2017/9/13</span><br><span class="line"> * @des 使用模式为enum的单利模式</span><br><span class="line"> */</span><br><span class="line">public enum Executor &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    private ScheduledExecutorService mScheduledExecutorService;</span><br><span class="line">    private DrawViewLayout.IActionCallback mCallback;</span><br><span class="line"></span><br><span class="line">    public void setCallback(DrawViewLayout.IActionCallback callback) &#123;</span><br><span class="line">        mCallback = callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @SuppressLint(&quot;HandlerLeak&quot;)</span><br><span class="line">    private Handler handler = new Handler() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            int viewId = msg.what;</span><br><span class="line">            switch (viewId) &#123;</span><br><span class="line">                case R.id.rll_show_delete_container:</span><br><span class="line">                    if (mCallback == null)</span><br><span class="line">                        return;</span><br><span class="line">                    mCallback.deleteOnLongClick();</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public void upData(int id) &#123;</span><br><span class="line">        final int vid = id;</span><br><span class="line">        //只有一个线程，用来调度执行将来的任务</span><br><span class="line">        mScheduledExecutorService = Executors.newSingleThreadScheduledExecutor();</span><br><span class="line">        //多少时间执行一次</span><br><span class="line">        mScheduledExecutorService.scheduleWithFixedDelay(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Message msg = new Message();</span><br><span class="line">                msg.what = vid;</span><br><span class="line">                handler.sendMessage(msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, 0, 100, TimeUnit.MILLISECONDS);    //每间隔100ms发送Message</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void stop() &#123;</span><br><span class="line">        if (mScheduledExecutorService != null) &#123;</span><br><span class="line">            mScheduledExecutorService.shutdownNow();</span><br><span class="line">            mScheduledExecutorService = null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行的方法这里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void deleteOnLongClick() &#123;</span><br><span class="line">      if (mRetContent.getLastFocusEdit().getSelectionStart() == 0) &#123;</span><br><span class="line">          mRetContent.onBackspacePress(mRetContent.getLastFocusEdit());</span><br><span class="line">          if (mHandler!=null) &#123;</span><br><span class="line">              mHandler.removeCallbacks(runnable);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          SystemUtils.sendKeyCode(67);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####5、切换笔的样式<br>这里笔的样式能有三种的情况，钢笔，水彩笔，和橡皮擦，由于我这里每次都自动的保存了图片，所以最后一次都是橡皮擦的模式，所以我只要判断不是Pen的模式，就给它赋予这种的模式，同时还需更具点击事件的变化而变化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void onClick(View v) &#123;</span><br><span class="line">      int penConfig = mDrawViewLayout.getPenConfig();</span><br><span class="line">      switch (v.getId())&#123;</span><br><span class="line">          case R.id.btn_change_pen:</span><br><span class="line">              if (penConfig== IPenConfig.STROKE_TYPE_PEN)&#123;</span><br><span class="line">                  penConfig=IPenConfig.STROKE_TYPE_BRUSH;</span><br><span class="line">              &#125;else &#123;</span><br><span class="line">                  penConfig=IPenConfig.STROKE_TYPE_PEN;</span><br><span class="line">              &#125;</span><br><span class="line">              mDrawViewLayout.setPenConfig(penConfig);</span><br><span class="line">              break;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void setPenConfig(int penConfig) &#123;</span><br><span class="line">    mDrawView.setCanvasCode(penConfig);</span><br><span class="line">     mPenConfig=penConfig;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>最底层的方法 在这里 ，关键的地方需要invalidate一次，这样自定义view才知道需要变换<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public void setCanvasCode(int canvasCode) &#123;</span><br><span class="line">    mCanvasCode = canvasCode;</span><br><span class="line">    switch (mCanvasCode) &#123;</span><br><span class="line">        case IPenConfig.STROKE_TYPE_PEN:</span><br><span class="line">            mStokeBrushPen = new SteelPen(mContext);</span><br><span class="line">            break;</span><br><span class="line">        case IPenConfig.STROKE_TYPE_BRUSH:</span><br><span class="line">            mStokeBrushPen = new BrushPen(mContext);</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    //设置</span><br><span class="line">    if (mStokeBrushPen.isNull())&#123;</span><br><span class="line">        mStokeBrushPen.setPaint(mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">    invalidate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####6、根据手指抬起来自动插入已绘制的图形到EditText中<br>在onTouchEvent事件中，记录手指抬起来的时间，同时记录下必须需要停止的时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">      mIsCanvasDraw = true;</span><br><span class="line">      //测试过程中，当使用到event的时候，产生了没有收到事件的问题，所以在这里需要obtian的一下</span><br><span class="line">      MotionEvent event2 = MotionEvent.obtain(event);</span><br><span class="line">      switch (event2.getActionMasked()) &#123;</span><br><span class="line">          case MotionEvent.ACTION_DOWN:</span><br><span class="line">              //每次都是这个笔，因为项目里面就只有这个笔，如果多了，这里需要改动</span><br><span class="line">              setCanvasCode(CANVAS_NORMAL);</span><br><span class="line">              mVisualStrokePen.onDown(mVisualStrokePen.createMotionElement(event2));</span><br><span class="line">              mGetTimeListner.stopTime();</span><br><span class="line">              break;</span><br><span class="line">          case MotionEvent.ACTION_MOVE:</span><br><span class="line">              mVisualStrokePen.onMove(mVisualStrokePen.createMotionElement(event2));</span><br><span class="line">              mGetTimeListner.stopTime();</span><br><span class="line">              break;</span><br><span class="line">          case MotionEvent.ACTION_UP:</span><br><span class="line">              long time = System.currentTimeMillis();</span><br><span class="line">              mGetTimeListner.getTime(time);</span><br><span class="line">              mVisualStrokePen.onUp(mVisualStrokePen.createMotionElement(event2),mCanvas);</span><br><span class="line">              break;</span><br><span class="line">          default:</span><br><span class="line">              break;</span><br><span class="line">      &#125;</span><br><span class="line">      invalidate();</span><br><span class="line">      return true;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>接口回调<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mDrawView.setGetTimeListener(new NewDrawPenView.TimeListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void getTime(long l) &#123;</span><br><span class="line">        mIActionCallback.getUptime(l);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void stopTime() &#123;</span><br><span class="line">        mIActionCallback.stopTime();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>需要做什么，其实就是一个任务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void getUptime(long l) &#123;</span><br><span class="line">    mOldTime = l;</span><br><span class="line">    mHandler.postDelayed(runnable, 100);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void stopTime() &#123;</span><br><span class="line">    mHandler.removeCallbacks(runnable);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当大于时间了，就使用handler发送一个消息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">final Runnable runnable = new Runnable() &#123;</span><br><span class="line">     @Override</span><br><span class="line">     public void run() &#123;</span><br><span class="line">         long l1 = System.currentTimeMillis();</span><br><span class="line">         if ((l1 - mOldTime) &gt; HADN_DRAW_TIME) &#123;</span><br><span class="line">             mHandler.removeCallbacks(runnable);</span><br><span class="line">             Message msg = mHandler.obtainMessage();</span><br><span class="line">             msg.obj = true;</span><br><span class="line">             msg.what = 0x123;</span><br><span class="line">             mHandler.sendMessage(msg);</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             mHandler.postDelayed(this, 100);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>处理handler消息，关键就是这个  mBitmap = view.clearBlank(100);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@SuppressLint(&quot;HandlerLeak&quot;)//麻痹</span><br><span class="line">   private Handler mHandler = new Handler() &#123;</span><br><span class="line">       @Override</span><br><span class="line">       public void handleMessage(Message msg) &#123;</span><br><span class="line">           super.handleMessage(msg);</span><br><span class="line">           int what = msg.what;</span><br><span class="line">           switch (what) &#123;</span><br><span class="line">               case 0x123:</span><br><span class="line">                   try &#123;</span><br><span class="line">                       boolean obj = (boolean) msg.obj;</span><br><span class="line">                       if (obj) &#123;</span><br><span class="line">                           NewDrawPenView view = mDrawViewLayout.getSaveBitmap();</span><br><span class="line">                           if (view != null) &#123;</span><br><span class="line">                               //边距强行扫描</span><br><span class="line">                               mBitmap = view.clearBlank(100);</span><br><span class="line">                               mHandler.post(runnableUi);</span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">                   &#125; finally &#123;</span><br><span class="line">                       mHandler.removeCallbacks(runnable);</span><br><span class="line">                   &#125;</span><br><span class="line">                   break;</span><br><span class="line">               case 0x124:</span><br><span class="line">                   mRetContent.setVisibilityEdit(View.VISIBLE);</span><br><span class="line">                   mRetContent.setVisibilityClose(View.VISIBLE);</span><br><span class="line">                   mRetContent.getLastFocusEdit().setCursorVisible(true);</span><br><span class="line">                   mRetContent.getLastFocusEdit().requestFocus();</span><br><span class="line">                   break;</span><br><span class="line">               case 0x125:</span><br><span class="line">                   break;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>关于这个方法clearBlank（int  ），这个方法不是我写的，我又一次研究别人的一个Demo，测试下了这个效果非常牛逼，本来这个方法打算废弃掉，但是最后觉得太可惜了，写这个田字格的Demo又提出来了。其实还有种方法可以实现，就是我们知道画布的大小，同时也知道，需要生成的小图的大小，我们可以动态的算，这就是另外一种方法，在不同设备上有点小许差异，但是也还可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 逐行扫描 清楚边界空白。功能是生成一张bitmap位于正中间，不是位于顶部，此关键的是我们画布需要</span><br><span class="line">    * 成透明色才能生效</span><br><span class="line">    * @param blank 边距留多少个像素</span><br><span class="line">    * @return tks github E-signature</span><br><span class="line">    */</span><br><span class="line">   public Bitmap clearBlank(int blank) &#123;</span><br><span class="line">       if (mBitmap != null) &#123;</span><br><span class="line">           int HEIGHT = mBitmap.getHeight();//1794</span><br><span class="line">           int WIDTH = mBitmap.getWidth();//1080</span><br><span class="line">           int top = 0, left = 0, right = 0, bottom = 0;</span><br><span class="line">           int[] pixs = new int[WIDTH];</span><br><span class="line">           boolean isStop;</span><br><span class="line">           for (int y = 0; y &lt; HEIGHT; y++) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, WIDTH, 0, y, WIDTH, 1);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line"></span><br><span class="line">                       top = y;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           for (int y = HEIGHT - 1; y &gt;= 0; y--) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, WIDTH, 0, y, WIDTH, 1);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line">                       bottom = y;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           pixs = new int[HEIGHT];</span><br><span class="line">           for (int x = 0; x &lt; WIDTH; x++) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, 1, x, 0, 1, HEIGHT);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line">                       left = x;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           for (int x = WIDTH - 1; x &gt; 0; x--) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, 1, x, 0, 1, HEIGHT);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line">                       right = x;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           if (blank &lt; 0) &#123;</span><br><span class="line">               blank = 0;</span><br><span class="line">           &#125;</span><br><span class="line">           left = left - blank &gt; 0 ? left - blank : 0;</span><br><span class="line">           top = top - blank &gt; 0 ? top - blank : 0;</span><br><span class="line">           right = right + blank &gt; WIDTH - 1 ? WIDTH - 1 : right + blank;</span><br><span class="line">           bottom = bottom + blank &gt; HEIGHT - 1 ? HEIGHT - 1 : bottom + blank;</span><br><span class="line">           return Bitmap.createBitmap(mBitmap, left, top, right - left, bottom - top);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           return null;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##最后，谢谢提出问题的大佬</p>
+<p>##GitHub：<a href="https://github.com/Shimingli/WritingPen" target="_blank" rel="noopener">https://github.com/Shimingli/WritingPen</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-02-24, 16:30:33</p>
+        <p><span>最后更新:</span>2018-08-14, 16:31:10</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/" title="安卓画笔笔锋的实现探索（三）田字格Demo">http://yoursite.com/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/02/26/PLC通讯的安卓App/">
+                    PLC通讯的安卓App
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/01/25/2018/">
+                    2018年
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Demo的下载地址"><span class="toc-number">1.</span> <span class="toc-text">Demo的下载地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果图：如果对的效果不太明确的地方，请移步上两篇文章"><span class="toc-number">2.</span> <span class="toc-text">效果图：如果对的效果不太明确的地方，请移步上两篇文章</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"安卓画笔笔锋的实现探索（三）田字格Demo　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/02/26/PLC通讯的安卓App/" title="上一篇: PLC通讯的安卓App">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/01/25/2018/" title="下一篇: 2018年">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

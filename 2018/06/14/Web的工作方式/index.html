@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="对于普通的上网，系统是这样做的：浏览器本身就是一个客户端，当你输入URL的时候，首先浏览器会去请求DNS服务器，通过DNS获取相应域名的对应的Ip地址，通过IP地址找到对应IP对应的服务器，要求建立TCP连接，等浏览器发送完HTTP Request包后，服务器接受到请求包之后才开始处理请求包，服务器调用自身服务，返回Http Response （响应包）：客户端收到来自服务器的响应后开始渲染这个">
+<meta name="keywords" content="Web,工作方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web的工作方式">
+<meta property="og:url" content="http://yoursite.com/2018/06/14/Web的工作方式/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="对于普通的上网，系统是这样做的：浏览器本身就是一个客户端，当你输入URL的时候，首先浏览器会去请求DNS服务器，通过DNS获取相应域名的对应的Ip地址，通过IP地址找到对应IP对应的服务器，要求建立TCP连接，等浏览器发送完HTTP Request包后，服务器接受到请求包之后才开始处理请求包，服务器调用自身服务，返回Http Response （响应包）：客户端收到来自服务器的响应后开始渲染这个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-8f5601da0c982aed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-965eb5144d95b3fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-c95e1b79e1c55956.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-24b3b29997ab7445.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-75332fcf7f5f1f38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-ffe931a62ec9b6b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-c1cbdc9b1689de16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-cd19ecadfecd9e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-cfd00450a0861b7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-760d4b35e0b2db65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:50:11.926Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web的工作方式">
+<meta name="twitter:description" content="对于普通的上网，系统是这样做的：浏览器本身就是一个客户端，当你输入URL的时候，首先浏览器会去请求DNS服务器，通过DNS获取相应域名的对应的Ip地址，通过IP地址找到对应IP对应的服务器，要求建立TCP连接，等浏览器发送完HTTP Request包后，服务器接受到请求包之后才开始处理请求包，服务器调用自身服务，返回Http Response （响应包）：客户端收到来自服务器的响应后开始渲染这个">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-8f5601da0c982aed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Web的工作方式 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Web的工作方式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/14/Web的工作方式/" class="article-date">
+      <time datetime="2018-06-14T08:05:24.000Z" itemprop="datePublished">2018-06-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Web的工作方式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web/">Web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工作方式/">工作方式</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>对于普通的上网，系统是这样做的：浏览器本身就是一个客户端，当你输入URL的时候，首先浏览器会去请求DNS服务器，通过DNS获取相应域名的对应的Ip地址，通过IP地址找到对应IP对应的服务器，要求建立TCP连接，等浏览器发送完HTTP Request包后，服务器接受到请求包之后才开始处理请求包，服务器调用自身服务，返回Http Response （响应包）：客户端收到来自服务器的响应后开始渲染这个Response包里的主体（body）,等收到全部的内容随后断开与该服务器之间的TCP连接。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-8f5601da0c982aed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户访问一个Web站点的过程"><br><a id="more"></a></p>
+<ul>
+<li><p>Web服务器也被称为HTTP服务器，它通过HTTP协议与客户端通信（客户端通常指的是Web浏览器，手机的客户端也是浏览器实现的）</p>
+</li>
+<li><p>TCP/IP协议（来源于百度百科）：Transmission Control Protocol/Internet Protocol的简写，中译名为传输控制协议/<a href="https://baike.baidu.com/item/%E5%9B%A0%E7%89%B9%E7%BD%91" target="_blank" rel="noopener">因特网</a>互联协议，又名网络<a href="https://baike.baidu.com/item/%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">通讯协议</a>，是Internet最基本的协议、Internet国际<a href="https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91" target="_blank" rel="noopener">互联网</a>络的基础，由<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E5%B1%82/4329439" target="_blank" rel="noopener">网络层</a>的IP协议和<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%B1%82/4329536" target="_blank" rel="noopener">传输层</a>的TCP协议组成。TCP/IP 定义了电子设备如何连入<a href="https://baike.baidu.com/item/%E5%9B%A0%E7%89%B9%E7%BD%91/114119" target="_blank" rel="noopener">因特网</a>，以及数据如何在它们之间传输的标准。协议采用了4层的层级结构，每一层都呼叫它的下一层所提供的协议来完成自己的需求。<a href="https://baike.baidu.com/item/%E9%80%9A%E4%BF%97/10621346" target="_blank" rel="noopener">通俗</a>而言：TCP负责发现<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93/7078195" target="_blank" rel="noopener">传输</a>的问题，一有问题就发出信号，要求重新传输，直到所有<a href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/3204964" target="_blank" rel="noopener">数据安全</a>正确地传输到目的地。而IP是给<a href="https://baike.baidu.com/item/%E5%9B%A0%E7%89%B9%E7%BD%91/114119" target="_blank" rel="noopener">因特网</a>的每一台联网设备规定一个地址。</p>
+</li>
+<li><p>HTTP协议（来源于百度百科）：<a href="https://baike.baidu.com/item/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE/8535513" target="_blank" rel="noopener">超文本传输协议</a>（HTTP，HyperText Transfer Protocol)是<a href="https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91" target="_blank" rel="noopener">互联网</a>上应用最为广泛的一种<a href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/328636" target="_blank" rel="noopener">网络协议</a>。所有的<a href="https://baike.baidu.com/item/WWW" target="_blank" rel="noopener">WWW</a>文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收<a href="https://baike.baidu.com/item/HTML" target="_blank" rel="noopener">HTML</a>页面的方法。1960年美国人<a href="https://baike.baidu.com/item/Ted%20Nelson" target="_blank" rel="noopener">Ted Nelson</a>构思了一种通过<a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA/140338" target="_blank" rel="noopener">计算机</a>处理文本信息的方法，并称之为超文本（hypertext）,这成为了HTTP超文本传输协议标准架构的发展根基。Ted Nelson组织协调万维网协会（World Wide Web Consortium）和<a href="https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91%E5%B7%A5%E7%A8%8B%E5%B7%A5%E4%BD%9C%E5%B0%8F%E7%BB%84/6992977" target="_blank" rel="noopener">互联网工程工作小组</a>（Internet Engineering Task Force ）共同合作研究，最终发布了一系列的<a href="https://baike.baidu.com/item/RFC" target="_blank" rel="noopener">RFC</a>，其中著名的RFC 2616定义了HTTP 1.1。</p>
+</li>
+<li><p>Web服务器的工作的原理：</p>
+<ul>
+<li>客户端通过TCP/IP协议建立到服务器TCP连接</li>
+<li>客户端想服务器发送HTTP协议请求包，请求服务器里的资源文档<ul>
+<li>服务器向客户端发送发送HTTP协议应答包，如果请求的资源包含有动态语言的内容，那么服务器会调用动态语言的解析引擎负责处理动态内容，并将处理得到的数据返回给客户端</li>
+<li>客户端与服务端断开，由客户端解释HTML文档，在客户端屏幕上渲染图形结果<br>###需要注意的是：客户端和服务器之间的通信是非持久连接的，也就是当服务器发送了应答后就与客户端断开连接了，等待下一次请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>##URL和DNS解析</p>
+<ul>
+<li>URL(Uniform Resource Locator)是“统一资源定位符”的英文缩写，用于描述一个网络上的资源</li>
+<li>URL由三部分组成：资源类型、存放资源的主机域名、资源文件名。<ul>
+<li>URL的一般语法格式为：(带方括号[]的为可选项)：scheme://host[:port#]/path/…/[?query-string][#anchor]<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scheme://host[:port#]/path/.../[?query-string][#anchor]</span><br><span class="line">scheme         指定底层使用的协议(例如：http, https, ftp)</span><br><span class="line">host           HTTP服务器的IP地址或者域名</span><br><span class="line">port#          HTTP服务器的默认端口是80，这种情况下端口号可以省略。如果使用了别的端口，必须指明，例如 http://www.cnblogs.com:8080/</span><br><span class="line">path           访问资源的路径</span><br><span class="line">query-string   发送给http服务器的数据</span><br><span class="line">anchor         锚</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>DNS解析</li>
+<li>DNS(Domain Name System)是域名系统的英文缩写，是一种组织成域层次结构的计算机和网络服务命名的系统，它用于TCP/IP网络，它从事将主机名或者域名转换成为实际的IP地址的工作。NDS就是一位翻译官</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-965eb5144d95b3fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" DNS工作原理"></p>
+<ul>
+<li><p>更加详细的工作流程如下：</p>
+<ul>
+<li><p>1、在浏览器中输入’<a href="http://www.jianshu.com&#39;域名，操作系统会检查自己本地的hosts文件是否有这个网址映射的关系，如果有机会调用这个IP地址映射，完成域名解析（这里有个骚操作，在双十一的时候，把本地的hosts的文件指向你自己的静态页面，随便写个404的页面，告诉你女朋友说，服务器挂了，买不了，哈哈哈哈哈哈☺）" target="_blank" rel="noopener">www.jianshu.com&#39;域名，操作系统会检查自己本地的hosts文件是否有这个网址映射的关系，如果有机会调用这个IP地址映射，完成域名解析（这里有个骚操作，在双十一的时候，把本地的hosts的文件指向你自己的静态页面，随便写个404的页面，告诉你女朋友说，服务器挂了，买不了，哈哈哈哈哈哈☺）</a><br><img src="https://upload-images.jianshu.io/upload_images/5363507-c95e1b79e1c55956.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hosts"></p>
+<ul>
+<li>2、如果<code>hosts</code>没有这个域名的映射，就会查找本地的DNS解析器缓存，是否有这个网址映射的关系，如果有，直接返回，完成域名解析。</li>
+<li><p>3、如果<code>hosts</code>于本地DNS解析器缓存都没有相应的网址映射关系，首先会找<code>TCP/IP</code>参数中设置的首选的DNS服务器（有时候我们翻墙就要改动这里），本地DNS服务器，此服务器收到查询时候，如果要查询的域名，它包含本地配置区域资源中，则返回解析结果给客户机，完成域名解析，这个解析具有权威性<br><img src="https://upload-images.jianshu.io/upload_images/5363507-24b3b29997ab7445.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DNS设置"></p>
+</li>
+<li><p>4、如果要查询的域名，不由本地DNS服务器区域解析，但该服务器已经缓存了此网址的映射的关系，则调用这个IP地址映射，完成域名解析，此解析不具有权威性</p>
+</li>
+<li>5、如果本地DNS服务器本地区域文件与缓存解析都失效，则根据本地DNS服务器设置（是否设置了转发器）进行查询，如果没有使用转发模式，本地的DNS就把请求转发到根DNS服务器，根服务器收到请求了会去判断这个域名（.com）是谁来授权管理，并会返回一个负责该顶级域名服务器的一个IP。本地服务收到服务器的IP信息了，将会联系负责<code>.com</code>的这台服务器。这台服务器负责<code>.com</code>域的服务器收到请求了，如果自己无法解析，它就会找一个管理<code>.com</code>域下一级DNS服务器地址(jianshu.com)给本地的DNS服务器。当本地的DNS服务器收到这个地址后，就会找<code>jianshu.com</code>,重复上面的动作，进行查询，直到找到<code>www.jianshu.com</code>这个地址。</li>
+<li>6、如果用的转发的模式，此DNS服务器就会把这个请求转发至上一级DNS服务器，由上一级服务器进行解析，如果上一层服务器不能解析，或者是根DNS服务器吧请求转至上上级。不管本地DNS服务器用的是转发，还是根提示，左后都是把结果返回给本地DNS服务器，由此DNS服务器在返回给客户机<br><img src="https://upload-images.jianshu.io/upload_images/5363507-75332fcf7f5f1f38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" DNS解析的整个流程"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>所谓递归查询过程：就是 “查询的递交者” 更替,查询提交者不断的更变,</p>
+</li>
+<li><p>而迭代查询过程： 则是 “查询的递交者”不变。</p>
+</li>
+<li><p>举个例子来说，你想知道某个一起上法律课的女孩的电话，并且你偷偷拍了她的照片，回到寝室告诉一个很仗义的哥们儿，这个哥们儿二话没说，拍着胸脯告诉你，甭急，我替你查(此处完成了一次递归查询，即，问询者的角色更替)。然后他拿着照片问了学院大四学长，学长告诉他，这姑娘是xx系的；然后这哥们儿马不停蹄又问了xx系的办公室主任助理同学，助理同学说是xx系yy班的，然后很仗义的哥们儿去xx系yy班的班长那里取到了该女孩儿电话。(此处完成若干次迭代查询，即，问询者角色不变，但反复更替问询对象)最后，他把号码交到了你手里。完成整个查询过程。</p>
+</li>
+<li><p>通过上面的步骤，最终获取IP地址，也就是浏览器最后发起请求的时候基于IP来和服务器做信息交换的</p>
+</li>
+</ul>
+<p>####HTTP协议详解 </p>
+<ul>
+<li>HTTP是一种让<code>Web服务器</code>与浏览器(客户端)通过<code>Internet发送与接收数据的协议</code>,它建立在<code>TCP协议</code>之上，一般采用<code>TCP的80端口</code>。</li>
+<li>它是一个请求、响应协议–客户端发出一个请求，服务器响应这个请求。</li>
+<li>在HTTP中，客户端总是通过建立一个连接与发送一个HTTP请求来发起一个事务。</li>
+<li>服务器不能主动去与客户端联系，也不能给客户端发出一个回调连接。客户端与服务器端都可以提前中断一个连接。例如，当浏览器下载一个文件时，你可以通过点击“停止”键来中断文件的下载，关闭与服务器的HTTP连接。</li>
+<li>HTTP协议是无状态的，同一个客户端的这次请求和上次请求是没有对应关系，对HTTP服务器来说，它并不知道这两个请求是否来自同一个客户端。为了解决这个问题， <code>Web程序</code>引入了<code>Cookie机制</code>来维护连接的可持续状态。</li>
+<li><code>Cookie</code>意为“甜饼”，是由W3C组织提出，最早由Netscape社区发展的一种机制。目前Cookie已经成为标准，所有的主流浏览器如IE、Netscape、Firefox、Opera等都支持Cookie。由于HTTP是一种无状态的协议，服务器单从网络连接上无从知道客户身份。怎么办呢？就给客户端们颁发一个通行证吧，每人一个，无论谁访问都必须携带自己通行证。这样服务器就能从通行证上确认客户身份了。这就是Cookie的工作原理。<ul>
+<li>HTTP协议是建立在TCP协议之上的，因此TCP攻击一样会影响HTTP的通讯，例如比较常见的一些攻击：<code>SYN Flood</code>是当前最流行的DoS（拒绝服务攻击）与DdoS（分布式拒绝服务攻击）的方式之一，这是一种利用<code>TCP协议</code>缺陷，发送大量伪造的TCP连接请求，从而使得被攻击方资源耗尽（CPU满负荷或内存不足）的攻击方式。</li>
+</ul>
+</li>
+</ul>
+<h4 id="HTTP请求包（浏览器信息）"><a href="#HTTP请求包（浏览器信息）" class="headerlink" title="HTTP请求包（浏览器信息）"></a>HTTP请求包（浏览器信息）</h4><ul>
+<li><p>Request包的结构, Request包分为3部分，第一部分叫Request line（请求行）, 第二部分叫Request header（请求头）,第三部分是body（主体）。header和body之间有个空行，请求包的例子所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /domains/example/ HTTP/1.1		//请求行: 请求方法 请求URI HTTP协议/协议版本</span><br><span class="line">Host：www.iana.org				//服务端的主机名</span><br><span class="line">User-Agent：Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4			//浏览器信息</span><br><span class="line">Accept：text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8	//客户端能接收的MIME</span><br><span class="line">Accept-Encoding：gzip,deflate,sdch		//是否支持流压缩</span><br><span class="line">Accept-Charset：UTF-8,*;q=0.5		//客户端字符编码集</span><br><span class="line">//空行,用于分割请求头和消息体</span><br><span class="line">//消息体,请求资源参数,例如POST传递的参数</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>抓取简书的首页的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Request URL:https://www.jianshu.com/</span><br><span class="line">Request Method:GET</span><br><span class="line">Status Code:304 Not Modified</span><br><span class="line">Remote Address:127.0.0.1:8888</span><br><span class="line">Response Headers</span><br><span class="line">view source</span><br><span class="line">Cache-Control:max-age=0, private, must-revalidate</span><br><span class="line">Connection:keep-alive</span><br><span class="line">Content-Security-Policy:script-src &apos;self&apos; &apos;unsafe-inline&apos; &apos;unsafe-eval&apos; *.jianshu.com *.jianshu.io api.geetest.com static.geetest.com dn-staticdown.qbox.me zz.bdstatic.com *.google-analytics.com hm.baidu.com push.zhanzhang.baidu.com res.wx.qq.com qzonestyle.gtimg.cn as.alipayobjects.com ;style-src &apos;self&apos; &apos;unsafe-inline&apos; *.jianshu.com *.jianshu.io api.geetest.com static.geetest.com ;</span><br><span class="line">Date:Mon, 02 Jul 2018 09:10:04 GMT</span><br><span class="line">ETag:W/&quot;e5bf3f5c57dcac3addf979d6e74fa906&quot;</span><br><span class="line">Server:Tengine</span><br><span class="line">Set-Cookie:locale=zh-CN; path=/</span><br><span class="line">Strict-Transport-Security:max-age=31536000; includeSubDomains; preload</span><br><span class="line">X-Content-Type-Options:nosniff</span><br><span class="line">X-Dscp-Value:0</span><br><span class="line">X-Frame-Options:DENY</span><br><span class="line">X-Request-Id:01a51f5d-b6ea-45c2-91a7-5fdec3a8eb70</span><br><span class="line">X-Runtime:0.022833</span><br><span class="line">X-Via:1.1 PSfjfzdx2mj93:9 (Cdn Cache Server V2.0), 1.1 yangdianxin66:10 (Cdn Cache Server V2.0)</span><br><span class="line">X-XSS-Protection:1; mode=block</span><br><span class="line">Request Headers</span><br><span class="line">view source</span><br><span class="line">Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Encoding:gzip, deflate, sdch, br</span><br><span class="line">Accept-Language:zh-CN,zh;q=0.8</span><br><span class="line">Cache-Control:max-age=0</span><br><span class="line">Connection:keep-alive</span><br><span class="line">Cookie:__guid=163745081.662820947905634200.1526461023901.8958; signin_redirect=https%3A%2F%2Fwww.jianshu.com%2F; read_mode=day; default_font=font2; monitor_count=5; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22163682ac930acd-0e49b894cda713-6b1b1279-2073600-163682ac9319a0%22%2C%22%24device_id%22%3A%22163682ac930acd-0e49b894cda713-6b1b1279-2073600-163682ac9319a0%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24latest_referrer_host%22%3A%22%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%7D%7D; Hm_lvt_0c0e9d9b1e7d617b3e6842e85b9fb068=1528795394,1530514591; Hm_lpvt_0c0e9d9b1e7d617b3e6842e85b9fb068=1530522699; locale=zh-CN</span><br><span class="line">Host:www.jianshu.com</span><br><span class="line">If-None-Match:W/&quot;e5bf3f5c57dcac3addf979d6e74fa906&quot;</span><br><span class="line">Upgrade-Insecure-Requests:1</span><br><span class="line">User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HTTP协议定义了很多与服务器交互的请求方法，最基本的有4种，分别是GET,POST,PUT,DELETE。</p>
+</li>
+<li>一个URL地址用于描述一个网络上的资源</li>
+<li>而HTTP中的GET, POST, PUT, DELETE就对应着对这个资源的查，增，改，删4个操作。</li>
+<li>最常见的就是GET和POST了。GET一般用于获取/查询资源信息，而POST一般用于更新资源信息。</li>
+</ul>
+<h4 id="由于简书地址是https-我通过fiddler去抓一个不是http的，看起来比较好看"><a href="#由于简书地址是https-我通过fiddler去抓一个不是http的，看起来比较好看" class="headerlink" title="由于简书地址是https,我通过fiddler去抓一个不是http的，看起来比较好看"></a>由于简书地址是<code>https</code>,我通过fiddler去抓一个不是http的，看起来比较好看</h4><p><img src="https://upload-images.jianshu.io/upload_images/5363507-ffe931a62ec9b6b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="get请求"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-c1cbdc9b1689de16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="post请求"></p>
+<ul>
+<li>可以得出GET和POST的区别:<ul>
+<li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456。POST方法是把提交的数据放在HTTP包的body中。<ul>
+<li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制。</li>
+<li>GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密码。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="HTTP响应包（服务器信息）"><a href="#HTTP响应包（服务器信息）" class="headerlink" title="HTTP响应包（服务器信息）"></a>HTTP响应包（服务器信息）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK						//状态行</span><br><span class="line">Server: nginx/1.0.8					//服务器使用的WEB软件名及版本</span><br><span class="line">Date:Date: Tue, 30 Oct 2012 04:14:25 GMT		//发送时间</span><br><span class="line">Content-Type: text/html				//服务器发送信息的类型</span><br><span class="line">Transfer-Encoding: chunked			//表示发送HTTP包是分段发的</span><br><span class="line">Connection: keep-alive				//保持连接状态</span><br><span class="line">Content-Length: 90					//主体内容长度</span><br><span class="line">//空行 用来分割消息头和主体</span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;... //消息体</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>获取新浪首页的数据如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: nginx</span><br><span class="line">Date: Mon, 02 Jul 2018 09:21:33 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 576063</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Last-Modified: Mon, 02 Jul 2018 09:20:01 GMT</span><br><span class="line">Vary: Accept-Encoding</span><br><span class="line">X-Powered-By: shci_v1.03</span><br><span class="line">Expires: Mon, 02 Jul 2018 09:22:28 GMT</span><br><span class="line">Cache-Control: max-age=60</span><br><span class="line">Age: 4</span><br><span class="line">Via: http/1.1 ctc.ningbo.ha2ts4.97 (ApacheTrafficServer/6.2.1 [cHs f ]), http/1.1 ctc.xiamen.ha2ts4.41 (ApacheTrafficServer/6.2.1 [cHs f ])</span><br><span class="line">X-Via-Edge: 153052329372561c48b773cd64cde73000845</span><br><span class="line">X-Cache: HIT.41</span><br><span class="line">X-Via-CDN: f=edge,s=ctc.xiamen.ha2ts4.34.nb.sinaedge.com,c=119.139.196.97;f=Edge,s=ctc.xiamen.ha2ts4.41,c=222.76.214.34</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;!-- [ published at 2018-07-02 17:20:00 ] --&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;</span><br><span class="line">    &lt;title&gt;新浪首页&lt;/title&gt;</span><br><span class="line">	&lt;meta name=&quot;keywords&quot; content=&quot;新浪,新浪网,SINA,sina,sina.com.cn,新浪首页,门户,资讯&quot; /&gt;</span><br><span class="line">	&lt;meta name=&quot;description&quot; content=&quot;新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。&quot; /&gt;</span><br><span class="line">    &lt;link rel=&quot;mask-icon&quot; sizes=&quot;any&quot; href=&quot;//www.sina.com.cn/favicon.svg&quot; color=&quot;red&quot;&gt;</span><br><span class="line">	&lt;meta name=&quot;stencil&quot; content=&quot;PGLS000022&quot; /&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Response</code>包中的第一行叫做状态行，由HTTP协议版本号、状态码、状态消息三部分组成</p>
+</li>
+<li>状态码用来告诉HTTP客户端，HTTP服务器是否产生了预期的Response。HTTP/1.1协议中定义了5类状态码，第一个数字定义了响应的类别<ul>
+<li>1XX：提示信息-表示请求已被成功接收，继续处理</li>
+<li>2XX：成功 。表示请求已被成功接收，理解，接收</li>
+<li>3XX: 重定向：要完成请求必须进行更进一步的处理</li>
+<li>4XX：客户端错误：请求语法错误或者是请求无法实现</li>
+<li>5XX：服务器错误，服务器未能够实现合法的请求</li>
+</ul>
+</li>
+<li><p>当输入的简书的地址为’htt://<a href="http://www.jianshu.com/&#39;的时候，状态码为`301`" target="_blank" rel="noopener">www.jianshu.com/&#39;的时候，状态码为`301`</a><br><img src="https://upload-images.jianshu.io/upload_images/5363507-cd19ecadfecd9e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>301 Moved Permanently<br>被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个 URI 之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址</p>
+</li>
+<li><p>使用网易云在听歌的时候<br><img src="https://upload-images.jianshu.io/upload_images/5363507-cfd00450a0861b7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>206 Partial Content<br>服务器已经成功处理了部分 GET 请求。类似于 FlashGet 或者迅雷这类的 HTTP下载工具都是使用此类响应实现断点续传或者将一个大文档分解为多个下载段同时下载</p>
+</li>
+</ul>
+<h4 id="HTTP协议是无状态的和Connection-keep-alive的区别"><a href="#HTTP协议是无状态的和Connection-keep-alive的区别" class="headerlink" title="HTTP协议是无状态的和Connection: keep-alive的区别"></a>HTTP协议是无状态的和Connection: keep-alive的区别</h4><ul>
+<li>无状态是指协议对于事务处理没有记忆能力，服务器不知道客户端是什么状态。从另一方面讲，打开一个服务器上的网页和你之前打开这个服务器上的网页之间没有任何联系。</li>
+<li>HTTP是一个无状态的面向连接的协议，无状态不代表HTTP不能保持TCP连接，更不能代表HTTP使用的是UDP协议（面对无连接）。</li>
+<li>从HTTP/1.1起，默认都开启了Keep-Alive保持连接特性，简单地说，当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，如果客户端再次访问这个服务器上的网页，会继续使用这一条已经建立的TCP连接。</li>
+<li>Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同服务器软件（如Apache）中设置这个时间。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-760d4b35e0b2db65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一次请求的request和response"></p>
+<ul>
+<li>一次URL请求但是左边栏里面为什么会有那么多的资源请求？<ul>
+<li>这个就是浏览器的一个功能，第一次请求url，服务器端返回的是<code>html</code>页面，然后浏览器开始渲染HTML：当解析到HTML DOM里面的图片连接，css脚本和js脚本的链接，浏览器就会自动发起一个请求静态资源的HTTP请求，获取相对应的静态资源，然后浏览器就会渲染出来，最终将所有资源整合、渲染，完整展现在我们面前的屏幕上。</li>
+</ul>
+</li>
+<li>最后说明一点 ：网页优化方面有一项措施是减少HTTP请求次数，就是把尽量多的css和js资源合并在一起，目的是尽量减少网页请求静态资源的次数，提高网页加载速度，同时减缓服务器的压力。</li>
+<li>鉴于本人的能力有限，如有错误还望指出，tks</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/06/14/Web的工作方式/">Web的工作方式</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-06-14, 16:05:24</p>
+        <p><span>最后更新:</span>2018-08-14, 16:50:11</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/14/Web的工作方式/" title="Web的工作方式">http://yoursite.com/2018/06/14/Web的工作方式/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/06/14/Web的工作方式/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/07/06/Go语言使用MySQL数据库/">
+                    Go语言使用MySQL数据库
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/06/08/Android源码分析-View的绘制流程/">
+                    Android源码分析:View的绘制流程
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP请求包（浏览器信息）"><span class="toc-number">1.</span> <span class="toc-text">HTTP请求包（浏览器信息）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#由于简书地址是https-我通过fiddler去抓一个不是http的，看起来比较好看"><span class="toc-number">2.</span> <span class="toc-text">由于简书地址是https,我通过fiddler去抓一个不是http的，看起来比较好看</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP响应包（服务器信息）"><span class="toc-number">3.</span> <span class="toc-text">HTTP响应包（服务器信息）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP协议是无状态的和Connection-keep-alive的区别"><span class="toc-number">4.</span> <span class="toc-text">HTTP协议是无状态的和Connection: keep-alive的区别</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Web的工作方式　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/07/06/Go语言使用MySQL数据库/" title="上一篇: Go语言使用MySQL数据库">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/06/08/Android源码分析-View的绘制流程/" title="下一篇: Android源码分析:View的绘制流程">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

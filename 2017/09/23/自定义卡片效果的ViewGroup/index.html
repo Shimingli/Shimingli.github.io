@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！">
+<meta name="keywords" content="自定义卡片效果的ViewGroup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义卡片效果的ViewGroup">
+<meta property="og:url" content="http://yoursite.com/2017/09/23/自定义卡片效果的ViewGroup/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-8ad5b63a07dad73f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-ce7c0fa257533994.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-fd86e9fec575c1a4.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-dfa1376367aa27eb.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-fa2d83618ec0929f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-55e3fe09f76552f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-3f0eed8d739c16fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-df28f20936b2d39c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-af8c440ead2eccfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-53e2ed2e6329a2b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-b65df02b20499072.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-f9b51f5e11529f03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:37:53.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义卡片效果的ViewGroup">
+<meta name="twitter:description" content="不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5363507-8ad5b63a07dad73f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>自定义卡片效果的ViewGroup | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-自定义卡片效果的ViewGroup" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/23/自定义卡片效果的ViewGroup/" class="article-date">
+      <time datetime="2017-09-23T08:37:08.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义卡片效果的ViewGroup
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！"><a href="#不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！" class="headerlink" title="不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！"></a>不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！</h2><p><img src="http://upload-images.jianshu.io/upload_images/5363507-8ad5b63a07dad73f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20170904213432.jpg"><br><a id="more"></a></p>
+<ul>
+<li>第一个效果是正常的滑动情况<br><img src="http://upload-images.jianshu.io/upload_images/5363507-ce7c0fa257533994.gif?imageMogr2/auto-orient/strip" alt="xiao.gif"></li>
+<li>第二个效果是禁止滑动情况，同时呢，有一个回弹的效果，四川话讲这个很巴适<br><img src="http://upload-images.jianshu.io/upload_images/5363507-fd86e9fec575c1a4.gif?imageMogr2/auto-orient/strip" alt="xiao.gif"><br>##分享两个东西<ul>
+<li>今天发现的一个Android UI 开发效率的 UI 库：<a href="https://github.com/QMUI/QMUI_Android" target="_blank" rel="noopener">https://github.com/QMUI/QMUI_Android</a>   </li>
+<li>这个我都不好意思分享，嘿嘿，周天就做这个，做完了发现根本没有什么东西可以分享，所以就写了现在这个博客，等我以后研究下hexo，才来更新<br><a href="https://shimingli.github.io/" target="_blank" rel="noopener">https://shimingli.github.io/</a></li>
+</ul>
+</li>
+</ul>
+<p>##写在前面的话：如果我手写慢一点，多看看一下api，我就不会把两个api写错了，由于手滑写错了，导致我这篇博客现在才来写，兴奋感都快磨完了。<br><img src="http://upload-images.jianshu.io/upload_images/5363507-dfa1376367aa27eb.gif?imageMogr2/auto-orient/strip" alt="72F75ABC3304DD06A39EB5A18180F6CE.gif"></p>
+<ul>
+<li>这辈子我都不会忘记这个值了，getScaledTouchSlop()是一个距离，表示滑动的时候，手的移动要大于这个距离才开始移动控件。viewpager就是用这个距离来判断用户是否翻页，只不过呢<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewConfiguration.get(mContext).getScaledTouchSlop()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<p>原理如下： mTouchSlop = configuration.getScaledPagingTouchSlop();就是这个值，但是你可能会说有毛的的关系啊，别急<br><img src="http://upload-images.jianshu.io/upload_images/5363507-fa2d83618ec0929f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>往ViewConfiguration类看记住这个值<br><img src="http://upload-images.jianshu.io/upload_images/5363507-55e3fe09f76552f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-3f0eed8d739c16fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>看这个值mTouchSlop，对吧只不过在ViewPager判断是否需要移动的时候，这个距离是*2。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-df28f20936b2d39c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="由于我这里需要更高的精度，所以获取了这个值getScaledTouchSlop"><a href="#由于我这里需要更高的精度，所以获取了这个值getScaledTouchSlop" class="headerlink" title="由于我这里需要更高的精度，所以获取了这个值getScaledTouchSlop()"></a>由于我这里需要更高的精度，所以获取了这个值getScaledTouchSlop()</h2><ul>
+<li>可千万不要拿到getScaledDoubleTapSlop()这个值了啊！<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//第一次触摸和第二次触摸之间的距离,Distance in pixels between the first touch and second touch</span><br><span class="line">   ViewConfiguration.get(mContext).getScaledDoubleTapSlop();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>##继承ViewGroup,重写构造方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class CardViewPager extends ViewGroup&#123;</span><br><span class="line"></span><br><span class="line"> public CardViewPager(Context context) &#123;</span><br><span class="line">        this(context,null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public CardViewPager(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        init(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>##初始化init<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   private void init(Context context) &#123;</span><br><span class="line">        mContext = context;</span><br><span class="line">        //滑动的对象</span><br><span class="line">        mScroller = new Scroller(mContext);</span><br><span class="line">        //getScaledTouchSlop是一个距离，表示滑动的时候，手的移动要大于这个距离才开始移动控件。</span><br><span class="line">        // 如果小于这个距离就不触发移动控件，如viewpager就是用这个距离来判断用户是否翻页</span><br><span class="line">//        mScaledDoubleTapSlop = ViewConfiguration.get(mContext).getScaledTouchSlop();</span><br><span class="line">        mScaledDoubleTapSlop = ViewConfiguration.get(mContext).getScaledPagingTouchSlop();</span><br><span class="line">        //第一次触摸和第二次触摸之间的距离,Distance in pixels between the first touch and second touch</span><br><span class="line">        ViewConfiguration.get(mContext).getScaledDoubleTapSlop();</span><br><span class="line">        FIRST_width = dp2px(mContext, 10);</span><br><span class="line">        TWO_GAP_WIDTH = FIRST_width * 2;</span><br><span class="line">        THREE_GAP_WIDTH = FIRST_width * 3;</span><br><span class="line">        FOUR_GAP_WIDTH = FIRST_width * 4;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##onMeasure,重写测量这里记住widthMeasureSpec、heightMeasureSpec是一个32位的int值，其中高两位是物理模式，低的30位才是控件的宽度和高度的信息。<br>  MeasureSpec.EXACTLY：父视图希望子视图的大小应该是specSize中指定的。<br> MeasureSpec.AT_MOST：子视图的大小最多是specSize中指定的值，也就是说不建议子视图的大小超过specSize中给定的值。<br> MeasureSpec.UNSPECIFIED：我们可以随意指定视图的大小。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">       super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">       //这才是真正的宽度和高度</span><br><span class="line">       int widthSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">       int heighSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">       //设置测量的大小</span><br><span class="line">       setMeasuredDimension(widthSize,heighSize);</span><br><span class="line">       //测量孩子的大小</span><br><span class="line">       mChildCount = getChildCount();</span><br><span class="line">       for (int i=0;i&lt;mChildCount;i++)&#123;</span><br><span class="line">           //这里需要把模式也传入进去</span><br><span class="line">           getChildAt(i).measure(widthMeasureSpec,heightMeasureSpec);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##onLayout重新布局:将孩子的view布局，这里横向的布局，一个字View接着右边,这是设计之初的方法，自己先明白到底是怎么样布局，就好像我明白的方式，是个伟大的ui妹子说，看这个app，就是这样，哈哈<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * @param changed</span><br><span class="line">     * @param l 左上角的left</span><br><span class="line">     * @param t top</span><br><span class="line">     * @param r  右下角right</span><br><span class="line">     * @param b bottom值</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected void onLayout(boolean changed, int l, int t, int r, int b) &#123;</span><br><span class="line">        View child;</span><br><span class="line">        int widthLeft=0;</span><br><span class="line">        for (int i=0;i&lt;mChildCount;i++)&#123;</span><br><span class="line">            child = getChildAt(i);</span><br><span class="line">            //得到第一个孩子的宽度，两边都减去了两个参数，记住是这个4倍值</span><br><span class="line">            int measuredWidth = child.getMeasuredWidth() - FOUR_GAP_WIDTH;</span><br><span class="line">            int measuredHeight = child.getMeasuredHeight();</span><br><span class="line">            //是第一个孩子</span><br><span class="line">            if (i==0)&#123;</span><br><span class="line">                child.layout(widthLeft+TWO_GAP_WIDTH,0,widthLeft+TWO_GAP_WIDTH+measuredWidth,measuredHeight);</span><br><span class="line">                //改变向左的值</span><br><span class="line">                widthLeft+=measuredWidth+THREE_GAP_WIDTH;</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                child.layout(widthLeft, 0, widthLeft + measuredWidth, measuredHeight);</span><br><span class="line">                widthLeft += measuredWidth + FIRST_width;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####效果虽然看了，但是真正理解的layout的话，还需明白其中的原理，这里我不讲了的太细，献上美图一张，嗦嘎，原理就是，不是每一个屏幕都在装着一个我们的卡片，我们每次移动的时候，也不是移动一个屏幕，而是通过运算的方式，移动到恰好能够看到两边10dp的值，这里的要转成像素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp2px(mContext, 10);</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-af8c440ead2eccfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>关于像素px我还想说说: context.getResources().getDisplayMetrics().density;density显示器的逻辑密度，这是【独立的像素密度单位（首先明白dp是个单位）】的一个缩放因子，在屏幕密度大约为160dpi的屏幕上，一个dp等于一个px,这个提供了系统显示器的一个基线. 例如：屏幕为240<em>320的手机屏幕，其尺寸为 1.5”</em>2”  也就是1.5英寸乘2英寸的屏幕 它的dpi（屏幕像素密度，也就是每英寸的像素数，dpi是dot per inch的缩写）大约就为160dpi， 所以在这个手机上dp和px的长度（可以说是长度，最起码从你的视觉感官上来说是这样的）是相等的。 因此在一个屏幕密度为160dpi的手机屏幕上density的值为1，而在120dpi的手机上为0.75等等.例如：一个240<em>320的屏幕尽管他的屏幕尺寸为1.8”</em>1.3”,（我算了下这个的dpi大约为180dpi多点）但是它的density还是1(也就是说取了近似值) 然而，如果屏幕分辨率增加到320<em>480 但是屏幕尺寸仍然保持1.5”</em>2” 的时候（和最开始的例子比较）<br> 这个手机的density将会增加（可能会增加到1.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static int dp2px(Context context, float dpValue) &#123;</span><br><span class="line">       ///这个得到的不应该叫做密度，应该是密度的一个比例。不是真实的屏幕密度，</span><br><span class="line">       /// 而是相对于某个值的屏幕密度。也可以说是相对密度</span><br><span class="line">       final float scale = context.getResources().getDisplayMetrics().density;</span><br><span class="line">       return (int) (dpValue * scale + 0.5f);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##拦截事件:当大于了需要移动控件的距离的话，就需要把这个事件拦截自己处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   public boolean onInterceptTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">       switch (ev.getAction())&#123;</span><br><span class="line">           case MotionEvent.ACTION_DOWN:</span><br><span class="line">               int x = (int) ev.getX();</span><br><span class="line">               mLastMotionX = x ;</span><br><span class="line">               break;</span><br><span class="line">           case MotionEvent.ACTION_MOVE:</span><br><span class="line">               x= (int) ev.getX();</span><br><span class="line">               //滑动的距离</span><br><span class="line">               int delX = mLastMotionX - x;</span><br><span class="line">               //如果说距离大于这个距离的话，就需要滚动了，拦截事件</span><br><span class="line">               if (Math.abs(delX)&gt;mScaledDoubleTapSlop)&#123;</span><br><span class="line">                   return true;</span><br><span class="line">               &#125;</span><br><span class="line">               break;</span><br><span class="line">       &#125;</span><br><span class="line">       return super.onInterceptTouchEvent(ev);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##处理事件:在down的事件一定需要拦截，才能记录坐标<br>  返回值为True，代表拦截这次事件，直接进入到ViewGroup的onTouchEvent中，就不会进入到View的onTouchEvent了<br>  返回值为False，代表不拦截这次事件，不进入到ViewGroup的onTouchEvent中，直接进入到View的onTouchEvent中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">       //如果没有孩子的话，不需要拦截</span><br><span class="line">       if (getChildCount()==0)&#123;</span><br><span class="line">           return false;</span><br><span class="line">       &#125;</span><br><span class="line">       //监听滑动的速度</span><br><span class="line">       obtainTracker(event);</span><br><span class="line">       switch (event.getAction())&#123;</span><br><span class="line">           case MotionEvent.ACTION_DOWN:</span><br><span class="line">               if (!mScroller.isFinished())&#123;</span><br><span class="line">                   //停止动画</span><br><span class="line">                   mScroller.abortAnimation();</span><br><span class="line">               &#125;</span><br><span class="line">               int x = (int) event.getX();</span><br><span class="line">               mLastMotionX=x;</span><br><span class="line">               //不管怎么怎么样这个事件都必须拦截</span><br><span class="line">               return true;</span><br><span class="line"></span><br><span class="line">           case MotionEvent.ACTION_MOVE:</span><br><span class="line">                x = (int) event.getX();</span><br><span class="line">               int desX = mLastMotionX - x;</span><br><span class="line">               //这个距离大于了屏幕的10/1的话，就给他赋值10/1</span><br><span class="line">               if (!isAllowScroll&amp;&amp;desX&gt;getWidth()/10)&#123;</span><br><span class="line">                   desX=getWidth()/10;</span><br><span class="line">                   //如果设置了不可以滑动的，这个flag需要到up事件单独处理</span><br><span class="line">                   mCanScrolled = true;</span><br><span class="line">               &#125;</span><br><span class="line">               //只需计算x的距离</span><br><span class="line">               mVelocityTracker.computeCurrentVelocity(1000,ViewConfiguration.getMaximumFlingVelocity());</span><br><span class="line">               mXVelocity = (int) mVelocityTracker.getXVelocity();</span><br><span class="line">               //如果说距离滑动太小，或者是只有一个屏幕的话，就不往下去做操作了</span><br><span class="line">               if (Math.abs(desX)&lt;mScaledDoubleTapSlop||(desX&gt;=0&amp;&amp;</span><br><span class="line">                       mCurScreen==mChildCount-1)||(desX&lt;=0&amp;&amp;mCurScreen==0))&#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               //能到这里来的话，就必须往手指方向慢慢滚动了</span><br><span class="line">               scrollTo(getChildAt(mCurScreen).getLeft()+desX,0);</span><br><span class="line">               break;</span><br><span class="line">           case MotionEvent.ACTION_UP:</span><br><span class="line">               //mXVelocity为正数的话，这个是往left滚</span><br><span class="line">               if (isAllowScroll&amp;&amp;mXVelocity&gt;MAX_VELOCITY_VALUE&amp;&amp;mCurScreen&gt;0)&#123;</span><br><span class="line">                   scrollScreen(mCurScreen-1);</span><br><span class="line">               &#125;else if (isAllowScroll&amp;&amp;mXVelocity&lt;-MAX_VELOCITY_VALUE&amp;&amp;mCurScreen&lt;mChildCount-1)&#123;</span><br><span class="line">                   scrollScreen(mCurScreen+1);</span><br><span class="line">              //当设置了不能滑动时候，并且手指滑动的Move的距离已经超过了屏幕的10/1，有一个回弹的效果，左右摇摆</span><br><span class="line">               &#125;else if (mCanScrolled)&#123;</span><br><span class="line">                   springToDestination();</span><br><span class="line">               &#125;else&#123;</span><br><span class="line">                   snapToDestination();</span><br><span class="line">               &#125;</span><br><span class="line">               //最后不要忘记了释放</span><br><span class="line">               releaseVelocityTracker();</span><br><span class="line">               break;</span><br><span class="line">       &#125;</span><br><span class="line">       return super.onTouchEvent(event);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##滑动到指定的屏幕,在记住两个地方，就不需要滑动了，一个是在最右和最左端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private void scrollScreen(int whichScreen) &#123;</span><br><span class="line">       //防止超出了最大的孩子的数量</span><br><span class="line">       int min = Math.min(whichScreen, mChildCount - 1);</span><br><span class="line">       whichScreen = Math.max(0, min);</span><br><span class="line">       //getScrollX() 就是当前view的左上角相对于母视图的左上角的X轴偏移量。</span><br><span class="line">       //在这里当getScrollX==0的时候，等于后面的whichScreen*getWidth()那么就滑动到第一页了</span><br><span class="line">       //后续就不需要滑动了，也不需要重新绘制了</span><br><span class="line">       // TODO: 2017/9/3 这里只在最左不能进去滑动了，其实在最右端也是不能够去滑动了，带解决</span><br><span class="line">       if (getScrollX()!=whichScreen*getWidth())&#123;</span><br><span class="line">           int deltaX = whichScreen * (getWidth() - THREE_GAP_WIDTH) - getScrollX();</span><br><span class="line">           mCurScreen = whichScreen;</span><br><span class="line">           mScroller.startScroll(getScrollX(), 0, deltaX, 0, Math.abs(deltaX));</span><br><span class="line">           invalidate();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是在这里我留下一个问题，但是在这里我留下一个问题在我的手机上我测试了1到5个孩子的情况分别数据如下：<br>getScrollX()和whichScreen*getWidth()<br>     1个屏幕是0  0——–0<br>     2个屏幕是90 990  ——-1080<br>     3个屏是 120<br>     4个屏  =270 2970  ——-3240<br>     5个屏  =380  3960  ——-4320<br>     当我们滑动到最有端的时候，其实也是不能够去滑动了，但是我这个方法呢是能够 走到if当中的，而且对应关系也不太明确，这个问题我还得想想。</p>
+<p>##还需要理解一个东西getScrollX()到底是什么值？再次献上我的美作，哈哈，反正我是明白了，我怕讲不明白，所以先看图，然后抓日记，一下就明白!</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-53e2ed2e6329a2b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>##监听滑动的速度，在上篇笔锋效果里面有讲到过，还是Viewpager里面的东西,记住要释放这个算是监听吧！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">   //监听滑动的速度</span><br><span class="line">      obtainTracker(event);</span><br><span class="line"></span><br><span class="line">  private void obtainTracker(MotionEvent event) &#123;</span><br><span class="line">      if (mVelocityTracker==null) &#123;</span><br><span class="line">          mVelocityTracker = VelocityTracker.obtain();</span><br><span class="line">      &#125;</span><br><span class="line">      //绑定事件</span><br><span class="line">      mVelocityTracker.addMovement(event);</span><br><span class="line">  &#125;</span><br><span class="line">/**</span><br><span class="line">   * 释放监听滑动速度方法</span><br><span class="line">   */</span><br><span class="line">  private void releaseVelocityTracker() &#123;</span><br><span class="line">      if (mVelocityTracker != null) &#123;</span><br><span class="line">          mVelocityTracker.recycle();</span><br><span class="line">          mVelocityTracker = null;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##其实你就把上面的工作全部都做好了，你会发现还是不能够翻页，来吧去Viewpager看看，再去度娘看看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 计算滚动的位置</span><br><span class="line">   */</span><br><span class="line">  @Override</span><br><span class="line">  public void computeScroll() &#123;</span><br><span class="line">      super.computeScroll();</span><br><span class="line">      //返回值为boolean，mScroller.computeScrollOffset()==true说明滚动尚未完成，false说明滚动已经完成。</span><br><span class="line">      if (mScroller.computeScrollOffset()) &#123;</span><br><span class="line">          scrollTo(mScroller.getCurrX(), mScroller.getCurrY());</span><br><span class="line">          postInvalidate();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-b65df02b20499072.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>个人翻译就是在viewpager中需要重新计算滑动的位置<br><img src="http://upload-images.jianshu.io/upload_images/5363507-f9b51f5e11529f03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>##回弹滑动目的屏,这里就是需要有点动画的效果，先回到原来的位置，然后左右摇摆摇摆！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 回弹滑动目的屏</span><br><span class="line">     */</span><br><span class="line">    private void springToDestination() &#123;</span><br><span class="line">        System.out.println(&quot;shiming  ==springToDestination&quot;);</span><br><span class="line">        int screenWidth = getWidth();</span><br><span class="line">        int whichScreen = (getScrollX() + screenWidth / 2) / screenWidth;</span><br><span class="line">        whichScreen = Math.max(0, Math.min(whichScreen, mChildCount - 1));</span><br><span class="line">        final int deltaX = whichScreen * (getWidth() - THREE_GAP_WIDTH) - getScrollX();</span><br><span class="line">        mCurScreen = whichScreen;</span><br><span class="line">        //先给我滚动到原来的位置</span><br><span class="line">        springToScroll(deltaX * 1.0f, Math.abs(deltaX));</span><br><span class="line">        //向右的给我摆动两下</span><br><span class="line">        postDelayed(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                springToScroll(-deltaX * 0.3f, Math.abs(deltaX));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, Math.abs(deltaX));</span><br><span class="line">        //让后给我向左摆动两下</span><br><span class="line">        postDelayed(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                springToScroll(deltaX * 0.3f, Math.abs(deltaX));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, Math.abs(deltaX * 2));</span><br><span class="line">        mCanScrolled = false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> /**</span><br><span class="line">     *  getScrollX() 水平方向滚动的偏移值，以像素为单位。正值表明滚动将向左滚动</span><br><span class="line">     　　startY 垂直方向滚动的偏移值，以像素为单位。正值表明滚动将向上滚动</span><br><span class="line">     　　(int) deltaX 水平方向滑动的距离，正值会使滚动向左滚动</span><br><span class="line">     　 0  垂直方向滑动的距离，正值会使滚动向上滚动</span><br><span class="line">     * @param deltaX</span><br><span class="line">     * @param duration</span><br><span class="line">     */</span><br><span class="line">    private void springToScroll(float deltaX, int duration) &#123;</span><br><span class="line">        mScroller.startScroll(getScrollX(), 0, (int) deltaX, 0, duration);</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##好了，以上，我写的写的都要睡早了，代码有些注释还比较详细一点，如有需要看代码吧，由于工程逻辑上，还有很多复杂的代码，我这里就提取了一部分，以供学习之用，谢谢！<br>地址Git：<a href="https://github.com/Shimingli/CardViewPager" target="_blank" rel="noopener">https://github.com/Shimingli/CardViewPager</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2017-09-23, 16:37:08</p>
+        <p><span>最后更新:</span>2018-08-14, 16:37:53</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/23/自定义卡片效果的ViewGroup/" title="自定义卡片效果的ViewGroup">http://yoursite.com/2017/09/23/自定义卡片效果的ViewGroup/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/23/自定义卡片效果的ViewGroup/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">
+                    自己实现Jni，生成so库，实现高效率的高斯模糊效果
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">
+                    安卓画笔笔锋的实现探索（一）
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！"><span class="toc-number">1.</span> <span class="toc-text">不逼逼，看效果！两边有点露出来的效果，比如腾讯视频App的上方的效果，都是轻量级的控件，请勿见怪，总体时间花费大约9个小时，其中找Bug找了3个小时，哈哈！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#由于我这里需要更高的精度，所以获取了这个值getScaledTouchSlop"><span class="toc-number">2.</span> <span class="toc-text">由于我这里需要更高的精度，所以获取了这个值getScaledTouchSlop()</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"自定义卡片效果的ViewGroup　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/" title="上一篇: 自己实现Jni，生成so库，实现高效率的高斯模糊效果">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/08/26/安卓画笔笔锋的实现探索（一）/" title="下一篇: 安卓画笔笔锋的实现探索（一）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

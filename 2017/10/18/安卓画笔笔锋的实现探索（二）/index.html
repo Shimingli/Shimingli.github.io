@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3">
+<meta name="keywords" content="安卓画笔笔锋的实现探索（二）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓画笔笔锋的实现探索（二）">
+<meta property="og:url" content="http://yoursite.com/2017/10/18/安卓画笔笔锋的实现探索（二）/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-5c24ce51a1e6f311.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-255d0ef05ebc1698.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-83b7c51278773bb7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-06e3e68bf6c7c2ac.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-e38949e0ff3b45ba.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-265b8025187b7d76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-69b64f0ac0d1909e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:41:40.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓画笔笔锋的实现探索（二）">
+<meta name="twitter:description" content="本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布  1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5363507-5c24ce51a1e6f311.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>安卓画笔笔锋的实现探索（二） | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-安卓画笔笔锋的实现探索（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/" class="article-date">
+      <time datetime="2017-10-18T08:34:13.000Z" itemprop="datePublished">2017-10-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      安卓画笔笔锋的实现探索（二）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</li>
+</ul>
+<h4 id="1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3"><a href="#1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3" class="headerlink" title="1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3"></a>1、下图的效果的实现看这篇文章：<a href="http://www.jianshu.com/p/6746d68ef2c3" target="_blank" rel="noopener">http://www.jianshu.com/p/6746d68ef2c3</a></h4><p><img src="http://upload-images.jianshu.io/upload_images/5363507-5c24ce51a1e6f311.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018135736.jpg"><br><a id="more"></a></p>
+<h4 id="2、水彩笔效果一"><a href="#2、水彩笔效果一" class="headerlink" title="2、水彩笔效果一"></a>2、水彩笔效果一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//不设置</span><br><span class="line">paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));</span><br><span class="line">//使用原图的资源文件为</span><br><span class="line">mOriginBitmap = BitmapFactory.decodeResource( mContext.getResources(), R.mipmap.brush);</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-255d0ef05ebc1698.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018135732.jpg"></p>
+<p>####3、水彩笔效果二，使用原图的资源文件为R.mipmap.cicrle<br><img src="http://upload-images.jianshu.io/upload_images/5363507-83b7c51278773bb7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018135726.jpg"></p>
+<p>####4、水彩笔效果三，使用原图的资源文件为R.mipmap.tranglie<br><img src="http://upload-images.jianshu.io/upload_images/5363507-06e3e68bf6c7c2ac.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018135715.jpg"></p>
+<p>####5、设置paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));的效果<br><img src="http://upload-images.jianshu.io/upload_images/5363507-e38949e0ff3b45ba.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018143623.jpg"></p>
+<p>##如何实现的细节在上篇文章有很仔细的说明，可先看上篇文章</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-265b8025187b7d76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>###1.代码上我抽取了一个基类，主要是方便后面的扩展<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author shiming</span><br><span class="line"> * @version v1.0 create at 2017/10/17</span><br><span class="line"> * @des 处理draw和touch事件的基类</span><br><span class="line"> */</span><br><span class="line">public abstract class BasePen &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 绘制</span><br><span class="line">     *</span><br><span class="line">     * @param canvas</span><br><span class="line">     */</span><br><span class="line">    public abstract  void draw(Canvas canvas);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 接受并处理onTouchEvent</span><br><span class="line">     *</span><br><span class="line">     * @param event</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public  boolean onTouchEvent(MotionEvent event,Canvas canvas)&#123;</span><br><span class="line">         return false;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###2、关于BasePenExtend集成BasePen<br>draw方法的抽取，和上篇文章一样，当接触到的点很少的时候，不用去绘制，由于在实现水彩笔的时候，使用一只笔的时候会导致整个画布的笔的透明度发生改变，所以提供了一个抽象的方法让子类去实现，SteelPen和BrushPen中唯一在draw的差别就是多了一只paint。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   public void draw(Canvas canvas) &#123;</span><br><span class="line">       mPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">       //点的集合少 不去绘制</span><br><span class="line">       if (mHWPointList == null || mHWPointList.size() &lt; 1)</span><br><span class="line">           return;</span><br><span class="line">       //当控制点的集合很少的时候，需要画个小圆，但是需要算法</span><br><span class="line">       if (mHWPointList.size() &lt; 2) &#123;</span><br><span class="line">           ControllerPoint point = mHWPointList.get(0);</span><br><span class="line">           //由于此问题在算法上还没有实现，所以暂时不给他画圆圈</span><br><span class="line">           //canvas.drawCircle(point.x, point.y, point.width, mPaint);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           mCurPoint = mHWPointList.get(0);</span><br><span class="line">           drawNeetToDo(canvas);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">    * 这里由于在设置笔的透明度，会导致整个线，或者说整个画布的的颜透明度随着整个笔的透明度而变化，</span><br><span class="line">    * 所以在这里考虑是不是说，绘制毛笔的时候，每次都给它new 一个paint ，但是这里我还没有找到更好的办法</span><br><span class="line">    *</span><br><span class="line">    * @param canvas</span><br><span class="line">    */</span><br><span class="line">   // TODO: 2017/10/17  这个问题  待解决</span><br><span class="line">   protected abstract void drawNeetToDo(Canvas canvas);</span><br></pre></td></tr></table></figure></p>
+<p>onTouchEvent事件在NewDrawPenView调用，这里实现就可以了，注意这个问题就行，event会被下一次事件重用，这里必须生成新的，否则会有问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public boolean onTouchEvent(MotionEvent event,Canvas canvas) &#123;</span><br><span class="line">     // event会被下一次事件重用，这里必须生成新的，否则会有问题</span><br><span class="line">     MotionEvent event2 = MotionEvent.obtain(event);</span><br><span class="line">     switch (event.getActionMasked()) &#123;</span><br><span class="line">         case MotionEvent.ACTION_DOWN:</span><br><span class="line">             onDown(createMotionElement(event2));</span><br><span class="line">             return true;</span><br><span class="line">         case MotionEvent.ACTION_MOVE:</span><br><span class="line">             onMove(createMotionElement(event2));</span><br><span class="line">             return true;</span><br><span class="line">         case MotionEvent.ACTION_UP:</span><br><span class="line">             onUp(createMotionElement(event2),canvas);</span><br><span class="line">             return true;</span><br><span class="line">         default:</span><br><span class="line">             break;</span><br><span class="line">     &#125;</span><br><span class="line">     return super.onTouchEvent(event,canvas);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>onDown事件的实现，由于在自定义View中，MotionEvent.ACTION_DOWN:事件的触发要比onDraw早，当实现水彩笔的时候，我在想每次能不能使用一只新的笔，那么改变笔的透明度的时候，画布其他上上的笔画的就不会发生改变，所以暴露了一个方法，让子类去实现，不从写的话，这个笔就会为null！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 按下的事件</span><br><span class="line">   * @param mElement</span><br><span class="line">   */</span><br><span class="line">  public void onDown(MotionElement mElement)&#123;</span><br><span class="line">      if (mPaint==null)&#123;</span><br><span class="line">          throw new NullPointerException(&quot;paint 笔不可能为null哦&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      if (getNewPaint(mPaint)!=null)&#123;</span><br><span class="line">          Paint paint=getNewPaint(mPaint);</span><br><span class="line">          mPaint=paint;</span><br><span class="line">          //当然了，不要因为担心内存泄漏，在每个变量使用完成后都添加xxx=null，</span><br><span class="line">          // 对于消除过期引用的最好方法，就是让包含该引用的变量结束生命周期，而不是显示的清空</span><br><span class="line">          paint=null;</span><br><span class="line">          System.out.println(&quot;shiming 当绘制的时候是否为新的paint&quot;+mPaint+&quot;原来的对象是否销毁了paint==&quot;+paint);</span><br><span class="line">      &#125;</span><br><span class="line">      mPointList.clear();</span><br><span class="line">      //如果在brush字体这里接受到down的事件，把下面的这个集合清空的话，那么绘制的内容会发生改变</span><br><span class="line">      //不清空的话，也不可能</span><br><span class="line">      mHWPointList.clear();</span><br><span class="line">      //记录down的控制点的信息</span><br><span class="line">      ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);</span><br><span class="line">      //如果用笔画的画我的屏幕，记录他宽度的和压力值的乘，但是哇，</span><br><span class="line">      if (mElement.tooltype == MotionEvent.TOOL_TYPE_STYLUS) &#123;</span><br><span class="line">          mLastWidth = mElement.pressure * mBaseWidth;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          //如果是手指画的，我们取他的0.8</span><br><span class="line">          mLastWidth = 0.8 * mBaseWidth;</span><br><span class="line">      &#125;</span><br><span class="line">      //down下的点的宽度</span><br><span class="line">      curPoint.width = (float) mLastWidth;</span><br><span class="line">      mLastVel = 0;</span><br><span class="line">      mPointList.add(curPoint);</span><br><span class="line">      //记录当前的点</span><br><span class="line">      mLastPoint = curPoint;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">protected  Paint getNewPaint(Paint paint)&#123;</span><br><span class="line">      return null;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>onMove事件其实实现原理和上篇文章一样，但是呢，当绘制水彩笔的时候，有个透明度的关系，所以需要交给子类去实现.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 手指移动的事件</span><br><span class="line">    * @param mElement</span><br><span class="line">    */</span><br><span class="line">   public void onMove(MotionElement mElement)&#123;</span><br><span class="line"></span><br><span class="line">       ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);</span><br><span class="line">       double deltaX = curPoint.x - mLastPoint.x;</span><br><span class="line">       double deltaY = curPoint.y - mLastPoint.y;</span><br><span class="line">       //deltaX和deltay平方和的二次方根 想象一个例子 1+1的平方根为1.4 （x²+y²）开根号</span><br><span class="line">       double curDis = Math.hypot(deltaX, deltaY);</span><br><span class="line">       //我们求出的这个值越小，画的点或者是绘制椭圆形越多，这个值越大的话，绘制的越少，笔就越细，宽度越小</span><br><span class="line">       double curVel = curDis * IPenConfig.DIS_VEL_CAL_FACTOR;</span><br><span class="line">       double curWidth;</span><br><span class="line">       //点的集合少，我们得必须改变宽度,每次点击的down的时候，这个事件</span><br><span class="line">       if (mPointList.size() &lt; 2) &#123;</span><br><span class="line">           if (mElement.tooltype == MotionEvent.TOOL_TYPE_STYLUS) &#123;</span><br><span class="line">               curWidth = mElement.pressure * mBaseWidth;</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               curWidth = calcNewWidth(curVel, mLastVel, curDis, 1.5,</span><br><span class="line">                       mLastWidth);</span><br><span class="line">           &#125;</span><br><span class="line">           curPoint.width = (float) curWidth;</span><br><span class="line">           mBezier.init(mLastPoint, curPoint);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           mLastVel = curVel;</span><br><span class="line">           if (mElement.tooltype == MotionEvent.TOOL_TYPE_STYLUS) &#123;</span><br><span class="line">               curWidth = mElement.pressure * mBaseWidth;</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               //由于我们手机是触屏的手机，滑动的速度也不慢，所以，一般会走到这里来</span><br><span class="line">               //阐明一点，当滑动的速度很快的时候，这个值就越小，越慢就越大，依靠着mlastWidth不断的变换</span><br><span class="line">               curWidth = calcNewWidth(curVel, mLastVel, curDis, 1.5,</span><br><span class="line">                       mLastWidth);</span><br><span class="line">           &#125;</span><br><span class="line">           curPoint.width = (float) curWidth;</span><br><span class="line">           mBezier.addNode(curPoint);</span><br><span class="line">       &#125;</span><br><span class="line">       //每次移动的话，这里赋值新的值</span><br><span class="line">       mLastWidth = curWidth;</span><br><span class="line"></span><br><span class="line">       mPointList.add(curPoint);</span><br><span class="line">       moveNeetToDo(curDis);</span><br><span class="line">       mLastPoint = curPoint;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    * 移动的时候，这里由于需要透明度的处理，交给子类</span><br><span class="line">    * @param</span><br><span class="line">    */</span><br><span class="line">   protected abstract void moveNeetToDo(double f);</span><br></pre></td></tr></table></figure></p>
+<p>在上篇文章中我们有详细介绍calcNewWidth（）方法的作用：当滑动的速度很快的时候，这个值就越小，越慢就越大，依靠着mlastWidth不断的变换，如何变化的呢？在代码中做了很详细的解释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public double calcNewWidth(double curVel, double lastVel, double curDis,</span><br><span class="line">                               double factor, double lastWidth) &#123;</span><br><span class="line">       double calVel = curVel * 0.6 + lastVel * (1 - 0.6);</span><br><span class="line">       //返回指定数字的自然对数</span><br><span class="line">       //手指滑动的越快，这个值越小，为负数</span><br><span class="line">       double vfac = Math.log(factor * 2.0f) * (-calVel);</span><br><span class="line">       //此方法返回值e，其中e是自然对数的基数。</span><br><span class="line">       //Math.exp(vfac) 变化范围为0 到1 当手指没有滑动的时候 这个值为1 当滑动很快的时候无线趋近于0</span><br><span class="line">       //在次说明下，当手指抬起来，这个值会变大，这也就说明，抬起手太慢的话，笔锋效果不太明显</span><br><span class="line">       //这就说明为什么笔锋的效果不太明显</span><br><span class="line">       double calWidth = mBaseWidth * Math.exp(vfac);</span><br><span class="line">       //滑动的速度越快的话，mMoveThres也越大</span><br><span class="line">       double mMoveThres = curDis * 0.01f;</span><br><span class="line">       //对之值最大的地方进行控制</span><br><span class="line">       if (mMoveThres &gt; IPenConfig.WIDTH_THRES_MAX) &#123;</span><br><span class="line">           mMoveThres = IPenConfig.WIDTH_THRES_MAX;</span><br><span class="line">       &#125;</span><br><span class="line">       //滑动的越快的话，第一个判断会走</span><br><span class="line">       if (Math.abs(calWidth - mBaseWidth) / mBaseWidth &gt; mMoveThres) &#123;</span><br><span class="line"></span><br><span class="line">           if (calWidth &gt; mBaseWidth) &#123;</span><br><span class="line">               calWidth = mBaseWidth * (1 + mMoveThres);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               calWidth = mBaseWidth * (1 - mMoveThres);</span><br><span class="line">           &#125;</span><br><span class="line">           //滑动的越慢的话，第二个判断会走</span><br><span class="line">       &#125; else if (Math.abs(calWidth - lastWidth) / lastWidth &gt; mMoveThres) &#123;</span><br><span class="line"></span><br><span class="line">           if (calWidth &gt; lastWidth) &#123;</span><br><span class="line">               calWidth = lastWidth * (1 + mMoveThres);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               calWidth = lastWidth * (1 - mMoveThres);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       return calWidth;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后一步绘制，只需要要判断现在的点和触摸点的位置一样就不用去绘制，其余的交个子类去实现即可，在这里我有一个问题没有解决，在onDown事件下，就是一直按着屏幕某个点的时候，这个方法会一直走，意思就是说，用户的行为没有发生绘制笔，但是呢，代码一直在绘制，不断重复的绘制，可能在性能上不太友好！还需优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 当现在的点和触摸点的位置在一起的时候不用去绘制</span><br><span class="line"> * @param canvas</span><br><span class="line"> * @param point</span><br><span class="line"> * @param paint</span><br><span class="line"> */</span><br><span class="line">protected void drawToPoint(Canvas canvas, ControllerPoint point, Paint paint) &#123;</span><br><span class="line">    if ((mCurPoint.x == point.x) &amp;&amp; (mCurPoint.y == point.y)) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    //毛笔的效果和钢笔的不太一样，交给自己去实现</span><br><span class="line">    doNeetToDo(canvas,point,paint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>##关于BrushPen</p>
+<p>####初始化是从资源文件中获取bitmap，在我个人的测试中，当资源文件如果形状很多种的时候，会构建很多中的笔画的效果，非常有意思，如上面的图例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public BrushPen(Context context) &#123;</span><br><span class="line">      super(context);</span><br><span class="line">      initTexture();</span><br><span class="line">  &#125;</span><br><span class="line"> /**</span><br><span class="line">   * 感谢公司的ui大哥  小伍哥 免费给的切图</span><br><span class="line">   * R.mipmap.tranglie 设置的时候有点像三角形的笔锋</span><br><span class="line">   * R.mipmap.cicrle    圆形的笔锋效果</span><br><span class="line">   * R.mipmap.six        六边形有点怪怪的，可以测试一下</span><br><span class="line">   * R.drawable.brush  这个才是用起来比较舒服，如果你的笔锋要很尖的话，叫ui爸爸给你裁剪这种图 越尖越好</span><br><span class="line">   */</span><br><span class="line">  private void initTexture() &#123;</span><br><span class="line">      //通过资源文件生成的原始的bitmap区域 后面的资源图有些更加有意识的东西</span><br><span class="line">      mOriginBitmap = BitmapFactory.decodeResource(</span><br><span class="line">              mContext.getResources(), R.mipmap.brush);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####setBitmap(bitmap)方法，主要是得到需要绘制的rect的区域，这个没什么，一些列的操作的时候，但是这里有个很有趣的现象， paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));以下的话源自网络不是我说的，哈哈：PorterDuffXfermode其实就是简单的图形交并集计算，比如重叠的部分删掉或者叠加等等，事实上呢！PorterDuffXfermode的计算绝非是根据于此！如下图所示，最常见的应用就是蒙板绘制，利用源图作为蒙板“抠出”目标图上的图像。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-69b64f0ac0d1909e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>####Xfermode国外有大神称之为过渡模式，这种翻译比较贴切但恐怕不易理解，大家也可以直接称之为图像混合模式，这是我在上篇文章介绍的，抛砖引玉下，地址：<a href="http://www.cnblogs.com/tianzhijiexian/p/4297172.html" target="_blank" rel="noopener">http://www.cnblogs.com/tianzhijiexian/p/4297172.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 主要是得到需要绘制的rect的区域</span><br><span class="line"> * @param bitmap</span><br><span class="line"> */</span><br><span class="line">private void setBitmap(Bitmap bitmap) &#123;</span><br><span class="line">    Canvas canvas = new Canvas();</span><br><span class="line">    mBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),</span><br><span class="line">            Bitmap.Config.ARGB_8888);</span><br><span class="line">    //用指定的方式填充位图的像素。</span><br><span class="line">    mBitmap.eraseColor(Color.rgb(Color.red(mPaint.getColor()),</span><br><span class="line">            Color.green(mPaint.getColor()), Color.blue(mPaint.getColor())));</span><br><span class="line">    //用画布制定位图绘制</span><br><span class="line">    canvas.setBitmap(mBitmap);</span><br><span class="line">    Paint paint = new Paint();</span><br><span class="line">    //如果把这行代码注释掉这里生成的东西更加有意思</span><br><span class="line">    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));</span><br><span class="line">    canvas.drawBitmap(bitmap, 0, 0, paint);</span><br><span class="line"></span><br><span class="line">    //src 代表需要绘制的区域</span><br><span class="line">    mOldRect.set(0, 0, mBitmap.getWidth()/4, mBitmap.getHeight()/4);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>####根据笔的宽度的变化，笔的透明度要和发生变化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 更具笔的宽度的变化，笔的透明度要和发生变化</span><br><span class="line"> * @param point</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private ControllerPoint getWithPointAlphaPoint(ControllerPoint point) &#123;</span><br><span class="line">    ControllerPoint nPoint = new ControllerPoint();</span><br><span class="line">    nPoint.x = point.x;</span><br><span class="line">    nPoint.y = point.y;</span><br><span class="line">    nPoint.width = point.width;</span><br><span class="line">    int alpha = (int) (255 * point.width / mBaseWidth / 2);</span><br><span class="line">    if (alpha &lt; 10) &#123;</span><br><span class="line">        alpha = 10;</span><br><span class="line">    &#125; else if (alpha &gt; 255) &#123;</span><br><span class="line">        alpha = 255;</span><br><span class="line">    &#125;</span><br><span class="line">    nPoint.alpha = alpha;</span><br><span class="line">    return nPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####这里才是关键的地方，原理就是不断的绘制Bitmap，通过Bitmap构建成为一根线，同时绘制区域的大小，直接导致笔的宽度的变化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">protected void drawLine(Canvas canvas, double x0, double y0, double w0,</span><br><span class="line">                           int a0, double x1, double y1, double w1, int a1, Paint paint) &#123;</span><br><span class="line">       double curDis = Math.hypot(x0 - x1, y0 - y1);</span><br><span class="line">       int factor = 2;</span><br><span class="line">       if (paint.getStrokeWidth() &lt; 6) &#123;</span><br><span class="line">           factor = 1;</span><br><span class="line">       &#125; else if (paint.getStrokeWidth() &gt; 60) &#123;</span><br><span class="line">           factor = 3;</span><br><span class="line">       &#125;</span><br><span class="line">       int steps = 1 + (int) (curDis / factor);</span><br><span class="line">       double deltaX = (x1 - x0) / steps;</span><br><span class="line">       double deltaY = (y1 - y0) / steps;</span><br><span class="line">       double deltaW = (w1 - w0) / steps;</span><br><span class="line">       double deltaA = (a1 - a0) / steps;</span><br><span class="line">       double x = x0;</span><br><span class="line">       double y = y0;</span><br><span class="line">       double w = w0;</span><br><span class="line">       double a = a0;</span><br><span class="line"></span><br><span class="line">       for (int i = 0; i &lt; steps; i++) &#123;</span><br><span class="line">           if (w &lt; 1.5)</span><br><span class="line">               w = 1.5;</span><br><span class="line">           //根据点的信息计算出需要把bitmap绘制在什么地方</span><br><span class="line">           mNeedDrawRect.set((float) (x - w / 2.0f), (float) (y - w / 2.0f),</span><br><span class="line">                   (float) (x + w / 2.0f), (float) (y + w / 2.0f));</span><br><span class="line">           //每次到这里来的话，这个笔的透明度就会发生改变，但是呢，这个笔不用同一个的话，有点麻烦</span><br><span class="line">           //我在这里做了个不是办法的办法，每次呢？我都从新new了一个新的笔，每次循环就new一个，内存就有很多的笔了</span><br><span class="line">           //这里new 新的笔  我放到外面去做了</span><br><span class="line">           //Paint newPaint = new Paint(paint);</span><br><span class="line">           //当这里很小的时候，透明度就会很小，个人测试在3.0左右比较靠谱</span><br><span class="line">           paint.setAlpha((int) (a / 3.0f));</span><br><span class="line">           //第一个Rect 代表要绘制的bitmap 区域，第二个 Rect 代表的是要将bitmap 绘制在屏幕的什么地方</span><br><span class="line">           canvas.drawBitmap(mBitmap, mOldRect, mNeedDrawRect, paint);</span><br><span class="line">           x += deltaX;</span><br><span class="line">           y += deltaY;</span><br><span class="line">           w += deltaW;</span><br><span class="line">           a += deltaA;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##关于SteelPen，由于在上篇文章已经很详细的介绍了，这里就不在多少，需要的话，移步上篇文章：<a href="http://www.jianshu.com/p/6746d68ef2c3" target="_blank" rel="noopener">http://www.jianshu.com/p/6746d68ef2c3</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">package com.shiming.pen.new_code;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.graphics.Canvas;</span><br><span class="line">import android.graphics.Paint;</span><br><span class="line">import android.graphics.RectF;</span><br><span class="line"></span><br><span class="line">import com.shiming.pen.old_code.ControllerPoint;</span><br><span class="line"></span><br><span class="line">import static com.shiming.pen.new_code.IPenConfig.STEPFACTOR;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author shiming</span><br><span class="line"> * @version v1.0 create at 2017/10/17</span><br><span class="line"> * @des 钢笔</span><br><span class="line"> */</span><br><span class="line">public class SteelPen extends BasePenExtend &#123;</span><br><span class="line"></span><br><span class="line">    public SteelPen(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void drawNeetToDo(Canvas canvas) &#123;</span><br><span class="line">        for (int i = 1; i &lt; mHWPointList.size(); i++) &#123;</span><br><span class="line">            ControllerPoint point = mHWPointList.get(i);</span><br><span class="line">            drawToPoint(canvas, point, mPaint);</span><br><span class="line">            mCurPoint = point;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void moveNeetToDo(double curDis) &#123;</span><br><span class="line">        int steps = 1 + (int) curDis / STEPFACTOR;</span><br><span class="line">        double step = 1.0 / steps;</span><br><span class="line">        for (double t = 0; t &lt; 1.0; t += step) &#123;</span><br><span class="line">            ControllerPoint point = mBezier.getPoint(t);</span><br><span class="line">            mHWPointList.add(point);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void doNeetToDo(Canvas canvas, ControllerPoint point, Paint paint) &#123;</span><br><span class="line">        drawLine(canvas, mCurPoint.x, mCurPoint.y, mCurPoint.width, point.x,</span><br><span class="line">                point.y, point.width, paint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 其实这里才是关键的地方，通过画布画椭圆，每一个点都是一个椭圆，这个椭圆的所有细节，逐渐构建出一个完美的笔尖</span><br><span class="line">     * 和笔锋的效果,我觉得在这里需要大量的测试，其实就对低端手机进行排查，看我们绘制的笔的宽度是多少，绘制多少个椭圆</span><br><span class="line">     * 然后在低端手机上不会那么卡，当然你哪一个N年前的手机给我，那也的卡，只不过需要适中的范围里面</span><br><span class="line">     *</span><br><span class="line">     * @param canvas</span><br><span class="line">     * @param x0</span><br><span class="line">     * @param y0</span><br><span class="line">     * @param w0</span><br><span class="line">     * @param x1</span><br><span class="line">     * @param y1</span><br><span class="line">     * @param w1</span><br><span class="line">     * @param paint</span><br><span class="line">     */</span><br><span class="line">    private void drawLine(Canvas canvas, double x0, double y0, double w0, double x1, double y1, double w1, Paint paint) &#123;</span><br><span class="line">        //求两个数字的平方根 x的平方+y的平方在开方记得X的平方+y的平方=1，这就是一个园</span><br><span class="line">        double curDis = Math.hypot(x0 - x1, y0 - y1);</span><br><span class="line">        int steps = 1;</span><br><span class="line">        if (paint.getStrokeWidth() &lt; 6) &#123;</span><br><span class="line">            steps = 1 + (int) (curDis / 2);</span><br><span class="line">        &#125; else if (paint.getStrokeWidth() &gt; 60) &#123;</span><br><span class="line">            steps = 1 + (int) (curDis / 4);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            steps = 1 + (int) (curDis / 3);</span><br><span class="line">        &#125;</span><br><span class="line">        double deltaX = (x1 - x0) / steps;</span><br><span class="line">        double deltaY = (y1 - y0) / steps;</span><br><span class="line">        double deltaW = (w1 - w0) / steps;</span><br><span class="line">        double x = x0;</span><br><span class="line">        double y = y0;</span><br><span class="line">        double w = w0;</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; steps; i++) &#123;</span><br><span class="line">            //都是用于表示坐标系中的一块矩形区域，并可以对其做一些简单操作</span><br><span class="line">            //精度不一样。Rect是使用int类型作为数值，RectF是使用float类型作为数值。</span><br><span class="line">            //            Rect rect = new Rect();</span><br><span class="line">            RectF oval = new RectF();</span><br><span class="line">            oval.set((float) (x - w / 4.0f), (float) (y - w / 2.0f), (float) (x + w / 4.0f), (float) (y + w / 2.0f));</span><br><span class="line">            //            oval.set((float)(x+w/4.0f), (float)(y+w/4.0f), (float)(x-w/4.0f), (float)(y-w/4.0f));</span><br><span class="line">            //最基本的实现，通过点控制线，绘制椭圆</span><br><span class="line">            canvas.drawOval(oval, paint);</span><br><span class="line">            x += deltaX;</span><br><span class="line">            y += deltaY;</span><br><span class="line">            w += deltaW;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>##最后说明几点：</p>
+<p>####1、当一直处于onDown事件的时候，就是按着屏幕不动的时候，最后绘制的关键方法也一直在走，消耗内存，需要优化</p>
+<p>####2、绘制水彩笔的时候：这里由于在设置笔的透明度，会导致整个线，或者说整个画布的的颜透明度随着整个笔的透明度而变化， 所以在这里考虑是不是说，绘制毛笔的时候，每次都给它new 一个paint ，但是这里我还没有找到更好的办法，也需要优化</p>
+<p>####3、关于扩展性的问题，目前这个Demo仅提供了三种的功能，后续会加上返回上一步，设置笔的颜色和宽度，在手指抬起来自动生成一张bitmap，设置画布等功能</p>
+<p>#Git地址，欢迎点赞，欢迎提问，谢谢：<a href="https://github.com/Shimingli/WritingPen" target="_blank" rel="noopener">https://github.com/Shimingli/WritingPen</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2017-10-18, 16:34:13</p>
+        <p><span>最后更新:</span>2018-08-14, 16:41:40</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/" title="安卓画笔笔锋的实现探索（二）">http://yoursite.com/2017/10/18/安卓画笔笔锋的实现探索（二）/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/10/18/安卓画笔笔锋的实现探索（二）/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/01/25/2018/">
+                    2018年
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">
+                    自己实现Jni，生成so库，实现高效率的高斯模糊效果
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3"><span class="toc-number">1.</span> <span class="toc-text">1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、水彩笔效果一"><span class="toc-number">2.</span> <span class="toc-text">2、水彩笔效果一</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"安卓画笔笔锋的实现探索（二）　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/01/25/2018/" title="上一篇: 2018年">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/" title="下一篇: 自己实现Jni，生成so库，实现高效率的高斯模糊效果">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

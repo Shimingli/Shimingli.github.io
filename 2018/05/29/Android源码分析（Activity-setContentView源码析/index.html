@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="源码基于安卓8.0分析结果 为什么要写这篇文章？其实是给这个LayoutInflater类铺垫的，要解释这个LayoutInflater源码，就必须知道到底怎么调用的，包括include、merge、ViewStub和原理，如何自己撸一个大小为0的View，我们最能够接触到的地方都是这个方法。">
+<meta name="keywords" content="Android源码,setContentView源码解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android源码分析（Activity.setContentView源码解析）">
+<meta property="og:url" content="http://yoursite.com/2018/05/29/Android源码分析（Activity-setContentView源码析/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="源码基于安卓8.0分析结果 为什么要写这篇文章？其实是给这个LayoutInflater类铺垫的，要解释这个LayoutInflater源码，就必须知道到底怎么调用的，包括include、merge、ViewStub和原理，如何自己撸一个大小为0的View，我们最能够接触到的地方都是这个方法。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-3b2398a0279d9f2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-3f154f2c0c8949eb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-9df8b669f6fc9174.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:47:24.898Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android源码分析（Activity.setContentView源码解析）">
+<meta name="twitter:description" content="源码基于安卓8.0分析结果 为什么要写这篇文章？其实是给这个LayoutInflater类铺垫的，要解释这个LayoutInflater源码，就必须知道到底怎么调用的，包括include、merge、ViewStub和原理，如何自己撸一个大小为0的View，我们最能够接触到的地方都是这个方法。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-3b2398a0279d9f2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Android源码分析（Activity.setContentView源码解析） | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Android源码分析（Activity-setContentView源码析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/29/Android源码分析（Activity-setContentView源码析/" class="article-date">
+      <time datetime="2018-05-29T08:14:28.000Z" itemprop="datePublished">2018-05-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android源码分析（Activity.setContentView源码解析）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="源码基于安卓8-0分析结果"><a href="#源码基于安卓8-0分析结果" class="headerlink" title="源码基于安卓8.0分析结果"></a>源码基于安卓8.0分析结果</h2><ul>
+<li>为什么要写这篇文章？其实是给这个LayoutInflater类铺垫的，要解释这个LayoutInflater源码，就必须知道到底怎么调用的，包括include、merge、ViewStub和原理，如何自己撸一个大小为0的View，我们最能够接触到的地方都是这个方法。<a id="more"></a></li>
+<li><p>调用的是AppCompatActivity的setContentView（）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void setContentView(@LayoutRes int layoutResID) &#123;</span><br><span class="line">    getDelegate().setContentView(layoutResID);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意下getDelegate（）方法中的AppCompatDelegate.create(this,this)，传入的是this，也就是Activity的本身，这里不会讲到，但是在讲到View的绘制流程，需要明白初始化传入的是什么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@NonNull</span><br><span class="line">  public AppCompatDelegate getDelegate() &#123;</span><br><span class="line">      if (mDelegate == null) &#123;</span><br><span class="line">          mDelegate = AppCompatDelegate.create(this, this);</span><br><span class="line">      &#125;</span><br><span class="line">      return mDelegate;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>去找实现的类，AppCompatDelegateImplV9<br><img src="https://upload-images.jianshu.io/upload_images/5363507-3b2398a0279d9f2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void setContentView(View v) &#123;</span><br><span class="line">      ensureSubDecor();</span><br><span class="line">      ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);</span><br><span class="line">      contentParent.removeAllViews();</span><br><span class="line">      contentParent.addView(v);</span><br><span class="line">      mOriginalWindowCallback.onContentChanged();</span><br><span class="line">  &#125;</span><br><span class="line">  @Override</span><br><span class="line">  public void setContentView(View v, ViewGroup.LayoutParams lp) &#123;</span><br><span class="line">      ensureSubDecor();</span><br><span class="line">      ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);</span><br><span class="line">      contentParent.removeAllViews();</span><br><span class="line">      contentParent.addView(v, lp);</span><br><span class="line">      mOriginalWindowCallback.onContentChanged();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其中这种方法在实际的使用过程中，是最常见方法，核心的方法会调用到 LayoutInflater.from(mContext).inflate(resId, contentParent);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void setContentView(int resId) &#123;</span><br><span class="line">    ensureSubDecor();</span><br><span class="line">    ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);</span><br><span class="line">    contentParent.removeAllViews();</span><br><span class="line">    LayoutInflater.from(mContext).inflate(resId, contentParent);</span><br><span class="line">    mOriginalWindowCallback.onContentChanged();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ensureSubDecor();不管使用哪种的setContentView都会调用这个方法</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">private void ensureSubDecor() &#123;</span><br><span class="line">     if (!mSubDecorInstalled) &#123;</span><br><span class="line">         // TODO: 2018/5/23 关键的方法</span><br><span class="line">         mSubDecor = createSubDecor();</span><br><span class="line"></span><br><span class="line">         // If a title was set before we installed the decor, propagate it now</span><br><span class="line">         // TODO: 2018/5/23 2、如果我们在布局前安装了一个标题，现在就把它传播出去。</span><br><span class="line">         CharSequence title = getTitle();</span><br><span class="line">         if (!TextUtils.isEmpty(title)) &#123;</span><br><span class="line">             onTitleChanged(title);</span><br><span class="line">         &#125;</span><br><span class="line">         // TODO: 2018/5/23  3、适配尺寸在设备上，一些参数的初始化</span><br><span class="line">         applyFixedSizeWindow();</span><br><span class="line">         // TODO: 2018/5/23 4、空实现，我也不知道做啥的</span><br><span class="line">         onSubDecorInstalled(mSubDecor);</span><br><span class="line"></span><br><span class="line">         mSubDecorInstalled = true;</span><br><span class="line"></span><br><span class="line">         // Invalidate if the panel menu hasn&apos;t been created before this.</span><br><span class="line">         // Panel menu invalidation is deferred avoiding application onCreateOptionsMenu</span><br><span class="line">         // being called in the middle of onCreate or similar.</span><br><span class="line">         // A pending invalidation will typically be resolved before the posted message</span><br><span class="line">         // would run normally in order to satisfy instance state restoration.</span><br><span class="line">         // TODO: 2018/5/23 5、目前我也不知道做啥的，需要详细的研究</span><br><span class="line">         PanelFeatureState st = getPanelState(FEATURE_OPTIONS_PANEL, false);</span><br><span class="line">         if (!isDestroyed() &amp;&amp; (st == null || st.menu == null)) &#123;</span><br><span class="line">             invalidatePanelMenu(FEATURE_SUPPORT_ACTION_BAR);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>关于标记mSubDecorInstalled，可以这样的理解，当已经给Activity设置了一个layout，在设置的就会报错，这个标记就是来做这个的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// true if we have installed a window sub-decor layout.</span><br><span class="line">  private boolean mSubDecorInstalled;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>关于createSubDecor（）方法，这也是最关键的方法在setContentview的过程中<br>createSubDecor()方法的解析</li>
+<li><p>1、获取系统的TypedArray,系统主题，而且哇，找不到的话，抛出异常的同时，而且释放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//1、获取系统的TypedArray</span><br><span class="line">       TypedArray a = mContext.obtainStyledAttributes(R.styleable.AppCompatTheme);</span><br><span class="line">       //2、系统主题，而且哇，找不到的话，抛出异常的同时，而且释放</span><br><span class="line">       if (!a.hasValue(R.styleable.AppCompatTheme_windowActionBar)) &#123;</span><br><span class="line">           a.recycle();</span><br><span class="line">           throw new IllegalStateException(</span><br><span class="line">                   &quot;You need to use a Theme.AppCompat theme (or descendant) with this activity.&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">  if (a.getBoolean(R.styleable.AppCompatTheme_windowNoTitle, false)) &#123;</span><br><span class="line">           requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">       &#125; else if (a.getBoolean(R.styleable.AppCompatTheme_windowActionBar, false)) &#123;</span><br><span class="line">           // Don&apos;t allow an action bar if there is no title.</span><br><span class="line">           requestWindowFeature(FEATURE_SUPPORT_ACTION_BAR);</span><br><span class="line">       &#125;</span><br><span class="line">       if (a.getBoolean(R.styleable.AppCompatTheme_windowActionBarOverlay, false)) &#123;</span><br><span class="line">           requestWindowFeature(FEATURE_SUPPORT_ACTION_BAR_OVERLAY);</span><br><span class="line">       &#125;</span><br><span class="line">       if (a.getBoolean(R.styleable.AppCompatTheme_windowActionModeOverlay, false)) &#123;</span><br><span class="line">           requestWindowFeature(FEATURE_ACTION_MODE_OVERLAY);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、读取一个系统的属性android:windowIsFloating，记得释放recycle（），要不然这比消耗性能的很  mIsFloating表示浮在屏幕上的，如果在这里使用了，整个layout就会在 屏幕中心，相当于浮在屏幕上，所以这个只适用于dialog，Activity也可以是Dialog的样子.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mIsFloating = a.getBoolean(R.styleable.AppCompatTheme_android_windowIsFloating, false);</span><br><span class="line">    a.recycle();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、调用了 mWindow.getDecorView();通过代码可以发现，PhoneWindow( Window的唯一的子类)，这个方法其实就是准备好根布局，这个根布局是DecorView，一个FrameLayout，他是把一个垂直方向的LinearLayout。addView到DecorView中，当然涉及到好多初始化，和系统的设置的属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public void setContentView(@LayoutRes int layoutResID) &#123;</span><br><span class="line">      getDelegate().setContentView(layoutResID);</span><br><span class="line">    &#125;</span><br><span class="line">    //todo 这里传入的是this，就是Activity的本身</span><br><span class="line">        @NonNull</span><br><span class="line">  public AppCompatDelegate getDelegate() &#123;</span><br><span class="line">      if (mDelegate == null) &#123;</span><br><span class="line">          mDelegate = AppCompatDelegate.create(this, this);</span><br><span class="line">      &#125;</span><br><span class="line">      return mDelegate;</span><br><span class="line">  &#125;</span><br><span class="line">   //todo 这里就是本身了 PhoneWindow  Window的唯一的子类</span><br><span class="line">     public static AppCompatDelegate create(Activity activity, AppCompatCallback callback) &#123;</span><br><span class="line">      return create(activity, activity.getWindow(), callback);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">     private static AppCompatDelegate create(Context context, Window window,</span><br><span class="line">          AppCompatCallback callback) &#123;</span><br><span class="line">      if (Build.VERSION.SDK_INT &gt;= 24) &#123;</span><br><span class="line">          return new AppCompatDelegateImplN(context, window, callback);</span><br><span class="line">      &#125; else if (Build.VERSION.SDK_INT &gt;= 23) &#123;</span><br><span class="line">          return new AppCompatDelegateImplV23(context, window, callback);</span><br><span class="line">      &#125; else if (Build.VERSION.SDK_INT &gt;= 14) &#123;</span><br><span class="line">          return new AppCompatDelegateImplV14(context, window, callback);</span><br><span class="line">      &#125; else if (Build.VERSION.SDK_INT &gt;= 11) &#123;</span><br><span class="line">          return new AppCompatDelegateImplV11(context, window, callback);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">    //  todo V9 基类的第二层 就在这里</span><br><span class="line">          return new AppCompatDelegateImplV9(context, window, callback);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>####我们着重来关心下这个方法 mWindow.getDecorView();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mWindow.getDecorView();</span><br></pre></td></tr></table></figure></p>
+<p>其实就是调用的是PhoneWindow的getDecorView<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public final View getDecorView() &#123;</span><br><span class="line">     if (mDecor == null) &#123;</span><br><span class="line">         installDecor();</span><br><span class="line">     &#125;</span><br><span class="line">     return mDecor;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>###关于PhoneWindow中的installDecor()；这个方法特别有意思，如果看到这个来了，你可以知道一下挖出好多源码级的东西</p>
+<ul>
+<li><p>获取DecorView，然后他是一个FrameLayout–&gt; new DecorView(getContext(), -1);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private void installDecor() &#123;</span><br><span class="line">       if (mDecor == null) &#123;</span><br><span class="line">           //获取DecorView，然后他是一个FrameLayout</span><br><span class="line">           mDecor = generateDecor();</span><br><span class="line">           mDecor.setIsRootNamespace(true);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其实这里就是给DecorView设置其他的系统属性，这两行代码是generateLayout的里面的</p>
+</li>
+<li><p>系统的第一种根布局com.android.internal.R.layout.screen_title：LinearLayout 布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:orientation=&quot;vertical&quot; android:fitsSystemWindows=&quot;true&quot;&gt;</span><br><span class="line">&lt;!--  Popout bar for action modes  --&gt;</span><br><span class="line"> &lt;ViewStub android:id=&quot;@+id/action_mode_bar_stub&quot; android:inflatedId=&quot;@+id/action_mode_bar&quot; android:layout=&quot;@layout/action_mode_bar&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:theme=&quot;?attr/actionBarTheme&quot;/&gt;</span><br><span class="line">&lt;FrameLayout android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;?android:attr/windowTitleSize&quot; style=&quot;?android:attr/windowTitleBackgroundStyle&quot;&gt;</span><br><span class="line"> &lt;TextView android:id=&quot;@android:id/title&quot; style=&quot;?android:attr/windowTitleStyle&quot; android:background=&quot;@null&quot; android:fadingEdge=&quot;horizontal&quot; android:gravity=&quot;center_vertical&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot;/&gt;</span><br><span class="line"> &lt;/FrameLayout&gt;</span><br><span class="line"> &lt;FrameLayout android:id=&quot;@android:id/content&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;0dip&quot; android:layout_weight=&quot;1&quot; android:foregroundGravity=&quot;fill_horizontal|top&quot; android:foreground=&quot;?android:attr/windowContentOverlay&quot;/&gt;</span><br><span class="line"> &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>系统的第一种根布局com.android.internal.R.layout.screen_simple_title：LinearLayout 布局</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:fitsSystemWindows=&quot;true&quot; android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line">&lt;ViewStub android:id=&quot;@+id/action_mode_bar_stub&quot; android:inflatedId=&quot;@+id/action_mode_bar&quot; android:layout=&quot;@layout/action_mode_bar&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:theme=&quot;?attr/actionBarTheme&quot;/&gt;</span><br><span class="line">&lt;FrameLayout android:id=&quot;@android:id/content&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:foregroundInsidePadding=&quot;false&quot; android:foregroundGravity=&quot;fill_horizontal|top&quot; android:foreground=&quot;?android:attr/windowContentOverlay&quot;/&gt;</span><br><span class="line"> &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>通过两种根布局的对比，其实其他的布局也差不多是这样子的。也可以得出Activity的根布局是个LinearLayout  并且方向是vertical的.，在把这个根布局加到DecorView中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> View in = mLayoutInflater.inflate(layoutResource, null);</span><br><span class="line">decor.addView(in, new ViewGroup.LayoutParams(FILL_PARENT, FILL_PARENT));</span><br></pre></td></tr></table></figure></p>
+<p>然后呢，DecorView.addView（）到布局中，这里就做到了设备的适配的，而不是在底层设置好一个布局就行了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (mContentParent == null) &#123;</span><br><span class="line">    mContentParent = generateLayout(mDecor);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>mTitleView = (TextView)findViewById(com.android.internal.R.id.title);当看到这一行代码的时候，我有点疑惑title好像一定找的到似的，没有注意到下面的代码。通过源码发现在View.findViewById()找不到会返回null，这里也判断了找不到这个title的情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">        //这里我有疑惑，看样子这个id。title好像一定找的到似的</span><br><span class="line">        //麻痹，老子去找源码在View.findViewById()找不到会返回null</span><br><span class="line">        //这里的意思就是我找的到这个titleView我就设置title过去，或者是没有titile设置不可见</span><br><span class="line">        mTitleView = (TextView)findViewById(com.android.internal.R.id.title);</span><br><span class="line">        if (mTitleView != null) &#123;</span><br><span class="line">            if ((getLocalFeatures() &amp; (1 &lt;&lt; FEATURE_NO_TITLE)) != 0) &#123;</span><br><span class="line">                View titleContainer = findViewById(com.android.internal.R.id.title_container);</span><br><span class="line">                if (titleContainer != null) &#123;</span><br><span class="line">                    titleContainer.setVisibility(View.GONE);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    mTitleView.setVisibility(View.GONE);</span><br><span class="line">                &#125;</span><br><span class="line">                if (mContentParent instanceof FrameLayout) &#123;</span><br><span class="line">                    ((FrameLayout)mContentParent).setForeground(null);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                mTitleView.setText(mTitle);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4关键的还是LayoutInflater这个类,说明Activity.setContentView最后也会调用到这里来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">final LayoutInflater inflater = LayoutInflater.from(mContext);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5、一些设置:dialog式的Activity  Window.FEATURE_NO_TITLE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">if (!mWindowNoTitle) &#123;</span><br><span class="line">          if (mIsFloating) &#123;</span><br><span class="line">              subDecor = (ViewGroup) inflater.inflate(</span><br><span class="line">                      R.layout.abc_dialog_title_material, null);</span><br><span class="line">              mHasActionBar = mOverlayActionBar = false;</span><br><span class="line">          &#125; else if (mHasActionBar) &#123;</span><br><span class="line">              //第六步：这需要一些解释。因为我们不能使用Android：主题属性pre-L，我手动的创建一个布局</span><br><span class="line">              // 填充器使用theme指向actionBar的主题，同时也找到了subDecor  ---》</span><br><span class="line">              // 现在使用主题上下文膨胀视图并将其设置为内容视图。</span><br><span class="line">              TypedValue outValue = new TypedValue();</span><br><span class="line">              mContext.getTheme().resolveAttribute(R.attr.actionBarTheme, outValue, true);</span><br><span class="line"></span><br><span class="line">              Context themedContext;</span><br><span class="line">              if (outValue.resourceId != 0) &#123;</span><br><span class="line">                  themedContext = new ContextThemeWrapper(mContext, outValue.resourceId);</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  themedContext = mContext;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              // Now inflate the view using the themed context and set it as the content view</span><br><span class="line">              subDecor = (ViewGroup) LayoutInflater.from(themedContext)</span><br><span class="line">                      .inflate(R.layout.abc_screen_toolbar, null);</span><br><span class="line"></span><br><span class="line">              mDecorContentParent = (DecorContentParent) subDecor</span><br><span class="line">                      .findViewById(R.id.decor_content_parent);</span><br><span class="line">              mDecorContentParent.setWindowCallback(getWindowCallback());</span><br><span class="line"></span><br><span class="line">              /**</span><br><span class="line">               * Propagate features to DecorContentParent</span><br><span class="line">               */</span><br><span class="line">              if (mOverlayActionBar) &#123;</span><br><span class="line">                  mDecorContentParent.initFeature(FEATURE_SUPPORT_ACTION_BAR_OVERLAY);</span><br><span class="line">              &#125;</span><br><span class="line">              if (mFeatureProgress) &#123;</span><br><span class="line">                  mDecorContentParent.initFeature(Window.FEATURE_PROGRESS);</span><br><span class="line">              &#125;</span><br><span class="line">              if (mFeatureIndeterminateProgress) &#123;</span><br><span class="line">                  mDecorContentParent.initFeature(Window.FEATURE_INDETERMINATE_PROGRESS);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          //第七步：如果设置了Window.FEATURE_NO_TITLE---》mWindowNoTitle==true</span><br><span class="line">          // 走到这个循环中，也是会设置初始化这个subDecor</span><br><span class="line">          if (mOverlayActionMode) &#123;</span><br><span class="line">              subDecor = (ViewGroup) inflater.inflate(</span><br><span class="line">                      R.layout.abc_screen_simple_overlay_action_mode, null);</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              subDecor = (ViewGroup) inflater.inflate(R.layout.abc_screen_simple, null);</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6 、对高版本适配:实现 Android 5.0 以上的插图效果的,可以明确的看到安卓5.0是个分界点，是不是在开发的过程中，安卓5.0上提供了好多系统的风格，这也是谷歌工程师Design的开始<br>Android 7.0    24    N<br>Android 6.0    23    M<br>Android 5.1    22    LOLLIPOP_MR1<br>Android 5.0    21    LOLLIPOP<br>Android 4.4W    20    KITKAT_WATCH<br>Android 4.4    19    KITKAT<br>Android 4.3    18    JELLY_BEAN_MR2<br>Android 4.2、4.2.2    17    JELLY_BEAN_MR1 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">//第八步对高版本适配：ViewCompat.setOnApplyWindowInsetsListener()</span><br><span class="line"> // 原来就是为了实现 Android 5.0 以上的插图效果的。</span><br><span class="line"> if (Build.VERSION.SDK_INT &gt;= 21) &#123;</span><br><span class="line">     // If we&apos;re running on L or above, we can rely on ViewCompat&apos;s</span><br><span class="line">     // setOnApplyWindowInsetsListener</span><br><span class="line">     ViewCompat.setOnApplyWindowInsetsListener(subDecor,</span><br><span class="line">             new OnApplyWindowInsetsListener() &#123;</span><br><span class="line">                 @Override</span><br><span class="line">                 public WindowInsetsCompat onApplyWindowInsets(View v,</span><br><span class="line">                         WindowInsetsCompat insets) &#123;</span><br><span class="line">                     final int top = insets.getSystemWindowInsetTop();</span><br><span class="line">                     final int newTop = updateStatusGuard(top);</span><br><span class="line"></span><br><span class="line">                     if (top != newTop) &#123;</span><br><span class="line">                         insets = insets.replaceSystemWindowInsets(</span><br><span class="line">                                 insets.getSystemWindowInsetLeft(),</span><br><span class="line">                                 newTop,</span><br><span class="line">                                 insets.getSystemWindowInsetRight(),</span><br><span class="line">                                 insets.getSystemWindowInsetBottom());</span><br><span class="line">                     &#125;</span><br><span class="line"></span><br><span class="line">                     // Now apply the insets on our view</span><br><span class="line">                     return ViewCompat.onApplyWindowInsets(v, insets);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;);</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">     // Else, we need to use our own FitWindowsViewGroup handling</span><br><span class="line">     ((FitWindowsViewGroup) subDecor).setOnFitSystemWindowsListener(</span><br><span class="line">             new FitWindowsViewGroup.OnFitSystemWindowsListener() &#123;</span><br><span class="line">                 @Override</span><br><span class="line">                 public void onFitSystemWindows(Rect insets) &#123;</span><br><span class="line">                     insets.top = updateStatusGuard(insets.top);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>7  mWindow.setContentView(subDecor);方法，底层还是调用的PhoneWindow的setContentVeiw的方法:通过前面我们的分析PhoneWindow.getDecorView()的方法会提前在AppCompatDelegateImplV9.createSubDecor()方法中调用，所以这里mContentParent 不会为null.</p>
+<ul>
+<li>关键方法，一定走到这里来了，后续分析inflate的源码   mLayoutInflater.inflate(layoutResID, mContentParent)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void setContentView(int layoutResID) &#123;</span><br><span class="line">      //通过前面我们的分析PhoneWindow.getDecorView()的方法会提前在AppCompatDelegateImplV9.createSubDecor()方法中调用，所以这里mContentParent 不会为null</span><br><span class="line">      if (mContentParent == null) &#123;</span><br><span class="line">          installDecor();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          //会走到这里来</span><br><span class="line">          mContentParent.removeAllViews();</span><br><span class="line">      &#125;</span><br><span class="line">      // TODO: 2018/5/29  关键方法，一定走到这里来了，后续分析inflate的源码 </span><br><span class="line">      mLayoutInflater.inflate(layoutResID, mContentParent);</span><br><span class="line">      final Callback cb = getCallback();</span><br><span class="line">      if (cb != null) &#123;</span><br><span class="line">          cb.onContentChanged();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>###createSubDecor()方法的代码如下，如果要深入理解的话，还是建议自己走源码一遍，这样理解的更加的透彻，哈哈~~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line"> private ViewGroup createSubDecor() &#123;</span><br><span class="line">        //1、获取系统的TypedArray</span><br><span class="line">        TypedArray a = mContext.obtainStyledAttributes(R.styleable.AppCompatTheme);</span><br><span class="line">        //2、系统主题，而且哇，找不到的话，抛出异常的同时，而且释放</span><br><span class="line">        if (!a.hasValue(R.styleable.AppCompatTheme_windowActionBar)) &#123;</span><br><span class="line">            a.recycle();</span><br><span class="line">            throw new IllegalStateException(</span><br><span class="line">                    &quot;You need to use a Theme.AppCompat theme (or descendant) with this activity.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (a.getBoolean(R.styleable.AppCompatTheme_windowNoTitle, false)) &#123;</span><br><span class="line">            requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">        &#125; else if (a.getBoolean(R.styleable.AppCompatTheme_windowActionBar, false)) &#123;</span><br><span class="line">            // Don&apos;t allow an action bar if there is no title.</span><br><span class="line">            requestWindowFeature(FEATURE_SUPPORT_ACTION_BAR);</span><br><span class="line">        &#125;</span><br><span class="line">        if (a.getBoolean(R.styleable.AppCompatTheme_windowActionBarOverlay, false)) &#123;</span><br><span class="line">            requestWindowFeature(FEATURE_SUPPORT_ACTION_BAR_OVERLAY);</span><br><span class="line">        &#125;</span><br><span class="line">        if (a.getBoolean(R.styleable.AppCompatTheme_windowActionModeOverlay, false)) &#123;</span><br><span class="line">            requestWindowFeature(FEATURE_ACTION_MODE_OVERLAY);</span><br><span class="line">        &#125;</span><br><span class="line">        /*</span><br><span class="line">        第二步，读取一个系统的属性android:windowIsFloating，记得释放recycle（），</span><br><span class="line">        要不然这比消耗性能的很  mIsFloating表示浮在屏幕上的，如果在这里使用了，</span><br><span class="line">        整个layout就会在 屏幕中心，相当于浮在屏幕上，所以这个只适用于dialog，Activity也可以是Dialog的样子</span><br><span class="line">         */</span><br><span class="line">        // TODO: 2018/5/23  大概相当于一个 dialog式的Activity</span><br><span class="line">        mIsFloating = a.getBoolean(R.styleable.AppCompatTheme_android_windowIsFloating, false);</span><br><span class="line">        a.recycle();</span><br><span class="line"></span><br><span class="line">        // Now let&apos;s make sure that the Window has installed its decor by retrieving it</span><br><span class="line">        /*</span><br><span class="line">     @Override</span><br><span class="line">      public void setContentView(@LayoutRes int layoutResID) &#123;</span><br><span class="line">        getDelegate().setContentView(layoutResID);</span><br><span class="line">      &#125;</span><br><span class="line">      todo 这里传入的是this，就是Activity的本身</span><br><span class="line">          @NonNull</span><br><span class="line">    public AppCompatDelegate getDelegate() &#123;</span><br><span class="line">        if (mDelegate == null) &#123;</span><br><span class="line">            mDelegate = AppCompatDelegate.create(this, this);</span><br><span class="line">        &#125;</span><br><span class="line">        return mDelegate;</span><br><span class="line">    &#125;</span><br><span class="line">     todo 这里就是本身了 PhoneWindow  Window的唯一的子类</span><br><span class="line">       public static AppCompatDelegate create(Activity activity, AppCompatCallback callback) &#123;</span><br><span class="line">        return create(activity, activity.getWindow(), callback);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">       private static AppCompatDelegate create(Context context, Window window,</span><br><span class="line">            AppCompatCallback callback) &#123;</span><br><span class="line">        if (Build.VERSION.SDK_INT &gt;= 24) &#123;</span><br><span class="line">            return new AppCompatDelegateImplN(context, window, callback);</span><br><span class="line">        &#125; else if (Build.VERSION.SDK_INT &gt;= 23) &#123;</span><br><span class="line">            return new AppCompatDelegateImplV23(context, window, callback);</span><br><span class="line">        &#125; else if (Build.VERSION.SDK_INT &gt;= 14) &#123;</span><br><span class="line">            return new AppCompatDelegateImplV14(context, window, callback);</span><br><span class="line">        &#125; else if (Build.VERSION.SDK_INT &gt;= 11) &#123;</span><br><span class="line">            return new AppCompatDelegateImplV11(context, window, callback);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">        todo V9 基类的第二层 就在这里</span><br><span class="line">            return new AppCompatDelegateImplV9(context, window, callback);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">         */</span><br><span class="line">        // TODO: 2018/5/23  这个就是一个PhoneWindow的类</span><br><span class="line">        mWindow.getDecorView();</span><br><span class="line">        //关键的还是inflate这个类</span><br><span class="line">        final LayoutInflater inflater = LayoutInflater.from(mContext);</span><br><span class="line">        ViewGroup subDecor = null;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        if (!mWindowNoTitle) &#123;</span><br><span class="line">            if (mIsFloating) &#123;</span><br><span class="line">                // If we&apos;re floating, inflate the dialog title decor</span><br><span class="line">//                第五步，dialog式的Activity  Window.FEATURE_NO_TITLE</span><br><span class="line">// 设置为false的话，就是不设置，一般都会走到下面的那个循环中，请看第六步</span><br><span class="line">                subDecor = (ViewGroup) inflater.inflate(</span><br><span class="line">                        R.layout.abc_dialog_title_material, null);</span><br><span class="line"></span><br><span class="line">                // Floating windows can never have an action bar, reset the flags</span><br><span class="line">                mHasActionBar = mOverlayActionBar = false;</span><br><span class="line">            &#125; else if (mHasActionBar) &#123;</span><br><span class="line">                /**</span><br><span class="line">                 * This needs some explanation. As we can not use the android:theme attribute</span><br><span class="line">                 * pre-L, we emulate it by manually creating a LayoutInflater using a</span><br><span class="line">                 * ContextThemeWrapper pointing to actionBarTheme.</span><br><span class="line">                 */</span><br><span class="line">                //第六步：这需要一些解释。因为我们不能使用Android：主题属性pre-L，我手动的创建一个布局</span><br><span class="line">                // 填充器使用theme指向actionBar的主题，同时也找到了subDecor  ---》</span><br><span class="line">                // 现在使用主题上下文膨胀视图并将其设置为内容视图。</span><br><span class="line">                TypedValue outValue = new TypedValue();</span><br><span class="line">                mContext.getTheme().resolveAttribute(R.attr.actionBarTheme, outValue, true);</span><br><span class="line"></span><br><span class="line">                Context themedContext;</span><br><span class="line">                if (outValue.resourceId != 0) &#123;</span><br><span class="line">                    themedContext = new ContextThemeWrapper(mContext, outValue.resourceId);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    themedContext = mContext;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // Now inflate the view using the themed context and set it as the content view</span><br><span class="line">                subDecor = (ViewGroup) LayoutInflater.from(themedContext)</span><br><span class="line">                        .inflate(R.layout.abc_screen_toolbar, null);</span><br><span class="line"></span><br><span class="line">                mDecorContentParent = (DecorContentParent) subDecor</span><br><span class="line">                        .findViewById(R.id.decor_content_parent);</span><br><span class="line">                mDecorContentParent.setWindowCallback(getWindowCallback());</span><br><span class="line"></span><br><span class="line">                /**</span><br><span class="line">                 * Propagate features to DecorContentParent</span><br><span class="line">                 */</span><br><span class="line">                if (mOverlayActionBar) &#123;</span><br><span class="line">                    mDecorContentParent.initFeature(FEATURE_SUPPORT_ACTION_BAR_OVERLAY);</span><br><span class="line">                &#125;</span><br><span class="line">                if (mFeatureProgress) &#123;</span><br><span class="line">                    mDecorContentParent.initFeature(Window.FEATURE_PROGRESS);</span><br><span class="line">                &#125;</span><br><span class="line">                if (mFeatureIndeterminateProgress) &#123;</span><br><span class="line">                    mDecorContentParent.initFeature(Window.FEATURE_INDETERMINATE_PROGRESS);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            //第七步：如果设置了Window.FEATURE_NO_TITLE---》mWindowNoTitle==true</span><br><span class="line">            // 走到这个循环中，也是会设置初始化这个subDecor</span><br><span class="line">            if (mOverlayActionMode) &#123;</span><br><span class="line">                subDecor = (ViewGroup) inflater.inflate(</span><br><span class="line">                        R.layout.abc_screen_simple_overlay_action_mode, null);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                subDecor = (ViewGroup) inflater.inflate(R.layout.abc_screen_simple, null);</span><br><span class="line">            &#125;</span><br><span class="line">           //第八步对高版本适配：ViewCompat.setOnApplyWindowInsetsListener()</span><br><span class="line">            // 原来就是为了实现 Android 5.0 以上的插图效果的。</span><br><span class="line">            if (Build.VERSION.SDK_INT &gt;= 21) &#123;</span><br><span class="line">                // If we&apos;re running on L or above, we can rely on ViewCompat&apos;s</span><br><span class="line">                // setOnApplyWindowInsetsListener</span><br><span class="line"></span><br><span class="line">                /*</span><br><span class="line">Android 7.0	24	N	平台亮点</span><br><span class="line">Android 6.0	23	M	平台亮点</span><br><span class="line">Android 5.1	22	LOLLIPOP_MR1	平台亮点</span><br><span class="line">Android 5.0	21	LOLLIPOP</span><br><span class="line">Android 4.4W	20	KITKAT_WATCH	仅限 KitKat for Wearables</span><br><span class="line">Android 4.4	19	KITKAT	平台亮点</span><br><span class="line">Android 4.3	18	JELLY_BEAN_MR2	平台亮点</span><br><span class="line">Android 4.2、4.2.2	17	JELLY_BEAN_MR1	平台亮点</span><br><span class="line">                 */</span><br><span class="line">                ViewCompat.setOnApplyWindowInsetsListener(subDecor,</span><br><span class="line">                        new OnApplyWindowInsetsListener() &#123;</span><br><span class="line">                            @Override</span><br><span class="line">                            public WindowInsetsCompat onApplyWindowInsets(View v,</span><br><span class="line">                                    WindowInsetsCompat insets) &#123;</span><br><span class="line">                                final int top = insets.getSystemWindowInsetTop();</span><br><span class="line">                                final int newTop = updateStatusGuard(top);</span><br><span class="line"></span><br><span class="line">                                if (top != newTop) &#123;</span><br><span class="line">                                    insets = insets.replaceSystemWindowInsets(</span><br><span class="line">                                            insets.getSystemWindowInsetLeft(),</span><br><span class="line">                                            newTop,</span><br><span class="line">                                            insets.getSystemWindowInsetRight(),</span><br><span class="line">                                            insets.getSystemWindowInsetBottom());</span><br><span class="line">                                &#125;</span><br><span class="line"></span><br><span class="line">                                // Now apply the insets on our view</span><br><span class="line">                                return ViewCompat.onApplyWindowInsets(v, insets);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // Else, we need to use our own FitWindowsViewGroup handling</span><br><span class="line">                ((FitWindowsViewGroup) subDecor).setOnFitSystemWindowsListener(</span><br><span class="line">                        new FitWindowsViewGroup.OnFitSystemWindowsListener() &#123;</span><br><span class="line">                            @Override</span><br><span class="line">                            public void onFitSystemWindows(Rect insets) &#123;</span><br><span class="line">                                insets.top = updateStatusGuard(insets.top);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (subDecor == null) &#123;</span><br><span class="line">            throw new IllegalArgumentException(</span><br><span class="line">                    &quot;AppCompat does not support the current theme features: &#123; &quot;</span><br><span class="line">                            + &quot;windowActionBar: &quot; + mHasActionBar</span><br><span class="line">                            + &quot;, windowActionBarOverlay: &quot;+ mOverlayActionBar</span><br><span class="line">                            + &quot;, android:windowIsFloating: &quot; + mIsFloating</span><br><span class="line">                            + &quot;, windowActionModeOverlay: &quot; + mOverlayActionMode</span><br><span class="line">                            + &quot;, windowNoTitle: &quot; + mWindowNoTitle</span><br><span class="line">                            + &quot; &#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (mDecorContentParent == null) &#123;</span><br><span class="line">            mTitleView = (TextView) subDecor.findViewById(R.id.title);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Make the decor optionally fit system windows, like the window&apos;s decor</span><br><span class="line">        ViewUtils.makeOptionalFitsSystemWindows(subDecor);</span><br><span class="line"></span><br><span class="line">        final ContentFrameLayout contentView = (ContentFrameLayout) subDecor.findViewById(</span><br><span class="line">                R.id.action_bar_activity_content);</span><br><span class="line"></span><br><span class="line">        final ViewGroup windowContentView = (ViewGroup) mWindow.findViewById(android.R.id.content);</span><br><span class="line">        if (windowContentView != null) &#123;</span><br><span class="line">            // There might be Views already added to the Window&apos;s content view so we need to</span><br><span class="line">            // migrate them to our content view</span><br><span class="line">            while (windowContentView.getChildCount() &gt; 0) &#123;</span><br><span class="line">                final View child = windowContentView.getChildAt(0);</span><br><span class="line">                windowContentView.removeViewAt(0);</span><br><span class="line">                contentView.addView(child);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // Change our content FrameLayout to use the android.R.id.content id.</span><br><span class="line">            // Useful for fragments.</span><br><span class="line">            windowContentView.setId(View.NO_ID);</span><br><span class="line">            contentView.setId(android.R.id.content);</span><br><span class="line"></span><br><span class="line">            // The decorContent may have a foreground drawable set (windowContentOverlay).</span><br><span class="line">            // Remove this as we handle it ourselves</span><br><span class="line">            if (windowContentView instanceof FrameLayout) &#123;</span><br><span class="line">                ((FrameLayout) windowContentView).setForeground(null);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Now set the Window&apos;s content view with the decor</span><br><span class="line">        mWindow.setContentView(subDecor);</span><br><span class="line"></span><br><span class="line">        contentView.setAttachListener(new ContentFrameLayout.OnAttachListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onAttachedFromWindow() &#123;&#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onDetachedFromWindow() &#123;</span><br><span class="line">                dismissPopups();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        return subDecor;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后做了一张图<br><img src="https://upload-images.jianshu.io/upload_images/5363507-3f154f2c0c8949eb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Activity.setContentView源码解析.jpg"></li>
+<li><p>说明几点</p>
+<ul>
+<li>1、关键方法：<code>mWindow.getDecorView();</code>的解释，第一步得到DecorView，同时把DecorView根据系统的属性，就是App设置的属性，同时也设置了DecorView.addView(view) ,这里面的view，有很多种，有dialog，<code>com.android.internal.R.layout.screen_title</code>  <code>com.android.internal.R.layout.screen_simple</code>  这些系统的根布局，特点基本上是一个LinearLayout 方向为垂直方法的布局。总结就是得到一个DecorView，并且里面addView（view）了。</li>
+<li><p>2、关键方法<code>mWindow.setContentView(subDecor);</code> PhoneWindow的类里面的<code>setContentView</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   public void setContentView(int layoutResID) &#123;</span><br><span class="line">       //通过前面我们的分析PhoneWindow.getDecorView()的方法会提前在AppCompatDelegateImplV9.createSubDecor()方法中调用，所以这里mContentParent 不会为null</span><br><span class="line">       if (mContentParent == null) &#123;</span><br><span class="line">           installDecor();</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           //会走到这里来</span><br><span class="line">           mContentParent.removeAllViews();</span><br><span class="line">       &#125;</span><br><span class="line">       // TODO: 2018/5/29  关键方法，一定走到这里来了，后续分析inflate的源码</span><br><span class="line">       mLayoutInflater.inflate(layoutResID, mContentParent);</span><br><span class="line">       final Callback cb = getCallback();</span><br><span class="line">       if (cb != null) &#123;</span><br><span class="line">           cb.onContentChanged();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、Activity.setContentView(resId)底层走的方法是  <code>LayoutInflater.from(mContext).inflate(resId, contentParent);</code>这个方法调用了三次，</p>
+<ul>
+<li>第一次调用的时候是在<code>PhoneWindon</code>的<code>generateLayout(DecorView decor)</code>方法，通过<code>getDecorView()</code>这个方法调用的，目的是把，安卓底层提供的布局和decorView相结合<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  View in = mLayoutInflater.inflate(layoutResource, null);</span><br><span class="line">decor.addView(in, new ViewGroup.LayoutParams(FILL_PARENT, FILL_PARENT));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>第二次调用的时候<code>mWindow.setContentView(subDecor);</code>也在PhoneWindon中，具体代码可以看总结的第二点，主要是subDecor的来源,随便找了一个来源的地方，可以看到是v7包下的<code>FitWindowsFragmeLayout</code>,这就解释了，为什么我们没有使用到这个布局，但是打断点可以断进来的原因，如果有心情的小伙伴可以对一个ViewGroup的 <code>onMeasure</code>方法进行断点，可以发现好多有趣的事情，如果断点的得当的话，你可以明白<code>api26：执行2次onMeasure、1次onLayout、1次onDraw</code> ,后续会写篇文章来详细介绍下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.v7.widget.FitWindowsFrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:id=&quot;@+id/action_bar_root&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:fitsSystemWindows=&quot;true&quot;&gt;</span><br><span class="line">&lt;include layout=&quot;@layout/abc_screen_content_include&quot;/&gt;</span><br><span class="line">&lt;android.support.v7.widget.ViewStubCompat android:id=&quot;@+id/action_mode_bar_stub&quot; android:inflatedId=&quot;@+id/action_mode_bar&quot; android:layout=&quot;@layout/abc_action_mode_bar&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot;/&gt;</span><br><span class="line">&lt;/android.support.v7.widget.FitWindowsFrameLayout&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>第三次调用，就是通过<code>AppCompatDelegateImplV9.setContentView</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public void setContentView(int resId) &#123;</span><br><span class="line">     ensureSubDecor();</span><br><span class="line">     ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);</span><br><span class="line">     contentParent.removeAllViews();</span><br><span class="line">     // TODO: 2018/5/23 关键的方法</span><br><span class="line">     LayoutInflater.from(mContext).inflate(resId, contentParent);</span><br><span class="line">     mOriginalWindowCallback.onContentChanged();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>4、Activity.setContentView(view)底层就走了两次<code>LayoutInflater.from(mContext).inflate()</code>,因为这个方法内部没有调用，代码如下,更不没有调用，这个非常有意思，</p>
+<pre><code>@Override
+public void setContentView(View v) {
+    ensureSubDecor();
+    ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);
+    contentParent.removeAllViews();
+    contentParent.addView(v);
+    mOriginalWindowCallback.onContentChanged();
+}
+</code></pre></li>
+<li><p>5、说明Activity根布局是PhoneWindow的DecorView，DecorView继承FrameLayout，只不过通过开发者设置的一些属性，通过DecorView.addView(resId)方法，加载到DecorView中是LinearLayout布局，同时是垂直方向，<code>网上说Activity的根布局是LinearLayout的全都是瞎扯</code>（哈哈，也有可能版本不一样，我这是基于安卓8.0）</p>
+</li>
+<li>随便copy了一张图加以说明，可以看到，根布局是FrameLayout！<br><img src="https://upload-images.jianshu.io/upload_images/5363507-9df8b669f6fc9174.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+<li>6、关于PhoneWindow  Window的唯一子类，个人建议一定要去看下源码，在安卓事件传递，如何从Activity传递到ViewGroup的，也和这个类有关，具体可看这篇文章<a href="https://www.jianshu.com/p/f7e3a14daf51" target="_blank" rel="noopener">Android源码分析(事件传递)</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-05-29, 16:14:28</p>
+        <p><span>最后更新:</span>2018-08-14, 16:47:24</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/" title="Android源码分析（Activity.setContentView源码解析）">http://yoursite.com/2018/05/29/Android源码分析（Activity-setContentView源码析/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/05/29/Android源码分析（Activity-setContentView源码析/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/06/07/Android源码分析ViewStub源码解析/">
+                    Android源码分析ViewStub源码解析
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/05/26/Android源码分析（Handler机制）/">
+                    Android源码分析（Handler机制）
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码基于安卓8-0分析结果"><span class="toc-number">1.</span> <span class="toc-text">源码基于安卓8.0分析结果</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Android源码分析（Activity.setContentView源码解析）　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/06/07/Android源码分析ViewStub源码解析/" title="上一篇: Android源码分析ViewStub源码解析">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/05/26/Android源码分析（Handler机制）/" title="下一篇: Android源码分析（Handler机制）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

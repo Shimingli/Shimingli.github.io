@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="本文主要介绍使用Go语言使用MySQL的搭建工作，适合移动端同学自己学习Go语言玩玩 前段时间撸了一个简单Spring-boot的Demo，最近学习了Go语言才发现，Go做起来更加的简单，我不推崇，不崇拜，但是我还得说一句，Go语言真好！！！">
+<meta name="keywords" content="Go,MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语言使用MySQL数据库">
+<meta property="og:url" content="http://yoursite.com/2018/07/06/Go语言使用MySQL数据库/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="本文主要介绍使用Go语言使用MySQL的搭建工作，适合移动端同学自己学习Go语言玩玩 前段时间撸了一个简单Spring-boot的Demo，最近学习了Go语言才发现，Go做起来更加的简单，我不推崇，不崇拜，但是我还得说一句，Go语言真好！！！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-1a32ce15cec746e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-bf714c06911e1515.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-1f9bd04303496354.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-42c90bc4a709bb52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-31b6046bd9445715.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-9fd5249356e29445.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-8ac63c8168ab91df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-e2a3340262a3a145.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-365e288d8136449a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-d8bd1e8c611c3002.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-0d98a00f4b6f9475.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-8260346448e2e69b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-2dca9092efa06cb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-4f27432bdb554d6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:47:37.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go语言使用MySQL数据库">
+<meta name="twitter:description" content="本文主要介绍使用Go语言使用MySQL的搭建工作，适合移动端同学自己学习Go语言玩玩 前段时间撸了一个简单Spring-boot的Demo，最近学习了Go语言才发现，Go做起来更加的简单，我不推崇，不崇拜，但是我还得说一句，Go语言真好！！！">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-1a32ce15cec746e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Go语言使用MySQL数据库 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Go语言使用MySQL数据库" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/06/Go语言使用MySQL数据库/" class="article-date">
+      <time datetime="2018-07-06T08:03:55.000Z" itemprop="datePublished">2018-07-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go语言使用MySQL数据库
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>本文主要介绍使用Go语言使用MySQL的搭建工作，适合移动端同学自己学习Go语言玩玩</li>
+<li>前段时间撸了一个简单Spring-boot的Demo，最近学习了Go语言才发现，Go做起来更加的简单，我不推崇，不崇拜，但是我还得说一句，Go语言真好！！！<a id="more"></a>
+<h4 id="一、搭建Go语言的环境"><a href="#一、搭建Go语言的环境" class="headerlink" title="一、搭建Go语言的环境"></a>一、搭建Go语言的环境</h4></li>
+<li>安装Go的时候看到需要设置GOPATH变量，Go从1.1版本到1.7必须设置这个变量，而且不能和Go的安装目录一样，这个目录用来存放Go源码，Go的可运行文件，以及相应的编译之后的包文件。所以这个目录下面有三个子目录：<code>src、bin、pkg</code></li>
+<li>从go 1.8开始，GOPATH环境变量现在有一个默认值，如果它没有被设置。在Windows上默认为%USERPROFILE%/go。</li>
+<li>我自己设置的环境变量<br><img src="https://upload-images.jianshu.io/upload_images/5363507-1a32ce15cec746e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="我自己设置的环境变量.png"></li>
+<li><p>安装完成大概是这个效果<br><img src="https://upload-images.jianshu.io/upload_images/5363507-bf714c06911e1515.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>GOPATH 目录约定有三个子目录：</p>
+<ul>
+<li>src 存放源代码（比如：.go .c .h .s等）</li>
+<li>pkg 编译后生成的文件（比如：.a）</li>
+<li>bin 编译后生成的可执行文件<h4 id="二、Go开发工具"><a href="#二、Go开发工具" class="headerlink" title="二、Go开发工具"></a>二、Go开发工具</h4></li>
+</ul>
+</li>
+<li><p>由于Go开发的工具巨多，作为一个菜鸟，目前不知道利弊，就当总结下资料，同时我自己使用的工具是<code>IDEA</code>，当然不是免费版，去网上搞个秘钥直接破解，因为<code>IDEA</code>真的很强大，这就不多提了，建议如果还在使用的<code>Android Studio</code>写安卓程序的小伙伴，可以试试使用<code>IDEA</code>，都差不多</p>
+</li>
+<li><p>1、LiteIDE<br>LiteIDE是一款专门为Go语言开发的跨平台轻量级集成开发环境（IDE），由visualfc编写。</p>
+<ul>
+<li>LiteIDE安装</li>
+<li>下载地址 <a href="http://sourceforge.net/projects/liteide/files" target="_blank" rel="noopener">http://sourceforge.net/projects/liteide/files</a></li>
+<li>源码地址 <a href="https://github.com/visualfc/liteide" target="_blank" rel="noopener">https://github.com/visualfc/liteide</a></li>
+</ul>
+</li>
+<li>2、Sublime Text<br> 参考这个博客地址 <a href="http://blog.jobbole.com/88648/" target="_blank" rel="noopener">http://blog.jobbole.com/88648/</a></li>
+<li>3、Visual Studio Code<br>  vscode是微软基于Electron和web技术构建的开源编辑器, 是一款很强大的编辑器。开源地址:<a href="https://github.com/Microsoft/vscode" target="_blank" rel="noopener">https://github.com/Microsoft/vscode</a></li>
+<li>4、Eclipse<br>Eclipse！但是我好久都没用了，哈哈！！！ </li>
+<li>5 、IntelliJ IDEA<br>idea是通过一个插件来支持go语言的高亮语法,代码提示和重构实现。虽然开发Go语言社区免费版就可以了，但是还是建议搞个正式版（具体百度，嘿嘿），如果不行就使用社区免费版！我自己就是使用的<code>IDEA</code><br>具体的步骤如下，就好像install个插件！<br><img src="https://upload-images.jianshu.io/upload_images/5363507-1f9bd04303496354.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<h4 id="三、搭建数据库，mysql-navicat"><a href="#三、搭建数据库，mysql-navicat" class="headerlink" title="三、搭建数据库，mysql + navicat"></a>三、搭建数据库，mysql + navicat</h4><ul>
+<li>1 安装MySQL<br>我的安装包是公司的Java工程师发给我的，官网下载比较慢，文件为mysql-5.7.20-windx64.msi<br><img src="https://upload-images.jianshu.io/upload_images/5363507-42c90bc4a709bb52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<p>点击直接安装，在第二步Choosing a Setup Type的时候，选择Server only<br><img src="https://upload-images.jianshu.io/upload_images/5363507-31b6046bd9445715.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>然后一直Next，在输入数据库密码的时候输入App123，输入用户名的时候需要输入root，同时要把这两个记下来，后面连接数据库的时候需要用到 </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-9fd5249356e29445.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>2、用navicat操作数据库<br>navicat是个工具，可以直接到百度下载，然后连接数据库，输入你的密码和用户名即可<br><img src="https://upload-images.jianshu.io/upload_images/5363507-8ac63c8168ab91df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>新建一个数据库godbdemo，为什么叫godbdemo，因为在Go里面等下需要配置的数据库就叫它。<br><img src="https://upload-images.jianshu.io/upload_images/5363507-e2a3340262a3a145.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+<li>3、创建表userinfo<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `userinfo` (</span><br><span class="line">	`uid` INT(10) NOT NULL AUTO_INCREMENT,</span><br><span class="line">	`username` VARCHAR(64) NULL DEFAULT NULL,</span><br><span class="line">	`department` VARCHAR(64) NULL DEFAULT NULL,</span><br><span class="line">	`created` DATE NULL DEFAULT NULL,</span><br><span class="line">	PRIMARY KEY (`uid`)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使用Navicat Premium 创建数据库<br><img src="https://upload-images.jianshu.io/upload_images/5363507-365e288d8136449a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用Navicat Premium 创建数据库1.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-d8bd1e8c611c3002.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用Navicat Premium 创建数据库2.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-0d98a00f4b6f9475.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用Navicat Premium 创建数据库3.png"></p>
+<ul>
+<li>ok，准备工作差不多了<h4 id="四、GitHub依赖的管理"><a href="#四、GitHub依赖的管理" class="headerlink" title="四、GitHub依赖的管理"></a>四、GitHub依赖的管理</h4></li>
+<li>不可避免的我们会使用外部的依赖包包。go在这方面做的非常飘逸。go没有像java使用maven来管理依赖包、包版本，而是直接使用GOPATH来管理外部依赖。</li>
+<li>Go官方没有提供数据库驱动，而是为开发数据库驱动定义了一些标准接口，开发者可以根据定义的接口来开发相应的数据库驱动，这样做有一个好处，只要是按照标准接口开发的代码， 以后需要迁移数据库时，不需要任何修改</li>
+<li>1、MySQL驱动<br>我自己使用的是这个驱动<br><a href="https://github.com/go-sql-driver/mysql" target="_blank" rel="noopener">https://github.com/go-sql-driver/mysql</a> 支持database/sql，全部采用go写。</li>
+<li>主要理由：<ul>
+<li>这个驱动比较新，维护的比较好</li>
+<li>完全支持database/sql接口</li>
+<li>支持keepalive，保持长连接,虽然<a href="http://www.mikespook.com/" target="_blank" rel="noopener">星星</a>fork的mymysql也支持keepalive，但不是线程安全的，这个从底层就支持了keepalive。</li>
+</ul>
+</li>
+<li><p>2、使用<code>git</code>拉取代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go get -u github.com/go-sql-driver/mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最终的效果如下<br><img src="https://upload-images.jianshu.io/upload_images/5363507-8260346448e2e69b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="goPATh目录下的github目录的src目录.png"></p>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-2dca9092efa06cb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="goPATh目录下的github目录的pkg目录.png"></p>
+<h4 id="5、代码实现"><a href="#5、代码实现" class="headerlink" title="5、代码实现"></a>5、代码实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;database/sql&quot;</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	_ &quot;github.com/go-sql-driver/mysql&quot;</span><br><span class="line">	//其实这个就是Go设计的巧妙之处，我们在变量赋值的时候经常看到这个符号，它是用来忽略变量赋值的占位符，那么包引入用到这个符号也是相似的作用，这儿使用_的意思是引入后面的包名而不直接使用这个包中定义的函数，变量等资源。</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">//	Go中支持MySQL的驱动目前比较多，有如下几种，有些是支持database/sql标准，而有些是采用了自己的实现接口,常用的有如下几种:</span><br><span class="line">//</span><br><span class="line">//https://github.com/go-sql-driver/mysql 支持database/sql，全部采用go写。</span><br><span class="line">//https://github.com/ziutek/mymysql 支持database/sql，也支持自定义的接口，全部采用go写。</span><br><span class="line">//https://github.com/Philio/GoMySQL 不支持database/sql，自定义接口，全部采用go写。</span><br><span class="line">//	接下来的例子我主要以第一个驱动为例(我目前项目中也是采用它来驱动)，也推荐大家采用它，主要理由：</span><br><span class="line">//</span><br><span class="line">//	这个驱动比较新，维护的比较好</span><br><span class="line">//	完全支持database/sql接口</span><br><span class="line">//	支持keepalive，保持长连接,虽然星星fork的mymysql也支持keepalive，但不是线程安全的，这个从底层就支持了keepalive。</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">//	user@unix(/path/to/socket)/dbname?charset=utf8</span><br><span class="line">//user:password@tcp(localhost:5555)/dbname?charset=utf8</span><br><span class="line">//user:password@/dbname</span><br><span class="line">//user:password@tcp([de:ad:be:ef::ca:fe]:80)/dbname</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	//spring.datasource.url =jdbc:mysql://localhost:3306/test</span><br><span class="line">	//spring.datasource.username = root</span><br><span class="line">	//#  注意密码的问题 ，数据的密码的</span><br><span class="line">	//spring.datasource.password = App123</span><br><span class="line">    // sql.Open()函数用来打开一个注册过的数据库驱动，go-sql-driver中注册了mysql这个数据库驱动，第二个参数是DSN(Data Source Name)，它是go-sql-driver定义的一些数据库链接和配置信息   如上的图片</span><br><span class="line"></span><br><span class="line">	db, err := sql.Open(&quot;mysql&quot;, &quot;root:App123@tcp(localhost:3306)/godbdemo?charset=utf8&quot;)</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	//插入数据 db.Prepare()函数用来返回准备要执行的sql操作，然后返回准备完毕的执行状态。</span><br><span class="line">	stmt, err := db.Prepare(&quot;INSERT userinfo SET username=?,department=?,created=?&quot;)</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	for i:=1;i&lt;100000 ;i++  &#123;</span><br><span class="line">		//stmt.Exec()函数用来执行stmt准备好的SQL语句</span><br><span class="line">		res, err := stmt.Exec(&quot;shiming&quot;, &quot;研发部门&quot;, &quot;20180706&quot;)</span><br><span class="line">		checkErr(err)</span><br><span class="line">		//shiming i== 9727 res=== &#123;0xc0420a0000 0xc0422f5000&#125;</span><br><span class="line">		fmt.Println(&quot;shiming i==&quot;,i,&quot;res===&quot;,res)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	res, err := stmt.Exec(&quot;shiming&quot;, &quot;研发部门&quot;, &quot;20180706&quot;)</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	id, err := res.LastInsertId()</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	fmt.Println(id)</span><br><span class="line">	//更新数据  传入的参数都是=?对应的数据，这样做的方式可以一定程度上防止SQL注入</span><br><span class="line">	stmt, err = db.Prepare(&quot;update userinfo set username=? where uid=?&quot;)</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	res, err = stmt.Exec(&quot;shimingupdate&quot;, id)</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	affect, err := res.RowsAffected()</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	fmt.Println(affect)</span><br><span class="line"></span><br><span class="line">	//查询数据  db.Query()函数用来直接执行Sql返回Rows结果。</span><br><span class="line">	rows, err := db.Query(&quot;SELECT * FROM userinfo&quot;)</span><br><span class="line">	checkErr(err)</span><br><span class="line"></span><br><span class="line">	for rows.Next() &#123;</span><br><span class="line">		var uid int</span><br><span class="line">		var username string</span><br><span class="line">		var department string</span><br><span class="line">		var created string</span><br><span class="line">		err = rows.Scan(&amp;uid, &amp;username, &amp;department, &amp;created)</span><br><span class="line">		checkErr(err)</span><br><span class="line">		fmt.Println(uid)</span><br><span class="line">		fmt.Println(username)</span><br><span class="line">		fmt.Println(department)</span><br><span class="line">		fmt.Println(created)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//删除数据</span><br><span class="line">	//stmt, err = db.Prepare(&quot;delete from userinfo where uid=?&quot;)</span><br><span class="line">	//checkErr(err)</span><br><span class="line">	//</span><br><span class="line">	//res, err = stmt.Exec(id)</span><br><span class="line">	//checkErr(err)</span><br><span class="line">	//</span><br><span class="line">	//affect, err = res.RowsAffected()</span><br><span class="line">	//checkErr(err)</span><br><span class="line">	//</span><br><span class="line">	//fmt.Println(affect)</span><br><span class="line"></span><br><span class="line">	db.Close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func checkErr(err error) &#123;</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err) //大概相当于  Java中的异常</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>sql.Open()</code>函数用来打开一个注册过的数据库驱动，<code>go-sql-driver</code>中注册了<code>mysql</code>这个数据库驱动，第二个参数是<code>DSN(Data Source Name)</code>，它是<code>go-sql-driver</code>定义的一些数据库链接和配置信息。它支持如下格式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user@unix(/path/to/socket)/dbname?charset=utf8</span><br><span class="line">user:password@tcp(localhost:5555)/dbname?charset=utf8</span><br><span class="line">user:password@/dbname</span><br><span class="line">user:password@tcp([de:ad:be:ef::ca:fe]:80)/dbname</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在我的代码中是使用的是这种的方式<code>user:password@tcp(localhost:5555)/dbname?charset=utf8</code>,也就是这种的效果 <code>db, err := sql.Open(&quot;mysql&quot;, &quot;root:App123@tcp(localhost:3306)/godbdemo?charset=utf8&quot;)</code> 。</p>
+<ul>
+<li>其中的   <code>root</code>是数据库的用户名，  <code>App123</code>是数据库的密码。</li>
+<li><p>几个关键的方法</p>
+<ul>
+<li>db.Prepare()函数用来返回准备要执行的sql操作，然后返回准备完毕的执行状态。</li>
+<li>db.Query()函数用来直接执行Sql返回Rows结果。<ul>
+<li>stmt.Exec()函数用来执行stmt准备好的SQL语句<h4 id="6、最终的效果如下"><a href="#6、最终的效果如下" class="headerlink" title="6、最终的效果如下"></a>6、最终的效果如下</h4>由于我的代码中有个循环<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for i:=1;i&lt;100000 ;i++  &#123;</span><br><span class="line">	//stmt.Exec()函数用来执行stmt准备好的SQL语句</span><br><span class="line">	res, err := stmt.Exec(&quot;shiming&quot;, &quot;研发部门&quot;, &quot;20180706&quot;)</span><br><span class="line">	checkErr(err)</span><br><span class="line">	//shiming i== 9727 res=== &#123;0xc0420a0000 0xc0422f5000&#125;</span><br><span class="line">	fmt.Println(&quot;shiming i==&quot;,i,&quot;res===&quot;,res)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>点击运行</p>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-4f27432bdb554d6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="最后，说明一点：以上的Demo是自己搭建玩玩，一定会有些差错，请大牛不要见怪哈"><a href="#最后，说明一点：以上的Demo是自己搭建玩玩，一定会有些差错，请大牛不要见怪哈" class="headerlink" title="最后，说明一点：以上的Demo是自己搭建玩玩，一定会有些差错，请大牛不要见怪哈~~~"></a>最后，说明一点：以上的<a href="https://github.com/Shimingli/GoDemo" target="_blank" rel="noopener">Demo</a>是自己搭建玩玩，一定会有些差错，请大牛不要见怪哈~~~</h4>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-07-06, 16:03:55</p>
+        <p><span>最后更新:</span>2018-08-14, 16:47:37</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/06/Go语言使用MySQL数据库/" title="Go语言使用MySQL数据库">http://yoursite.com/2018/07/06/Go语言使用MySQL数据库/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/07/06/Go语言使用MySQL数据库/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/07/15/Go语言实现的WebSocket/">
+                    Go语言实现的WebSocket
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/06/14/Web的工作方式/">
+                    Web的工作方式
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、搭建Go语言的环境"><span class="toc-number">1.</span> <span class="toc-text">一、搭建Go语言的环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、Go开发工具"><span class="toc-number">2.</span> <span class="toc-text">二、Go开发工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、搭建数据库，mysql-navicat"><span class="toc-number">3.</span> <span class="toc-text">三、搭建数据库，mysql + navicat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、GitHub依赖的管理"><span class="toc-number">4.</span> <span class="toc-text">四、GitHub依赖的管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、代码实现"><span class="toc-number">5.</span> <span class="toc-text">5、代码实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、最终的效果如下"><span class="toc-number">6.</span> <span class="toc-text">6、最终的效果如下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最后，说明一点：以上的Demo是自己搭建玩玩，一定会有些差错，请大牛不要见怪哈"><span class="toc-number">7.</span> <span class="toc-text">最后，说明一点：以上的Demo是自己搭建玩玩，一定会有些差错，请大牛不要见怪哈~~~</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Go语言使用MySQL数据库　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/07/15/Go语言实现的WebSocket/" title="上一篇: Go语言实现的WebSocket">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/06/14/Web的工作方式/" title="下一篇: Web的工作方式">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

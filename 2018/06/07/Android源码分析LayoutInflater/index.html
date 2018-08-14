@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="源码基于安卓8.0分析结果 在这篇文章Android源码分析(Activity.setContentView源码解析)，分析得出，底层走的就是LayoutInflater.from(this),inflate(),如果inflate()传入的view的话，就调用两次LayoutInflater.from(this),inflate(),，如果是inflate()传入的resId（布局的id）的话，">
+<meta name="keywords" content="Android源码,LayoutInflater">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android源码分析LayoutInflater">
+<meta property="og:url" content="http://yoursite.com/2018/06/07/Android源码分析LayoutInflater/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="源码基于安卓8.0分析结果 在这篇文章Android源码分析(Activity.setContentView源码解析)，分析得出，底层走的就是LayoutInflater.from(this),inflate(),如果inflate()传入的view的话，就调用两次LayoutInflater.from(this),inflate(),，如果是inflate()传入的resId（布局的id）的话，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-3328730701d08022.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:46:52.338Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android源码分析LayoutInflater">
+<meta name="twitter:description" content="源码基于安卓8.0分析结果 在这篇文章Android源码分析(Activity.setContentView源码解析)，分析得出，底层走的就是LayoutInflater.from(this),inflate(),如果inflate()传入的view的话，就调用两次LayoutInflater.from(this),inflate(),，如果是inflate()传入的resId（布局的id）的话，">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-3328730701d08022.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Android源码分析LayoutInflater | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Android源码分析LayoutInflater" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/07/Android源码分析LayoutInflater/" class="article-date">
+      <time datetime="2018-06-07T08:12:57.000Z" itemprop="datePublished">2018-06-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android源码分析LayoutInflater
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="源码基于安卓8-0分析结果"><a href="#源码基于安卓8-0分析结果" class="headerlink" title="源码基于安卓8.0分析结果"></a>源码基于安卓8.0分析结果</h3><ul>
+<li>在这篇文章<a href="https://www.jianshu.com/p/d9d919608842" target="_blank" rel="noopener">Android源码分析(Activity.setContentView源码解析)</a>，分析得出，底层走的就是<code>LayoutInflater.from(this),inflate(),</code>如果<code>inflate()</code>传入的view的话，就调用两次<code>LayoutInflater.from(this),inflate(),</code>，如果是<code>inflate()</code>传入的resId（布局的id）的话，就调用三次<code>LayoutInflater.from(this),inflate(),</code>,具体请看上篇文章。<a id="more"></a></li>
+<li><p>怎么使用,一共有三种的方式，主要看下这种方式<code>LayoutInflater inflater1 = getLayoutInflater();</code>,其实调用的就是Activity的getLayoutInflater()方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> LayoutInflater inflater1 = getLayoutInflater();//调用Activity的getLayoutInflater()</span><br><span class="line">LayoutInflater inflater2 = LayoutInflater.from(this);</span><br><span class="line">LayoutInflater inflater3 = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Activity的getLayoutInflater()方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * Convenience for calling</span><br><span class="line">   * &#123;@link android.view.Window#getLayoutInflater&#125;.</span><br><span class="line">   */</span><br><span class="line">  @NonNull</span><br><span class="line">  public LayoutInflater getLayoutInflater() &#123;</span><br><span class="line">      return getWindow().getLayoutInflater();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过<a href="https://www.jianshu.com/p/f7e3a14daf51" target="_blank" rel="noopener">Android源码分析（事件传递）</a>这边文章，我们知道，<code>Window类</code>只有唯一的子类<code>PhoneWindow</code>。所以主要的是去看<code>PhoneWindow</code>类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public PhoneWindow(Context context) &#123;</span><br><span class="line">    super(context);</span><br><span class="line">     mLayoutInflater = LayoutInflater.from(context);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>LayoutInflater inflater2 = LayoutInflater.from(this);</code>的实现的方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * Obtains the LayoutInflater from the given context.</span><br><span class="line">    */</span><br><span class="line">   public static LayoutInflater from(Context context) &#123;</span><br><span class="line">       LayoutInflater LayoutInflater =</span><br><span class="line">               (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</span><br><span class="line">       if (LayoutInflater == null) &#123;</span><br><span class="line">           throw new AssertionError(&quot;LayoutInflater not found.&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">       return LayoutInflater;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>以上三种方法，最终还是调用了<code>context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)</code>获取LayoutInflater实例对象。</li>
+<li><p>inflate的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public View inflate(XmlPullParser parser, @Nullable ViewGroup root) &#123;</span><br><span class="line">     return inflate(parser, root, root != null);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>到这里来<code>inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot)</code>,个人的对这个方法的理解是：把布局文件填充成View，如果传入的<code>root</code>不为<code>null</code>，并且<code>attachToRoot</code>为<code>true</code>,就把view填充到root上，相反就不添加上来！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public View inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot) &#123;</span><br><span class="line">     final Resources res = getContext().getResources();</span><br><span class="line">     if (DEBUG) &#123;</span><br><span class="line">         Log.d(TAG, &quot;INFLATING from resource: \&quot;&quot; + res.getResourceName(resource) + &quot;\&quot; (&quot;</span><br><span class="line">                 + Integer.toHexString(resource) + &quot;)&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">     //这里通过底层的方法，得到一个XmlResourceParser对象</span><br><span class="line">     final XmlResourceParser parser = res.getLayout(resource);</span><br><span class="line">     try &#123;</span><br><span class="line">         return inflate(parser, root, attachToRoot);</span><br><span class="line">     &#125; finally &#123;</span><br><span class="line">         parser.close();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>inflate(parser, root, attachToRoot)</code>，特别关心这个方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot) &#123;</span><br><span class="line">       synchronized (mConstructorArgs) &#123;</span><br><span class="line">           //底层的方法，不知道原理</span><br><span class="line">           Trace.traceBegin(Trace.TRACE_TAG_VIEW, &quot;inflate&quot;);</span><br><span class="line">           // TODO: 2018/6/5  我没有搞明白 为啥整个值在这里做什么的， 在这个方法里面都没有使用</span><br><span class="line">           // from传入的Context</span><br><span class="line">           final Context inflaterContext = mContext;</span><br><span class="line">           // 判断parser是否是AttributeSet，如果不是则用XmlPullAttributes去包装一下。</span><br><span class="line">           final AttributeSet attrs = Xml.asAttributeSet(parser);</span><br><span class="line">           // 保存之前的Context</span><br><span class="line">           Context lastContext = (Context) mConstructorArgs[0];</span><br><span class="line">           // 赋值为传入的Context</span><br><span class="line">           mConstructorArgs[0] = inflaterContext;</span><br><span class="line">           // 默认返回的是传入的Parent</span><br><span class="line">           View result = root;</span><br><span class="line">           try &#123;</span><br><span class="line">               // Look for the root node.</span><br><span class="line">               int type;// 迭代xml中的所有元素，挨个解析</span><br><span class="line">               while ((type = parser.next()) != XmlPullParser.START_TAG &amp;&amp;</span><br><span class="line">                       type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line">                   // Empty</span><br><span class="line">               &#125;</span><br><span class="line">              // //如果没找到有效的开始标签则抛出InflateException</span><br><span class="line">               if (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">                   throw new InflateException(parser.getPositionDescription()</span><br><span class="line">                           + &quot;: No start tag found!&quot;);</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               final String name = parser.getName();</span><br><span class="line"></span><br><span class="line">               if (DEBUG) &#123;</span><br><span class="line">                   System.out.println(&quot;**************************&quot;);</span><br><span class="line">                   System.out.println(&quot;Creating root view: &quot;</span><br><span class="line">                           + name);</span><br><span class="line">                   System.out.println(&quot;**************************&quot;);</span><br><span class="line">               &#125;</span><br><span class="line">               //// 如果根节点是“merge”标签</span><br><span class="line">               if (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">                   // 根节点为空或者不添加到根节点上，则抛出异常。</span><br><span class="line">                   // 因为“merge”标签必须是要被添加到父节点上的，不能独立存在。</span><br><span class="line">                   if (root == null || !attachToRoot) &#123;</span><br><span class="line">                       throw new InflateException(&quot;&lt;merge /&gt; can be used only with a valid &quot;</span><br><span class="line">                               + &quot;ViewGroup root and attachToRoot=true&quot;);</span><br><span class="line">                   &#125;</span><br><span class="line">                   // 递归实例化root（也就是传入Parent）下所有的View</span><br><span class="line">                   // 如果xml中的节点是merge节点，则调用rInflate()--方法  // 递归实例化根节点的子View</span><br><span class="line">                   rInflate(parser, root, inflaterContext, attrs, false);</span><br><span class="line">               &#125; else &#123;</span><br><span class="line">                   // Temp is the root view that was found in the xml</span><br><span class="line">                   //通过View的父View，View的名称、attrs属性实例化View（内部调用onCreateView()和createView()）。</span><br><span class="line">                   // TODO: 2018/6/6  // 实例化根节点的View </span><br><span class="line">                   final View temp = createViewFromTag(root, name, inflaterContext, attrs);</span><br><span class="line"></span><br><span class="line">                   ViewGroup.LayoutParams params = null;</span><br><span class="line"></span><br><span class="line">                   if (root != null) &#123;</span><br><span class="line">                       if (DEBUG) &#123;</span><br><span class="line">                           System.out.println(&quot;Creating params from root: &quot; +</span><br><span class="line">                                   root);</span><br><span class="line">                       &#125;</span><br><span class="line">                       // Create layout params that match root, if supplied</span><br><span class="line">                       params = root.generateLayoutParams(attrs);</span><br><span class="line">                       if (!attachToRoot) &#123;</span><br><span class="line">                           // Set the layout params for temp if we are not</span><br><span class="line">                           // attaching. (If we are, we use addView, below)</span><br><span class="line">                           temp.setLayoutParams(params);</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   if (DEBUG) &#123;</span><br><span class="line">                       System.out.println(&quot;-----&gt; start inflating children&quot;);</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   // Inflate all children under temp against its context.</span><br><span class="line">                   // 递归实例化跟节点的子View</span><br><span class="line">                   rInflateChildren(parser, temp, attrs, true);</span><br><span class="line"></span><br><span class="line">                   if (DEBUG) &#123;</span><br><span class="line">                       System.out.println(&quot;-----&gt; done inflating children&quot;);</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   // We are supposed to attach all the views we found (int temp)</span><br><span class="line">                   // to root. Do that now.\</span><br><span class="line"></span><br><span class="line">                   if (root != null &amp;&amp; attachToRoot) &#123;</span><br><span class="line">                       root.addView(temp, params); // TODO: 2018/6/6      返回父View</span><br><span class="line">                   &#125;</span><br><span class="line">              </span><br><span class="line">                   // Decide whether to return the root that was passed in or the</span><br><span class="line">                   // top view found in xml.</span><br><span class="line">                   // TODO: 2018/6/6  父View是空或者不把填充的View添加到父View)</span><br><span class="line">                   if (root == null || !attachToRoot) &#123;</span><br><span class="line">                       result = temp;  // TODO: 2018/6/6 返回根节点View </span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">           &#125; catch (XmlPullParserException e) &#123;</span><br><span class="line">               final InflateException ie = new InflateException(e.getMessage(), e);</span><br><span class="line">               ie.setStackTrace(EMPTY_STACK_TRACE);</span><br><span class="line">               throw ie;</span><br><span class="line">           &#125; catch (Exception e) &#123;</span><br><span class="line">               final InflateException ie = new InflateException(parser.getPositionDescription()</span><br><span class="line">                       + &quot;: &quot; + e.getMessage(), e);</span><br><span class="line">               ie.setStackTrace(EMPTY_STACK_TRACE);</span><br><span class="line">               throw ie;</span><br><span class="line">           &#125; finally &#123;</span><br><span class="line">               // Don&apos;t retain static reference on context.</span><br><span class="line">               //不要在上下文中保留静态引用。</span><br><span class="line">               // 把这之前保存的Context从新放回全局变量中。</span><br><span class="line">               mConstructorArgs[0] = lastContext;</span><br><span class="line">               mConstructorArgs[1] = null;</span><br><span class="line"></span><br><span class="line">               Trace.traceEnd(Trace.TRACE_TAG_VIEW);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           return result;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意其中有个判断<code>TAG_MERGE.equals(name))</code> ,这里就是merge标签的开始，以下的问题，都带着这个疑问往下面看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> if (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">                  // 根节点为空或者不添加到根节点上，则抛出异常。</span><br><span class="line">                  // 因为“merge”标签必须是要被添加到父节点上的，不能独立存在。</span><br><span class="line">                  if (root == null || !attachToRoot) &#123;</span><br><span class="line">                      throw new InflateException(&quot;&lt;merge /&gt; can be used only with a valid &quot;</span><br><span class="line">                              + &quot;ViewGroup root and attachToRoot=true&quot;);</span><br><span class="line">                  &#125;</span><br><span class="line">                  // 递归实例化root（也就是传入Parent）下所有的View</span><br><span class="line">                  // 如果xml中的节点是merge节点，则调用rInflate()--方法  // 递归实例化根节点的子View</span><br><span class="line">                  rInflate(parser, root, inflaterContext, attrs, false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解析到<code>merge</code>标签的话，就会进入到这个方法<code>rInflate(parser, root, inflaterContext, attrs, false);</code>:递归实例化根节点的子View,在这里说明一点的是这个方法传入的<code>root</code>会不会为<code>null</code>.这篇文章说过<a href="https://www.jianshu.com/p/d9d919608842" target="_blank" rel="noopener">Android源码分析（Activity.setContentView源码解析）</a>,肯定不会为null，一般是我们自己去使用的时候，有可能为null，具体的差别可以参考这篇文章<a href="https://blog.csdn.net/lmj623565791/article/details/38171465" target="_blank" rel="noopener">Android LayoutInflater深度解析 给你带来全新的认识</a></p>
+</li>
+<li><p>关于<code>rInflate(parser, root, inflaterContext, attrs, false);</code>方法：递归方法用于降序XML层次结构并实例化视图，实例化它们的子节点，然后调用<code>onFinishInflate(),</code>, 完成填充</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">void rInflate(XmlPullParser parser, View parent, Context context,</span><br><span class="line">           AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException &#123;</span><br><span class="line"></span><br><span class="line">       final int depth = parser.getDepth();</span><br><span class="line">       int type;</span><br><span class="line">       boolean pendingRequestFocus = false;</span><br><span class="line">       // 迭代xml中的所有元素，挨个解析</span><br><span class="line">       while (((type = parser.next()) != XmlPullParser.END_TAG ||</span><br><span class="line">               parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line"></span><br><span class="line">           if (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">               continue;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           final String name = parser.getName();</span><br><span class="line">           //1、解析请求焦点 ，这个控件一直有焦点 requestFocus</span><br><span class="line">           if (TAG_REQUEST_FOCUS.equals(name)) &#123;</span><br><span class="line">               pendingRequestFocus = true;</span><br><span class="line">               consumeChildElements(parser);</span><br><span class="line">           &#125; else if (TAG_TAG.equals(name)) &#123;</span><br><span class="line">               //在包含的视图上设置键标记。</span><br><span class="line">               parseViewTag(parser, parent, attrs);</span><br><span class="line">           &#125; else if (TAG_INCLUDE.equals(name)) &#123;// 如果xml中的节点是include节点，则调用parseInclude方法</span><br><span class="line">               if (parser.getDepth() == 0) &#123;</span><br><span class="line">                   throw new InflateException(&quot;&lt;include /&gt; cannot be the root element&quot;);</span><br><span class="line">               &#125;</span><br><span class="line">               //解析include标签</span><br><span class="line">               parseInclude(parser, context, parent, attrs);</span><br><span class="line">           &#125; else if (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">               // TODO: 2018/5/23 merge  作为布局里面的元素 会报错的哦 ，注意哦</span><br><span class="line">               //想象下 两个merge 标签重合在一起</span><br><span class="line">               throw new InflateException(&quot;&lt;merge /&gt; must be the root element&quot;);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               // TODO: 2018/5/23 其实就是如果是merge标签，</span><br><span class="line">               // TODO: 2018/5/23  那么直接将其中的子元素添加到merge标签parent中，这样就保证了不会引入额外的层级。</span><br><span class="line">               // 1、我们的例子会进入这里  // 通过View的名称实例化View</span><br><span class="line">               final View view = createViewFromTag(parent, name, context, attrs);</span><br><span class="line">               // 2、获取merge标签的parent</span><br><span class="line">               final ViewGroup viewGroup = (ViewGroup) parent;</span><br><span class="line">               // 3、获取布局参数</span><br><span class="line">               final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);</span><br><span class="line">               // 4、递归解析每个子元素</span><br><span class="line">               rInflateChildren(parser, view, attrs, true);</span><br><span class="line">               // 5、将子元素直接添加到merge标签的parent view中</span><br><span class="line">               viewGroup.addView(view, params);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       if (pendingRequestFocus) &#123;</span><br><span class="line">           parent.restoreDefaultFocus();</span><br><span class="line">       &#125;</span><br><span class="line">       /**</span><br><span class="line">        * onFinishInflate() View 中的一个空实现，标记完全填充完成了</span><br><span class="line">        * The method onFinishInflate() will be called after all children have been added.</span><br><span class="line">        * 以后是所有的孩子调用完成了，之后就调用这个方法</span><br><span class="line">        */</span><br><span class="line">       if (finishInflate) &#123;</span><br><span class="line">           parent.onFinishInflate();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过对上面的方法分析，还打了断点，打断点注意一点，用模拟器，基本上手机厂商都改了<code>frameWork</code>层的代码，打出来是乱的。代码会走到这里来,看代码的分析，就把新的View，通过<code>ViewGroup.addView()</code>进去了，这也是merge便签的原理：<code>merge标签可以自动消除当一个布局插入到另一个布局时产生的多余的View Group，也可用于替换FrameLayout</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// TODO: 2018/5/23 其实就是如果是merge标签，</span><br><span class="line"> // TODO: 2018/5/23  那么直接将其中的子元素添加到merge标签parent中，这样就保证了不会引入额外的层级。</span><br><span class="line"> // 1、我们的例子会进入这里  // 通过View的名称实例化View</span><br><span class="line"> final View view = createViewFromTag(parent, name, context, attrs);</span><br><span class="line"> // 2、获取merge标签的parent</span><br><span class="line"> final ViewGroup viewGroup = (ViewGroup) parent;</span><br><span class="line"> // 3、获取布局参数</span><br><span class="line"> final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);</span><br><span class="line"> // 4、递归解析每个子元素</span><br><span class="line"> rInflateChildren(parser, view, attrs, true);</span><br><span class="line"> // 5、将子元素直接添加到merge标签的parent view中</span><br><span class="line"> viewGroup.addView(view, params);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>merge</code>的原理我们清楚了，分析另外一条线，没有<code>merge</code>标签,就会走到else的方法来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 如果根节点是“merge”标签</span><br><span class="line">if (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">   </span><br><span class="line">&#125; else &#123;</span><br><span class="line">    final View temp = createViewFromTag(root, name, inflaterContext, attrs);</span><br><span class="line">    ViewGroup.LayoutParams params = null;</span><br><span class="line">    if (root != null) &#123;</span><br><span class="line">             params = root.generateLayoutParams(attrs);</span><br><span class="line">        if (!attachToRoot) &#123;</span><br><span class="line">            temp.setLayoutParams(params);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 递归实例化跟节点的子View start inflating children</span><br><span class="line">    rInflateChildren(parser, temp, attrs, true);</span><br><span class="line"></span><br><span class="line">    if (DEBUG) &#123;</span><br><span class="line">        System.out.println(&quot;-----&gt; done inflating children&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (root != null &amp;&amp; attachToRoot) &#123;</span><br><span class="line">        root.addView(temp, params); // TODO: 2018/6/6      返回父View</span><br><span class="line">    &#125;</span><br><span class="line">           </span><br><span class="line">    // Decide whether to return the root that was passed in or the</span><br><span class="line">    // top view found in xml.</span><br><span class="line">    // TODO: 2018/6/6  父View是空或者不把填充的View添加到父View)</span><br><span class="line">    if (root == null || !attachToRoot) &#123;</span><br><span class="line">        result = temp;  // TODO: 2018/6/6 返回根节点View </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1、这个方法<code>createViewFromTag(View parent, String name, Context context, AttributeSet attrs)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private View createViewFromTag(View parent, String name, Context context, AttributeSet attrs) &#123;</span><br><span class="line">       return createViewFromTag(parent, name, context, attrs, false);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最终调用的是这个方法<code>createViewFromTag(parent, name, context, attrs, false);</code>这个方法</p>
+</li>
+<li>，什么时候会走到下面来，<code>name.equals(&quot;view&quot;)</code>成立的情况，我记得以前我为了在布局中加了一根线就是这样写的，写快了，写成小写的了<code>view</code>，应该写成大写<code>View</code>.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;view</span><br><span class="line">       android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">       android:layout_height=&quot;wrap_content&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>小写的view：我自己打的断点发现，如果根标签是view的，注意是小写的，view，这个name会为null ，接着下面就会出现空指针的异常—&gt; 我很聪明 很牛逼<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">View createViewFromTag(View parent, String name, Context context, AttributeSet attrs,</span><br><span class="line">           boolean ignoreThemeAttr) &#123;</span><br><span class="line">       if (name.equals(&quot;view&quot;)) &#123;</span><br><span class="line">         //根据我的断点的话，只要进来的话，这个那么就会为null</span><br><span class="line">           name = attrs.getAttributeValue(null, &quot;class&quot;);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// Apply a theme wrapper, if allowed and one is specified.</span><br><span class="line">//如果允许的话，应用一个主题包装器，并指定一个。</span><br><span class="line">if (!ignoreThemeAttr) &#123;</span><br><span class="line">    final TypedArray ta = context.obtainStyledAttributes(attrs, ATTRS_THEME);</span><br><span class="line">    final int themeResId = ta.getResourceId(0, 0);</span><br><span class="line">    if (themeResId != 0) &#123;</span><br><span class="line">        context = new ContextThemeWrapper(context, themeResId);</span><br><span class="line">    &#125;</span><br><span class="line">    ta.recycle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>name ==null，就会抛出<code>ava.lang.NullPointerException: Attempt to invoke virtual method &#39;boolean java.lang.String.equals(java.lang.Object)&#39; on a null object reference</code>,也就是这个原因，所以写代码还是要仔细，仔细！！</p>
+<p>在这里有个很有意思的布局，开发中很少使用到，而且也不清楚，作者为啥写，姑且这样理解<code>Let&#39;s party like it&#39;s 1995! 写这个代码的哥们，在1995年经历了一件很开心的事情</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//如果有这个标签的话，就出现这个布局，闪动的布局</span><br><span class="line">if (name.equals(TAG_1995)) &#123;</span><br><span class="line">    // Let&apos;s party like it&apos;s 1995! 写这个代码的哥们，在1995年经历了一件很开心的事情</span><br><span class="line">    return new BlinkLayout(context, attrs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>BlinkLayout</code>使用的方式，blink 翻译过来会一闪一闪的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;blink</span><br><span class="line">       android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">       android:layout_height=&quot;wrap_content&quot; &gt;</span><br><span class="line">       &lt;TextView</span><br><span class="line">           android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">           android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">           android:background=&quot;@android:color/holo_blue_bright&quot;</span><br><span class="line">           android:text=&quot;blink单词也是这个意思.闪烁频率500毫秒&quot; /&gt;</span><br><span class="line">   &lt;/blink&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>BlinkLayout</code>代码如下,  <code>BLINK_DELAY</code> 这个是闪动的时间间隔，如果开发中需要，改动这个时间就行了，感觉这个布局也没啥用！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">public  class BlinkLayout extends FrameLayout &#123;</span><br><span class="line">    private static final int MESSAGE_BLINK = 0x42;</span><br><span class="line">    private static final int BLINK_DELAY = 500;</span><br><span class="line">    private boolean mBlink;</span><br><span class="line">    private boolean mBlinkState;</span><br><span class="line">    private final Handler mHandler;</span><br><span class="line"></span><br><span class="line">    public BlinkLayout(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        // TODO: 2018/5/22 对handler  源码比较熟悉的话，这里就是Handler另外的一种使用的方法</span><br><span class="line">        mHandler = new Handler(new Handler.Callback() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean handleMessage(Message msg) &#123;</span><br><span class="line">                if (msg.what == MESSAGE_BLINK) &#123;</span><br><span class="line">                    if (mBlink) &#123;</span><br><span class="line">                        mBlinkState = !mBlinkState;</span><br><span class="line">                        makeBlink();</span><br><span class="line">                    &#125;</span><br><span class="line">                    //invalidate()是用来刷新View的，必须是在UI线程中进行工作。</span><br><span class="line">                    // 比如在修改某个view的显示时，调用invalidate()才能看到重新绘制的界面</span><br><span class="line">                    invalidate();</span><br><span class="line">                    return true;</span><br><span class="line">                &#125;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void makeBlink() &#123;</span><br><span class="line">        Message message = mHandler.obtainMessage(MESSAGE_BLINK);</span><br><span class="line">        mHandler.sendMessageDelayed(message, BLINK_DELAY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onAttachedToWindow() &#123;</span><br><span class="line">        super.onAttachedToWindow();</span><br><span class="line"></span><br><span class="line">        mBlink = true;</span><br><span class="line">        mBlinkState = true;</span><br><span class="line"></span><br><span class="line">        makeBlink();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDetachedFromWindow() &#123;</span><br><span class="line">        super.onDetachedFromWindow();</span><br><span class="line"></span><br><span class="line">        mBlink = false;</span><br><span class="line">        mBlinkState = true;</span><br><span class="line"></span><br><span class="line">        mHandler.removeMessages(MESSAGE_BLINK);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void dispatchDraw(Canvas canvas) &#123;</span><br><span class="line">        //根据这个状态是否去dispatchDraw</span><br><span class="line">        if (mBlinkState) &#123;</span><br><span class="line">            super.dispatchDraw(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        return super.onTouchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是后续的代码，通过工厂创建了view。去定位过，在<code>public class Activity extends ContextThemeWrapper implements LayoutInflater.Factory2</code>,很多的地方，如果需要研究的，还需要更深层的源码理解，这里就先mark下，只需要知道view是通过工厂来得到的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">    try &#123;</span><br><span class="line">        View view;</span><br><span class="line">        if (mFactory2 != null) &#123;</span><br><span class="line">            //各个工厂先onCreateView()</span><br><span class="line">            view = mFactory2.onCreateView(parent, name, context, attrs);</span><br><span class="line">        &#125; else if (mFactory != null) &#123;</span><br><span class="line">            view = mFactory.onCreateView(name, context, attrs);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            view = null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (view == null &amp;&amp; mPrivateFactory != null) &#123;</span><br><span class="line">            view = mPrivateFactory.onCreateView(parent, name, context, attrs);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (view == null) &#123;</span><br><span class="line">            final Object lastContext = mConstructorArgs[0];</span><br><span class="line">            mConstructorArgs[0] = context;</span><br><span class="line">            try &#123;</span><br><span class="line">                if (-1 == name.indexOf(&apos;.&apos;)) &#123;</span><br><span class="line">                    view = onCreateView(parent, name, attrs);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    view = createView(name, null, attrs);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                mConstructorArgs[0] = lastContext;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return view;</span><br><span class="line">    &#125; catch (InflateException e) &#123;</span><br><span class="line">        throw e;</span><br><span class="line"></span><br><span class="line">    &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">        final InflateException ie = new InflateException(attrs.getPositionDescription()</span><br><span class="line">                + &quot;: Error inflating class &quot; + name, e);</span><br><span class="line">        ie.setStackTrace(EMPTY_STACK_TRACE);</span><br><span class="line">        throw ie;</span><br><span class="line"></span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        final InflateException ie = new InflateException(attrs.getPositionDescription()</span><br><span class="line">                + &quot;: Error inflating class &quot; + name, e);</span><br><span class="line">        ie.setStackTrace(EMPTY_STACK_TRACE);</span><br><span class="line">        throw ie;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>2、关于这个方法<code>rInflateChildren(parser, temp, attrs, true);</code>:递归实例化跟节点的子View.其实调用的还是这个方法<code>rInflate(parser, root, inflaterContext, attrs, false);</code>,文章的前部分贴出了这部分的代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">final void rInflateChildren(XmlPullParser parser, View parent, AttributeSet attrs,</span><br><span class="line">        boolean finishInflate) throws XmlPullParserException, IOException &#123;</span><br><span class="line">    rInflate(parser, parent, parent.getContext(), attrs, finishInflate);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>主要是为了分析几个Tag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private static final String TAG_MERGE = &quot;merge&quot;;</span><br><span class="line">    private static final String TAG_INCLUDE = &quot;include&quot;;</span><br><span class="line">    private static final String TAG_1995 = &quot;blink&quot;;</span><br><span class="line">    private static final String TAG_REQUEST_FOCUS = &quot;requestFocus&quot;;</span><br><span class="line">    private static final String TAG_TAG = &quot;tag&quot;;</span><br><span class="line">    private static final String ATTR_LAYOUT = &quot;layout&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>requestFocus:解析请求焦点 ，这个控件一直有焦点 <code>requestFocus</code>,一般作用于 <code>EditText</code>,需要长期获取焦点的控件，但是真正的实现的方法，我们都是代码去实现了，很少这样使用，这里就说明一下，有这样的使用的方法！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (TAG_REQUEST_FOCUS.equals(name)) &#123;</span><br><span class="line">               pendingRequestFocus = true;</span><br><span class="line">               consumeChildElements(parser);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;EditText</span><br><span class="line">     android:id=&quot;@+id/text&quot;</span><br><span class="line">     android:layout_width=&quot;match_parent&quot;</span><br><span class="line">     android:layout_height=&quot;wrap_content&quot; &gt;</span><br><span class="line">     &lt;!-- 当前控件处于焦点状态 --&gt;</span><br><span class="line">     &lt;requestFocus /&gt;</span><br><span class="line"> &lt;/EditText&gt;</span><br></pre></td></tr></table></figure>
+<p>tag：在包含的视图上设置键标记,其实就是给view设置上了一个tag标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (TAG_TAG.equals(name)) &#123;</span><br><span class="line">                //在包含的视图上设置键标记。</span><br><span class="line">                parseViewTag(parser, parent, attrs);</span><br><span class="line">    &#125; </span><br><span class="line"> final int key = ta.getResourceId(R.styleable.ViewTag_id, 0);</span><br><span class="line">   final CharSequence value = ta.getText(R.styleable.ViewTag_value);</span><br><span class="line">   view.setTag(key, value);</span><br></pre></td></tr></table></figure></p>
+<p>merge:在这里如果解析到了<code>merge</code>标签的话，这里就直接抛出异常了，必须是根元素！两种情况下，一种是套用了两个merge标签，或者是一个ViewGruop标签嵌套了一个merge，都会抛出异常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (TAG_MERGE.equals(name)) &#123;</span><br><span class="line">               // TODO: 2018/5/23 merge  作为布局里面的元素 会报错的哦 ，注意哦</span><br><span class="line">               //想象下 两个merge 标签重合在一起</span><br><span class="line">               throw new InflateException(&quot;&lt;merge /&gt; must be the root element&quot;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>include:标签，在这里如果<code>include</code>作为了一个根元素，也会抛出异常，当然，如果在代码中见到别人那么用的话，建议自己去面壁思过会！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (TAG_INCLUDE.equals(name)) &#123;// 如果xml中的节点是include节点，则调用parseInclude方法</span><br><span class="line">                if (parser.getDepth() == 0) &#123;</span><br><span class="line">                    throw new InflateException(&quot;&lt;include /&gt; cannot be the root element&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                //解析include标签</span><br><span class="line">                parseInclude(parser, context, parent, attrs);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p> <code>parseInclude(parser, context, parent, attrs);</code>,这个方法也就是<code>include</code>必须走的方法，搞明白的话，就可以搞明白原理，而且在特殊的情况下，<code>include</code>标签会和 <code>merge</code> 标签一起使用。这个方法也可以解释<code>include</code>标签的原理！</p>
+<ul>
+<li><p>可以从这里可以看到，<code>include</code>只能在<code>ViewGroup</code>中使用，在 ‘View’中使用的话，会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">private void parseInclude(XmlPullParser parser, Context context, View parent,</span><br><span class="line">         AttributeSet attrs) throws XmlPullParserException, IOException &#123;</span><br><span class="line">     int type;</span><br><span class="line">if (parent instanceof ViewGroup) &#123;</span><br><span class="line">         // Apply a theme wrapper, if requested. This is sort of a weird</span><br><span class="line">         // edge case, since developers think the &lt;include&gt; overwrites</span><br><span class="line">         // values in the AttributeSet of the included View. So, if the</span><br><span class="line">         // included View has a theme attribute, we&apos;ll need to ignore it.</span><br><span class="line">         //如果VIEW视图有一个主题属性，我们需要忽略它。</span><br><span class="line">         final TypedArray ta = context.obtainStyledAttributes(attrs, ATTRS_THEME);</span><br><span class="line">         final int themeResId = ta.getResourceId(0, 0);</span><br><span class="line">         final boolean hasThemeOverride = themeResId != 0;</span><br><span class="line">         if (hasThemeOverride) &#123;</span><br><span class="line">             context = new ContextThemeWrapper(context, themeResId);</span><br><span class="line">         &#125;</span><br><span class="line">         ta.recycle();</span><br><span class="line"></span><br><span class="line">         //如果布局指向主题属性，我们必须</span><br><span class="line">         //按摩该值以从中获取资源标识符。</span><br><span class="line">         int layout = attrs.getAttributeResourceValue(null, ATTR_LAYOUT, 0);</span><br><span class="line">         if (layout == 0) &#123;</span><br><span class="line">             final String value = attrs.getAttributeValue(null, ATTR_LAYOUT);</span><br><span class="line">             // TODO: 2018/6/6 include标签中没有设置layout属性，会抛出异常</span><br><span class="line">             if (value == null || value.length() &lt;= 0) &#123;//</span><br><span class="line">                 throw new InflateException(&quot;You must specify a layout in the&quot;</span><br><span class="line">                         + &quot; include tag: &lt;include layout=\&quot;@layout/layoutID\&quot; /&gt;&quot;);</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             // Attempt to resolve the &quot;?attr/name&quot; string to an attribute</span><br><span class="line">             // within the default (e.g. application) package.</span><br><span class="line">             layout = context.getResources().getIdentifier(</span><br><span class="line">                     value.substring(1), &quot;attr&quot;, context.getPackageName());</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         // The layout might be referencing a theme attribute.</span><br><span class="line">         if (mTempValue == null) &#123;</span><br><span class="line">             mTempValue = new TypedValue();</span><br><span class="line">         &#125;</span><br><span class="line">         if (layout != 0 &amp;&amp; context.getTheme().resolveAttribute(layout, mTempValue, true)) &#123;</span><br><span class="line">             layout = mTempValue.resourceId;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         if (layout == 0) &#123;</span><br><span class="line">             final String value = attrs.getAttributeValue(null, ATTR_LAYOUT);</span><br><span class="line">             throw new InflateException(&quot;You must specify a valid layout &quot;</span><br><span class="line">                     + &quot;reference. The layout ID &quot; + value + &quot; is not valid.&quot;);</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             final XmlResourceParser childParser = context.getResources().getLayout(layout);</span><br><span class="line"></span><br><span class="line">             try &#123;// 获取属性集，即在include标签中设置的属性</span><br><span class="line">                 final AttributeSet childAttrs = Xml.asAttributeSet(childParser);</span><br><span class="line"></span><br><span class="line">                 while ((type = childParser.next()) != XmlPullParser.START_TAG &amp;&amp;</span><br><span class="line">                         type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line">                     // Empty.</span><br><span class="line">                 &#125;</span><br><span class="line"></span><br><span class="line">                 if (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">                     throw new InflateException(childParser.getPositionDescription() +</span><br><span class="line">                             &quot;: No start tag found!&quot;);</span><br><span class="line">                 &#125;</span><br><span class="line">                // 1、解析include中的第一个元素</span><br><span class="line">                 final String childName = childParser.getName();</span><br><span class="line">                // 如果第一个元素是merge标签，那么调用rInflate函数解析</span><br><span class="line">                 if (TAG_MERGE.equals(childName)) &#123;</span><br><span class="line">                     // The &lt;merge&gt; tag doesn&apos;t support android:theme, so</span><br><span class="line">                     // nothing special to do here.</span><br><span class="line">                     rInflate(childParser, parent, context, childAttrs, false);</span><br><span class="line">                 &#125; else &#123;</span><br><span class="line">                     //2、我们例子中的情况会走到这一步,首先根据include的属性集创建被include进来的xml布局的根view</span><br><span class="line">                     // 这里的根view对应为my_title_layout.xml中的RelativeLayout</span><br><span class="line">                     final View view = createViewFromTag(parent, childName,</span><br><span class="line">                             context, childAttrs, hasThemeOverride);</span><br><span class="line">                     final ViewGroup group = (ViewGroup) parent;</span><br><span class="line"></span><br><span class="line">                     final TypedArray a = context.obtainStyledAttributes(</span><br><span class="line">                             attrs, R.styleable.Include);</span><br><span class="line">                     //这里就是设置的&lt;include&gt;布局设置的id ,如果include设置了这个id ，那么这个id就不等于 View.No_ID=-1</span><br><span class="line">                     final int id = a.getResourceId(R.styleable.Include_id, View.NO_ID);</span><br><span class="line">                     final int visibility = a.getInt(R.styleable.Include_visibility, -1);</span><br><span class="line">                     a.recycle();</span><br><span class="line"></span><br><span class="line">                     // We try to load the layout params set in the &lt;include /&gt; tag.</span><br><span class="line">                     // If the parent can&apos;t generate layout params (ex. missing width</span><br><span class="line">                     // or height for the framework ViewGroups, though this is not</span><br><span class="line">                     // necessarily true of all ViewGroups) then we expect it to throw</span><br><span class="line">                     // a runtime exception.</span><br><span class="line">                     // We catch this exception and set localParams accordingly: true</span><br><span class="line">                     // means we successfully loaded layout params from the &lt;include&gt;</span><br><span class="line">                     // tag, false means we need to rely on the included layout params.</span><br><span class="line">                     ViewGroup.LayoutParams params = null;</span><br><span class="line">                     try &#123;</span><br><span class="line">                         // 获3、取布局属性</span><br><span class="line">                         params = group.generateLayoutParams(attrs);</span><br><span class="line">                     &#125; catch (RuntimeException e) &#123;</span><br><span class="line">                         // Ignore, just fail over to child attrs.</span><br><span class="line">                     &#125;</span><br><span class="line">                     // 被inlcude进来的根view设置布局参数</span><br><span class="line">                     if (params == null) &#123;</span><br><span class="line">                         params = group.generateLayoutParams(childAttrs);</span><br><span class="line">                     &#125;</span><br><span class="line">                     view.setLayoutParams(params);</span><br><span class="line">                      // 4、Inflate all children. 解析所有子控件</span><br><span class="line">                     // Inflate all children.</span><br><span class="line">                     rInflateChildren(childParser, view, childAttrs, true);</span><br><span class="line"></span><br><span class="line">                     if (id != View.NO_ID) &#123;</span><br><span class="line">                      // 5、将include中设置的id设置给根view,因此实际上my_title_layout.xml中</span><br><span class="line">                       // 的RelativeLayout的id会变成include标签中的id，include不设置id，那么也可以通过relative的找到.</span><br><span class="line">                         view.setId(id);</span><br><span class="line">                     &#125;</span><br><span class="line"></span><br><span class="line">                     switch (visibility) &#123;</span><br><span class="line">                         case 0:</span><br><span class="line">                             view.setVisibility(View.VISIBLE);</span><br><span class="line">                             break;</span><br><span class="line">                         case 1:</span><br><span class="line">                             view.setVisibility(View.INVISIBLE);</span><br><span class="line">                             break;</span><br><span class="line">                         case 2:</span><br><span class="line">                             view.setVisibility(View.GONE);</span><br><span class="line">                             break;</span><br><span class="line">                     &#125;</span><br><span class="line">                     // 6、将根view添加到父控件中</span><br><span class="line">                     group.addView(view);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125; finally &#123;</span><br><span class="line">                 childParser.close();</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         throw new InflateException(&quot;&lt;include /&gt; can only be used inside of a ViewGroup&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">     //默认的可见性使得LayoutInflater_Delegate代表可以调用它。</span><br><span class="line">     LayoutInflater.consumeChildElements(parser);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分段分析上面的那段代码，<br>1、如果VIEW视图有一个主题属性，我们需要忽略它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//如果VIEW视图有一个主题属性，我们需要忽略它。</span><br><span class="line">final TypedArray ta = context.obtainStyledAttributes(attrs, ATTRS_THEME);</span><br><span class="line">final int themeResId = ta.getResourceId(0, 0);</span><br><span class="line">final boolean hasThemeOverride = themeResId != 0;</span><br><span class="line">if (hasThemeOverride) &#123;</span><br><span class="line">    context = new ContextThemeWrapper(context, themeResId);</span><br><span class="line">&#125;</span><br><span class="line">ta.recycle();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2、如果布局指向主题属性，我们必须从该值以从中获取资源标识符！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//如果布局指向主题属性，我们必须</span><br><span class="line">//按摩该值以从中获取资源标识符。</span><br><span class="line">int layout = attrs.getAttributeResourceValue(null, ATTR_LAYOUT, 0);</span><br></pre></td></tr></table></figure></p>
+<p>3、在这里出现<code>value == null || value.length() &lt;= 0</code>的话，就会抛出异常，也就是说<code>include</code>标签中没有设置<code>layout</code>属性，会抛出异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">if (layout == 0) &#123;</span><br><span class="line">    final String value = attrs.getAttributeValue(null, ATTR_LAYOUT);</span><br><span class="line">    // TODO: 2018/6/6 include标签中没有设置layout属性，会抛出异常</span><br><span class="line">    if (value == null || value.length() &lt;= 0) &#123;//</span><br><span class="line">        throw new InflateException(&quot;You must specify a layout in the&quot;</span><br><span class="line">                + &quot; include tag: &lt;include layout=\&quot;@layout/layoutID\&quot; /&gt;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    // Attempt to resolve the &quot;?attr/name&quot; string to an attribute</span><br><span class="line">    // within the default (e.g. application) package.</span><br><span class="line">    layout = context.getResources().getIdentifier(</span><br><span class="line">            value.substring(1), &quot;attr&quot;, context.getPackageName());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3、解析<code>include</code>中的第一个元素,如果这里第一个<code>childeName</code>是<code>merge</code>,那么就是 <code>include</code>和<code>merge</code> 一起使用的情况，调用的方法是<code>rInflate(childParser, parent, context, childAttrs, false);</code>和上面一样，不会生成多余的层级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 1、解析include中的第一个元素</span><br><span class="line"> final String childName = childParser.getName();</span><br><span class="line">// 如果第一个元素是merge标签，那么调用rInflate函数解析</span><br><span class="line"> if (TAG_MERGE.equals(childName)) &#123;</span><br><span class="line">     // The &lt;merge&gt; tag doesn&apos;t support android:theme, so</span><br><span class="line">     // nothing special to do here.</span><br><span class="line">     rInflate(childParser, parent, context, childAttrs, false);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>4、首先根据include的属性集创建被include进来的xml布局的根view,这个<code>view</code>其实就<code>include</code> 进来的根<code>ViewGroup</code>,因为在前面已经把<code>merge</code>的情况过滤掉了，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">else &#123;</span><br><span class="line">   //2、我们例子中的情况会走到这一步,首先根据include的属性集创建被include进来的xml布局的根view</span><br><span class="line">   final View view = createViewFromTag(parent, childName,</span><br><span class="line">           context, childAttrs, hasThemeOverride);</span><br></pre></td></tr></table></figure></p>
+<p>5、特别关心这个<code>final int id = a.getResourceId(R.styleable.Include_id, View.NO_ID);</code>函数，其实就是给<code>include</code>标签设是否设置了<code>id</code>,就好像下面的布局一样，如果设置了这个<code>android:id=&quot;@+id/my_title_ly&quot;</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;include</span><br><span class="line">    android:id=&quot;@+id/my_title_ly&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;200dp&quot;</span><br><span class="line">    layout=&quot;@layout/my_include_layout&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这个是上面得<code>include</code>的布局<code>my_include_layout</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:id=&quot;@+id/my_title_parent_id&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot; &gt;</span><br><span class="line">   ....</span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>下面的这段代码就会执行，这也就解释了：安卓<code>include</code>标签的找不到id的问题,因为你在<code>include</code>设置了这个<code>id</code>属性，那么你找这个<code>my_title_parent_id</code>这个id，<code>findViewById(R.id.my_title_parent_id)</code>肯定也会找出来为null！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">                        final int id = a.getResourceId(R.styleable.Include_id, View.NO_ID);</span><br><span class="line">                        if (id != View.NO_ID) &#123;</span><br><span class="line">                         // 5、将include中设置的id设置给根view,因此实际上my_title_layout.xml中</span><br><span class="line">                          // 的RelativeLayout的id会变成include标签中的id，include不设置id，那么也可以通过relative的找到.</span><br><span class="line">                            view.setId(id);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 为什么<code>findViewById(R.id.my_title_parent_id)</code>会找出来为null,简单叙述下就是在<code>Activity</code>中调用方法其实是<code>Window</code>的<code>findViewById</code>,<code>getDecorView().findViewById(id)</code>,也就是<code>PhoneWindow</code>里面的<code>DecorView</code>的<code>findViewById</code>,也就是<code>View</code>的<code>findViewById</code>;可以看这边文章<a href="https://www.jianshu.com/p/f7e3a14daf51" target="_blank" rel="noopener">Android源码分析（事件传递）</a>涉及到这几个类了。如下面的方法，这个View 有id，找id的话就会走<code>findViewTraversal</code>这个方法，找的id和<code>setId</code>不一样的话，就会返回null，这就是找不到 <code>id</code>的原因。这个原因和<code>ViewStub</code>标签中设置了<code>inflatedId</code>一样的效果，下篇文章会讲到，非常有意思！已经写好<a href="https://www.jianshu.com/p/63a066e7a5a9" target="_blank" rel="noopener">Android源码分析(ViewStub源码解析)</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> public final &lt;T extends View&gt; T findViewById(@IdRes int id) &#123;</span><br><span class="line">    if (id == NO_ID) &#123;</span><br><span class="line">         return null;</span><br><span class="line">   &#125;</span><br><span class="line">    return findViewTraversal(id);</span><br><span class="line"> &#125;</span><br><span class="line">protected &lt;T extends View&gt; T findViewTraversal(@IdRes int id) &#123;</span><br><span class="line">   if (id == mID) &#123;</span><br><span class="line">        return (T) this;</span><br><span class="line">   &#125;</span><br><span class="line">   return null;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>View中设置<code>id</code>的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> public void setId(@IdRes int id) &#123;</span><br><span class="line">   mID = id;</span><br><span class="line">    if (mID == View.NO_ID &amp;&amp; mLabelForId != View.NO_ID) &#123;</span><br><span class="line">         mID = generateViewId();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6、关于<code>final int visibility = a.getInt(R.styleable.Include_visibility, -1);</code>这行代码，也就是说我们设置了<code>include</code>标签’visibility’其实也就是设置<code>layout</code>的<code>visibility</code>的属性！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">final int visibility = a.getInt(R.styleable.Include_visibility, -1);</span><br><span class="line">  switch (visibility) &#123;</span><br><span class="line">                          case 0:</span><br><span class="line">                              view.setVisibility(View.VISIBLE);</span><br><span class="line">                              break;</span><br><span class="line">                          case 1:</span><br><span class="line">                              view.setVisibility(View.INVISIBLE);</span><br><span class="line">                              break;</span><br><span class="line">                          case 2:</span><br><span class="line">                              view.setVisibility(View.GONE);</span><br><span class="line">                              break;</span><br><span class="line">                      &#125;</span><br></pre></td></tr></table></figure>
+<p>7、将根view添加到父控件中,最后都会走到这里来，只不过使用了<code>merge</code>是不会产生多余的层级的，但是使用的时候有场景的要求！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">group.addView(view);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>最后做了一张图，谢谢<br><img src="https://upload-images.jianshu.io/upload_images/5363507-3328730701d08022.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="LayoutInflater.from(this).inflate(resId,null);代码解析.png"></p>
+</li>
+<li><p>说明几点</p>
+<ul>
+<li>布局转化为View，关键方法就是<code>LayoutInflater.from(this),inflate()</code></li>
+<li><code>PhoneWindow</code>这个类很关键</li>
+<li>如果需要打断点，建议使用模拟器，手机的厂商基本上改动过<code>framework</code>的代码，打出来不准确</li>
+<li><code>merge</code>原理就是通过<code>addView(view)</code>,从而减少了层级<ul>
+<li><code>BlinkLayout</code>这个是<code>LayoutInflater</code>的内部类，感觉是谷歌工程师皮了一下</li>
+</ul>
+</li>
+<li><code>include</code>只能在ViewGroup中使用，在 ‘View’结点中使用的话，会报错</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-06-07, 16:12:57</p>
+        <p><span>最后更新:</span>2018-08-14, 16:46:52</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/07/Android源码分析LayoutInflater/" title="Android源码分析LayoutInflater">http://yoursite.com/2018/06/07/Android源码分析LayoutInflater/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/06/07/Android源码分析LayoutInflater/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/06/08/Android源码分析-View的绘制流程/">
+                    Android源码分析:View的绘制流程
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/06/07/Android源码分析ViewStub源码解析/">
+                    Android源码分析ViewStub源码解析
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#源码基于安卓8-0分析结果"><span class="toc-number">1.</span> <span class="toc-text">源码基于安卓8.0分析结果</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Android源码分析LayoutInflater　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/06/08/Android源码分析-View的绘制流程/" title="上一篇: Android源码分析:View的绘制流程">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/06/07/Android源码分析ViewStub源码解析/" title="下一篇: Android源码分析ViewStub源码解析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

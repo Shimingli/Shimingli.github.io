@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="前些天无意中看到了微信的广告的效果，本想自己实现一下这种效果，点开图片，图片放大，然后在另外一个的Activity中显示，就好像是通过一个图片动画，动画结束完了，开启一个界面，但是实际上这是安卓的转场动画。 转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。##通过xml做转场动画">
+<meta name="keywords" content="Activity的转场动画效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity的转场动画效果">
+<meta property="og:url" content="http://yoursite.com/2017/05/02/Activity的转场动画效果/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="前些天无意中看到了微信的广告的效果，本想自己实现一下这种效果，点开图片，图片放大，然后在另外一个的Activity中显示，就好像是通过一个图片动画，动画结束完了，开启一个界面，但是实际上这是安卓的转场动画。 转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。##通过xml做转场动画">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-c9af3c7a7fd737ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-890f8aa407adb948.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-c66f7fd89878c2ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-fb0fd8cba9637c72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-b45037d92f5b3c87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-12894796adf9780a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:43:27.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity的转场动画效果">
+<meta name="twitter:description" content="前些天无意中看到了微信的广告的效果，本想自己实现一下这种效果，点开图片，图片放大，然后在另外一个的Activity中显示，就好像是通过一个图片动画，动画结束完了，开启一个界面，但是实际上这是安卓的转场动画。 转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。##通过xml做转场动画">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5363507-c9af3c7a7fd737ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Activity的转场动画效果 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Activity的转场动画效果" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/02/Activity的转场动画效果/" class="article-date">
+      <time datetime="2017-05-02T08:42:05.000Z" itemprop="datePublished">2017-05-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Activity的转场动画效果
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>前些天无意中看到了微信的广告的效果，本想自己实现一下这种效果，点开图片，图片放大，然后在另外一个的Activity中显示，就好像是通过一个图片动画，动画结束完了，开启一个界面，但是实际上这是安卓的转场动画。<br><img src="http://upload-images.jianshu.io/upload_images/5363507-c9af3c7a7fd737ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h3 id="转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。"><a href="#转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。" class="headerlink" title="转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。"></a>转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。</h3><p>##通过xml做转场动画<br><a id="more"></a><br>1、代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">startActivity(new Intent(MainActivity.this, Main2Activity.class));</span><br><span class="line">                /**</span><br><span class="line">                 * in 的动画是第二个activity （）进入的动画，out是第一个activity finish（）的动画</span><br><span class="line">                 * 如果两个时间不一样的话，这就会导致一种翻书的效果，in out的动画是从下往上的动画</span><br><span class="line">                 */</span><br><span class="line"> overridePendingTransition(R.anim.in,R.anim.out);</span><br></pre></td></tr></table></figure></p>
+<p>2、R.anim.in中的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">     android:fillAfter=&quot;false&quot;</span><br><span class="line">    &gt;</span><br><span class="line">   &lt;!--   android:fillAfter=&quot;true&quot;主要是在加这一属性的时候必须加在&lt;set&gt;标签这里才起作用</span><br><span class="line">   这一属性在xml中设置使动画保持在播放的最后一帧不起作用</span><br><span class="line">   --&gt;</span><br><span class="line">   &lt;!-- XML中</span><br><span class="line">    alpha</span><br><span class="line">    渐变透明度动画效果</span><br><span class="line">    scale</span><br><span class="line">    渐变尺寸伸缩动画效果</span><br><span class="line">    translate</span><br><span class="line">    画面转换位置移动动画效果</span><br><span class="line">    rotate</span><br><span class="line">    画面转移旋转动画效果--&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 0.1透明  1.0完全不透明</span><br><span class="line">          fromAlpha 属性为动画起始时透明度</span><br><span class="line">          toAlpha   属性为动画结束时透明度</span><br><span class="line">            说明:</span><br><span class="line">               0.0表示完全透明</span><br><span class="line">                1.0表示完全不透明</span><br><span class="line">       以上值取0.0-1.0之间的float数据类型的数字</span><br><span class="line">   --&gt;</span><br><span class="line">   &lt;!-- &lt;alpha</span><br><span class="line">        android:fromAlpha=&quot;0.1&quot;</span><br><span class="line">        android:toAlpha=&quot;1.0&quot;</span><br><span class="line">        android:duration=&quot;3000&quot;</span><br><span class="line">        /&gt;--&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--    &lt;translate</span><br><span class="line">        android:toYDelta=&quot;0&quot;</span><br><span class="line">        android:fromYDelta=&quot;100%&quot;</span><br><span class="line">        android:duration=&quot;1500&quot;/&gt;--&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!-- 有三种动画插入器:</span><br><span class="line">    accelerate_decelerate_interpolator  加速-减速 动画插入器</span><br><span class="line">    accelerate_interpolator        加速-动画插入器</span><br><span class="line">    decelerate_interpolator        减速- 动画插入器</span><br><span class="line">    其他的属于特定的动画效果</span><br><span class="line">    浮点型值：</span><br><span class="line">    fromXScale 属性为动画起始时 X坐标上的伸缩尺寸</span><br><span class="line">    toXScale   属性为动画结束时 X坐标上的伸缩尺寸</span><br><span class="line">    fromYScale 属性为动画起始时Y坐标上的伸缩尺寸</span><br><span class="line">    toYScale   属性为动画结束时Y坐标上的伸缩尺寸</span><br><span class="line">    startOffset  属性为从上次动画停多少时间开始执行下个动画</span><br><span class="line"></span><br><span class="line">    说明:</span><br><span class="line">    以上四种属性值</span><br><span class="line">    0.0表示收缩到没有</span><br><span class="line">    1.0表示正常无伸缩</span><br><span class="line">    值小于1.0表示收缩</span><br><span class="line">    值大于1.0表示放大</span><br><span class="line">    pivotX     属性为动画相对于物件的X坐标的开始位置</span><br><span class="line">    pivotY     属性为动画相对于物件的Y坐标的开始位置</span><br><span class="line">    说明:</span><br><span class="line">    以上两个属性值 从0%-100%中取值</span><br><span class="line">    50%为物件的X或Y方向坐标上的中点位置</span><br><span class="line">    长整型值：</span><br><span class="line">    duration  属性为动画持续时间</span><br><span class="line">    说明:   时间以毫秒为单位</span><br><span class="line">    布尔型值:</span><br><span class="line">    fillAfter 属性 当设置为true ，该动画转化在动画结束后被应用--&gt;</span><br><span class="line">  &lt;!--  &lt;scale</span><br><span class="line">        android:interpolator=&quot;@android:anim/accelerate_decelerate_interpolator&quot;</span><br><span class="line">        android:fromXScale=&quot;0.0&quot;</span><br><span class="line">        android:toXScale=&quot;1.4&quot;</span><br><span class="line">        android:fromYScale=&quot;0.0&quot;</span><br><span class="line">        android:toYScale=&quot;1.4&quot;</span><br><span class="line">        android:pivotX=&quot;50%&quot;</span><br><span class="line">        android:startOffset=&quot;700&quot;</span><br><span class="line">        android:pivotY=&quot;50%&quot;</span><br><span class="line">        android:duration=&quot;700&quot; /&gt;--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;rotate</span><br><span class="line">        android:interpolator=&quot;@android:anim/accelerate_decelerate_interpolator&quot;</span><br><span class="line">        android:fromDegrees=&quot;0&quot;</span><br><span class="line">        android:toDegrees=&quot;+350&quot;</span><br><span class="line">        android:pivotX=&quot;50%&quot;</span><br><span class="line">        android:pivotY=&quot;50%&quot;</span><br><span class="line">        android:duration=&quot;3000&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- rotate 旋转动画效果</span><br><span class="line">       属性：interpolator 指定一个动画的插入器</span><br><span class="line">             在我试验过程中，使用android.res.anim中的资源时候发现</span><br><span class="line">             有三种动画插入器:</span><br><span class="line">                accelerate_decelerate_interpolator   加速-减速 动画插入器</span><br><span class="line">                accelerate_interpolator               加速-动画插入器</span><br><span class="line">                decelerate_interpolator               减速- 动画插入器</span><br><span class="line">             其他的属于特定的动画效果</span><br><span class="line"></span><br><span class="line">       浮点数型值:</span><br><span class="line">            fromDegrees 属性为动画起始时物件的角度</span><br><span class="line">            toDegrees   属性为动画结束时物件旋转的角度 可以大于360度</span><br><span class="line">            说明:    当角度为负数——表示逆时针旋转</span><br><span class="line">                     当角度为正数——表示顺时针旋转</span><br><span class="line">                     (负数from——to正数:顺时针旋转)</span><br><span class="line">                     (负数from——to负数:逆时针旋转)</span><br><span class="line">                     (正数from——to正数:顺时针旋转)</span><br><span class="line">                     (正数from——to负数:逆时针旋转)</span><br><span class="line">            pivotX     属性为动画相对于物件的X坐标的开始位置</span><br><span class="line">            pivotY     属性为动画相对于物件的Y坐标的开始位置</span><br><span class="line">            说明:        以上两个属性值 从0%-100%中取值</span><br><span class="line">                         50%为物件的X或Y方向坐标上的中点位置</span><br><span class="line">        长整型值：</span><br><span class="line">            duration  属性为动画持续时间</span><br><span class="line">            说明:       时间以毫秒为单位  --&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<p>xml的动画有这四种的动画注意这个android:fillAfter=”true”的使用情况<br>3、R.anim.out中的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;translate</span><br><span class="line">        android:duration=&quot;5000&quot;</span><br><span class="line">        android:fromYDelta=&quot;0&quot;</span><br><span class="line">        android:toYDelta=&quot;-100%&quot;/&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-890f8aa407adb948.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>###以上是很早的activity的转场的动画实现，当然也可以使用属性动画</p>
+<p>##在api21后谷歌提供了另外一种方式的转场动画<br>5.0之后的转场动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">            //分解，把一个activity分解成为两部分的，进入</span><br><span class="line">//            getWindow().setEnterTransition(new Explode().setDuration(2000));</span><br><span class="line">//            getWindow().setExitTransition(new Explode().setDuration(2000));</span><br><span class="line">            //滑动进入</span><br><span class="line">//            getWindow().setEnterTransition(new Slide().setDuration(2000));</span><br><span class="line">//            getWindow().setExitTransition(new Slide().setDuration(2000));</span><br><span class="line">           //淡入淡出</span><br><span class="line">//            getWindow().setEnterTransition(new Fade().setDuration(2000));</span><br><span class="line">//            getWindow().setExitTransition(new Fade().setDuration(2000));</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>就是在v21的包下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 表示激活Activity中元素的过渡效果 ：  &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt;</span><br><span class="line">   --&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这个styles的建立的方式，把上面的代码加入到styles中，那么安卓studio就会提示你建立这个v21的文件<br><img src="http://upload-images.jianshu.io/upload_images/5363507-c66f7fd89878c2ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>styles中的详情！<br><img src="http://upload-images.jianshu.io/upload_images/5363507-fb0fd8cba9637c72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>##共享元素(微信图片广告效果)<br>在MainActivity和Main2Activity里边都有一个ImageView，只不过一个大一个小，从MainActivity跳转到Main2Activity时，我并没有感觉到Activity的跳转，只是觉得好像第一个页面的ImageView放大了，同理，当我从第二个页面回到第一个页面时，也好像ImageView变小了。OK，这就是我们的Activity共享元素。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-b45037d92f5b3c87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>第一个activity点击图片跳转到第二个activity时候动画<br><img src="http://upload-images.jianshu.io/upload_images/5363507-12894796adf9780a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br>代码实现如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">final ImageView imageview = (ImageView) findViewById(R.id.imgview);</span><br><span class="line">  imageview.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void onClick(View v) &#123;</span><br><span class="line">          if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">              startActivity(new Intent(MainActivity.this,Main2Activity.class), ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,imageview,&quot;imageview&quot;).toBundle());</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure></p>
+<p> ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,imageview,”imageview”)。其中的三个参数，可能需要明白第三个参数是什么？其实就是在xml中设置一项属性  android:transitionName=”imageview”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;ImageView</span><br><span class="line">    android:id=&quot;@+id/imgview&quot;</span><br><span class="line">    android:layout_width=&quot;200dp&quot;</span><br><span class="line">    android:scaleType=&quot;fitXY&quot;</span><br><span class="line">    android:layout_height=&quot;200dp&quot;</span><br><span class="line">    android:layout_centerHorizontal=&quot;true&quot;</span><br><span class="line">    android:src=&quot;@mipmap/ic_launcher&quot;</span><br><span class="line">    android:transitionName=&quot;imageview&quot;</span><br><span class="line">    /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP<br>以上就能实现微信跳转的效果了（但是必须是api21上的才能实现）</p>
+<p>###Demo的地址<br><a href="https://github.com/Shimingli/AnimationDemo" target="_blank" rel="noopener">https://github.com/Shimingli/AnimationDemo</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2017-05-02, 16:42:05</p>
+        <p><span>最后更新:</span>2018-08-14, 16:43:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/02/Activity的转场动画效果/" title="Activity的转场动画效果">http://yoursite.com/2017/05/02/Activity的转场动画效果/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/05/02/Activity的转场动画效果/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/05/08/自定义PopupWindow的超强使用/">
+                    自定义PopupWindow的超强使用
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">
+                    如何用AndroidStudio查看和解决OOM
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。"><span class="toc-number">1.</span> <span class="toc-text">转场动画很早就有了，但是由于fragment的使用，所以在activity的交互没有那么多，导致以前自己没有认真的接触到。</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Activity的转场动画效果　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/05/08/自定义PopupWindow的超强使用/" title="上一篇: 自定义PopupWindow的超强使用">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/04/17/如何用AndroidStudio查看和解决OOM/" title="下一篇: 如何用AndroidStudio查看和解决OOM">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

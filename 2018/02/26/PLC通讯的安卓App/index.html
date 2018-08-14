@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="认识中控板：华北工控 EMB-3550基于Coretex-A17 ARM架构嵌入式All In One主板">
+<meta name="keywords" content="PLC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PLC通讯的安卓App">
+<meta property="og:url" content="http://yoursite.com/2018/02/26/PLC通讯的安卓App/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="认识中控板：华北工控 EMB-3550基于Coretex-A17 ARM架构嵌入式All In One主板">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-919473b454fd8d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-ea38ec24a0744489.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-ded4876d0aa8ca7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-1132b24da691c87c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-89f4173ed2a9be2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-6288b563a0cef4af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-db28b736cdd99618.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-730e20aca8adaa1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-98637c90119d4077.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-0af4d354df45a40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-907aec9a521b762b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-a32dab3d88003e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-4205e69a352897f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-cdfcc6fd6520bd0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-fd7135a82d5b04c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-9d18431ccc413ad9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-579ba794cbcb18f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-59debc53686f3ed0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:29:59.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PLC通讯的安卓App">
+<meta name="twitter:description" content="认识中控板：华北工控 EMB-3550基于Coretex-A17 ARM架构嵌入式All In One主板">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5363507-919473b454fd8d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>PLC通讯的安卓App | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-PLC通讯的安卓App" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/26/PLC通讯的安卓App/" class="article-date">
+      <time datetime="2018-02-26T08:29:26.000Z" itemprop="datePublished">2018-02-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PLC通讯的安卓App
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PLC/">PLC</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="认识中控板：华北工控-EMB-3550"><a href="#认识中控板：华北工控-EMB-3550" class="headerlink" title="认识中控板：华北工控 EMB-3550"></a>认识中控板：华北工控 EMB-3550</h4><p>基于Coretex-A17 ARM架构嵌入式All In One主板</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-919473b454fd8d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工控板.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-ea38ec24a0744489.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="侧视图.png"></p>
+<a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-ded4876d0aa8ca7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="侧面图.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-1132b24da691c87c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="背面图"></p>
+<p>#####EMB—3550详细的参数：<br>◆ 采用RK3288 Coretex-A17处理器（四核）<br>◆ 板载2GB DDR3 高速内存，板载8GB EMMC flash<br>◆ 提供HDMI、VGA、LVDS多种显示端口，支持独立多显<br>◆ 提供5x COM，6x USB，1x USB OTG，1x LAN，1x WIFI，1x TF卡槽，Line out/Mic（板载5W双输出功放），<br>◆ 提供1x Mini PCIe（可支持WiFi、3G模块），1x SIM卡槽（可支持3G网络）<br>◆ 主板集成度高、板型紧凑、All In One 设计，尺寸仅为120mm*120mm</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-89f4173ed2a9be2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="详细的参数的信息.png"></p>
+<p>实物图<br><img src="http://upload-images.jianshu.io/upload_images/5363507-6288b563a0cef4af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="把板子当做一个安卓手机"></p>
+<p>最后总结一下，我们只需要把这个设备当做手机，虽然这样，但是我在开发过程中也遇到了好多麻烦，比如说，这段的代码在手机上运行就没有什么问题，在板子上运行就直接奔溃，板子会莫名其妙的息屏，当订购板子的设备多了，会发现每一块的板子的都不一样，你说崩溃不？当然，这些都是后话了，这个板子要求两点：Root过，最好安卓的系统在5.0以下，因为那会的安卓对权限好像不是太敏感</p>
+<p>####认识PLC：PLC控制器实质是一种专用于工业控制的计算机，其硬件结构基本上与微型计算机相同<br>PLC控制系统，Programmable Logic Controller，可编程逻辑控制器，专为工业生产设计的一种数字运算操作的电子装置，它采用一类可编程的存储器，用于其内部存储程序，执行逻辑运算，顺序控制，定时，计数与算术操作等面向用户的指令，并通过数字或模拟式输入/输出控制各种类型的机械或生产过程。是工业控制的核心部分。<br><img src="http://upload-images.jianshu.io/upload_images/5363507-db28b736cdd99618.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-730e20aca8adaa1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h3><h4 id="中央处理单元"><a href="#中央处理单元" class="headerlink" title="中央处理单元"></a>中央处理单元</h4><p>中央处理单元(CPU)是PLC控制器的控制中枢。它按照PLC控制器系统程序赋予的功能接收并存储从编程器键入的用户程序和数据；检查电源、存储器、I/O以及警戒定时器的状态，并能诊断用户程序中的语法错误。当PLC控制器投入运行时，首先它以扫描的方式接收现场各输入装置的状态和数据，并分别存入I/O映象区，然后从用户程序存储器中逐条读取用户程序，经过命令解释后按指令的规定执行逻辑或算数运算的结果送入I/O映象区或数据寄存器内。等所有的用户程序执行完毕之后，最后将I/O映象区的各输出状态或输出寄存器内的数据传送到相应的输出装置，如此循环运行，直到停止运行。为了进一步提高PLC控制器的可靠性，近年来对大型PLC还采用双CPU构成冗余系统，或采用三CPU的表决式系统。这样，即使某个CPU出现故障，整个系统仍能正常运行。</p>
+<h4 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h4><p>存放系统软件的存储器称为系统程序存储器。<br>存放应用软件的存储器称为用户程序存储器。</p>
+<h4 id="电源"><a href="#电源" class="headerlink" title="电源"></a>电源</h4><p>PLC控制器的电源在整个系统中起着十分重要得作用。如果没有一个良好的、可靠的电源系统是无法正常工作的，因此PLC的制造商对电源的设计和制造也十分重视。一般交流电压波动在+10%(+15%)范围内，可以不采取其它措施而将PLC控制器直接连接到交流电网上去。</p>
+<h4 id="程式输入装置"><a href="#程式输入装置" class="headerlink" title="程式输入装置"></a>程式输入装置</h4><p>负责提供操作者输入、修改、监视程式用作的功能</p>
+<h4 id="输入输出回路"><a href="#输入输出回路" class="headerlink" title="输入输出回路"></a>输入输出回路</h4><p>负责接收外部输入元件信号和负责接收外部输出元件信号.</p>
+<p>###最后关于PLC，说明一下：我对这块也不熟悉，毕竟是工业上的东西，希望未来可以深入了解，上面的两张图来源于百度，可以对比发现其中的关键点是modbus通讯，我们通过modbus和PLC交互，连接的方式是LAN端口，实际上，现在在GitHub上开源的Modbus的例子特别多，所以很好的掌握上层的通讯</p>
+<p>####认识App需要的三方依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">compile fileTree(include: [&apos;*.jar&apos;], dir: &apos;libs&apos;)</span><br><span class="line">compile &apos;com.android.support:appcompat-v7:23.2.1&apos;</span><br><span class="line">compile &apos;com.squareup.okhttp3:okhttp-urlconnection:3.2.0&apos;</span><br><span class="line">compile &apos;com.path:android-priority-jobqueue:1.1.2&apos;</span><br><span class="line">//任务调度</span><br><span class="line">compile &apos;org.greenrobot:eventbus:3.0.0&apos;</span><br><span class="line">compile &apos;com.kyleduo.switchbutton:library:1.4.4&apos;</span><br><span class="line">compile &apos;io.reactivex:rxandroid:1.2.1&apos;</span><br><span class="line">compile &apos;io.reactivex:rxjava:1.1.6&apos;</span><br><span class="line">compile &apos;com.google.code.gson:gson:2.8.0&apos;</span><br><span class="line">compile &apos;com.squareup.okhttp3:okhttp:3.2.0&apos;</span><br><span class="line">compile &apos;com.alibaba:fastjson:1.2.21&apos;</span><br><span class="line">//    debugCompile &apos;com.amitshekhar.android:debug-db:0.2.0&apos;   //Android Debug Database 是一个用于在Android应用中调试数据库和分享参数的强大的库。</span><br><span class="line">compile &apos;com.amitshekhar.android:debug-db:1.0.0&apos;//这个很nice 是一个用于在Android应用中调试数据库和分享参数的强大的库。</span><br></pre></td></tr></table></figure></p>
+<p>◆  okhttp:网络加载的依赖，这个不用说，搞过开发的都知道<br>◆（抛砖引玉）  <a href="https://link.jianshu.com/?t=https://github.com/yigit/android-priority-jobqueue" target="_blank" rel="noopener">android-priority-jobqueue</a>：是一个后台任务队列框架，可以对任务进行磁盘缓存，当网络恢复连接的时候继续执行任务。</p>
+<p>######优点如下：<br>便于解耦Application的业务逻辑，让你的代码更加健壮，易于重构和测试。<br>不处理AsyncTask的生命周期。<br> Job Queue关心优先Jobs，检测网络连接，并行运行等。<br>可以延迟jobs。<br>分组jobs来确保串行执行。<br>默认情况下，Job Queue监控网络连接（所以你不需要担心），当设备处于离线状态，需要网络的jobs不会运行，直到网络重新连接。<br>◆  switchbutton：按钮<br>◆  Rxandroid   Rxjava：不解释<br>◆  debug-db：<a href="https://github.com/amitshekhariitbhu" target="_blank" rel="noopener">AMIT SHEKHAR</a>开源了<a href="https://github.com/amitshekhariitbhu/Android-Debug-Database" target="_blank" rel="noopener">Android-Debug-Database</a>，利用这个库，我们可以通过浏览器方便的查看的数据库。主要是调试用，因为有很多的数据会存到我们的数据库中<br><img src="http://upload-images.jianshu.io/upload_images/5363507-98637c90119d4077.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图中的url地址可以使用浏览器打开"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-0af4d354df45a40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="打开的效果如下"></p>
+<p>####串口和ModBus通信</p>
+<p>#####串口<br>1、串行接口简称串口，也称串行通信接口或串行通讯接口通常指COM接口，是采用串行通信方式的扩展接口。串行接口(Serial Interface) 是指数据一位一位地顺序传送，其特点是通信线路简单，只要一对传输线就可以实现双向通信（可以直接利用电话线作为传输线），从而大大降低了成本，特别适用于远距离通信，但传送速度较慢。<br>2、串行接口(Serial Interface) 是指数据一位一位地顺序传送，其特点是通信线路简单，只要一对传输线就可以实现双向通信（可以直接利用电话线作为传输线），从而大大降低了成本，特别适用于远距离通信，但传送速度较慢。一条信息的各位数据被逐位按顺序传送的通讯方式称为串行通讯。串行通讯的特点是：数据位的传送，按位顺序进行，最少只需一根传输线即可完成；成本低但传送速度慢。</p>
+<p>中控板提供了5个串口，在我的项目中使用到两个<br><img src="http://upload-images.jianshu.io/upload_images/5363507-907aec9a521b762b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>#####内置扫描头，记录下扫描的信息，同时保存到数据库中</p>
+<p>#####外置扫描头，扫描提供给用户的二维码，通过扫描得到的信息，和数据库中信息相匹配，匹配到了，下发指令给PLC，PLC通知下位机做机械动作，通过联系的动作指令，把用户需要的信息反馈给用户。<br><img src="http://upload-images.jianshu.io/upload_images/5363507-a32dab3d88003e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="流程图01.png"></p>
+<p>#####ModBus通信</p>
+<p>java的modbus实现库<a href="https://github.com/infiniteautomation/modbus4j" target="_blank" rel="noopener">Git地址</a></p>
+<p>Modbus是由Modicon（现为施耐德电气公司的一个品牌）在1979年发明的，是全球第一个真正用于工业现场的总线协议。<br>ModBus网络是一个工业通信系统，由带智能终端的可编程序控制器和计算机通过公用线路或局部专用线路连接而成。其系统结构既包括硬件、亦包括软件。它可应用于各种数据采集和过程监控。</p>
+<p>######Modbus具有以下几个特点：<br>（1）标准、开放，用户可以免费、放心地使用Modbus协议，不需要交纳许可证费，也不会侵犯知识产权。目前，支持Modbus的厂家超过400家，支持Modbus的产品超过600种。<br>（2）Modbus可以支持多种电气接口，如RS-232、RS-485等，还可以在各种介质上传送，如双绞线、光纤、无线等。<br>（3）Modbus的帧格式简单、紧凑，通俗易懂。用户使用容易，厂商开发简单。</p>
+<p>######传输方式<br>在ModBus系统中有2种传输模式可选择。这2种传输模式与从机PC通信的能力是同等的。选择时应视所用ModBus主机而定，每个ModBus系统只能使用一种模式，不允许2种模式混用。一种模式是ASCII（美国信息交换码），另一种模式是RTU远程终端设备。<br>1、ASCII模式<br>当控制器设为在Modbus网络上以ASCII（美国标准信息交换代码）模式通信，一个信息中的每8个比特作为2个ASCII字符传输，如数值63H用ASCII方式时，需发送两个字节，即ASCII“6”（0110110）和ASCII”3“（0110011），ASCII字符占用的位数有7位和8位，国际通用7位为多。这种方式的主要优点是字符发送的时间间隔可达到1秒而不产生错误。<br>2、RTU模式<br>当控制器设为在Modbus网络上以RTU模式通信，在消息中的每个8Bit字节按照原值传送，不做处理，如63H，RTU将直接发送01100011。这种方式的主要优点是：数据帧传送之间没有间隔，相同波特率下传输数据的密度要比ASCII高，传输速度更快。</p>
+<p>######代码实现<br>jar包，网上很多，基本上找得到，两个jar相互相成<br><img src="http://upload-images.jianshu.io/upload_images/5363507-4205e69a352897f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="依赖的jar包"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">//&quot;192.168.1.11&quot;能变更的东西，尽量写活</span><br><span class="line"> String plcIpAddress = AppSP.getStringValue(AppSP.PLC_IP_ADDRESS, Constant.DEFAULT_PLCIP);</span><br><span class="line"> String plcPort = AppSP.getStringValue(AppSP.PLC_PORT, Constant.DEFAULT_PLC_PORT);//PLC端口号默认502</span><br><span class="line"> plcNO = Integer.parseInt(AppSP.getStringValue(AppSP.PLC_NO, &quot;1&quot;));//默认PLC站号为1</span><br><span class="line"> if (plcIpAddress.equals(&quot;&quot;) || plcPort.equals(&quot;&quot;)) &#123;</span><br><span class="line">     return;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> IpParameters ipParameters = new IpParameters();</span><br><span class="line"> ipParameters.setHost(plcIpAddress);</span><br><span class="line"> ipParameters.setPort(Integer.parseInt(plcPort));</span><br><span class="line"> if (master != null) &#123;</span><br><span class="line">     if (master.isInitialized()) &#123;</span><br><span class="line">         master.destroy();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> ModbusFactory modbusFactory = new ModbusFactory();</span><br><span class="line"> // 参数1：IP和端口信息 参数2：保持连接激活</span><br><span class="line"> master = modbusFactory.createTcpMaster(ipParameters, true);</span><br><span class="line"> master.setTimeout(2000);</span><br><span class="line"> //modbus重连次数</span><br><span class="line"> master.setRetries(10);</span><br><span class="line"> new Thread() &#123;</span><br><span class="line">     @Override</span><br><span class="line">     public void run() &#123;</span><br><span class="line">         super.run();</span><br><span class="line">         try &#123;</span><br><span class="line">             master.init();</span><br><span class="line">             //连接成功，复位</span><br><span class="line">             mainHandler.post(new Runnable() &#123;</span><br><span class="line">                 @Override</span><br><span class="line">                 public void run() &#123;</span><br><span class="line">                     WaittingActivity.start(getContext(), getContext().getString(R.string.msg_machine_is_all_returninng));</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;);</span><br><span class="line">             setStatus(AppStatus.NORMAL);</span><br><span class="line">         &#125; catch (ModbusInitException e) &#123;</span><br><span class="line">             e.printStackTrace();</span><br><span class="line">             setStatus(AppStatus.PLC_CONNECT_LOST);</span><br><span class="line">         &#125; finally &#123;</span><br><span class="line">             master.destroy();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;.start();</span><br></pre></td></tr></table></figure>
+<p>写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 同步方式批量写数据到保持寄存器  功能代码：16 (0x10)</span><br><span class="line">   *</span><br><span class="line">   * @param master</span><br><span class="line">   * @param slaveId</span><br><span class="line">   * @param start</span><br><span class="line">   * @param values</span><br><span class="line">   */</span><br><span class="line">  public static int writeHRegs(final ModbusMaster master, final int slaveId, final int start, final short[] values) &#123;</span><br><span class="line"></span><br><span class="line">      if (master == null) &#123;</span><br><span class="line">          return -1;</span><br><span class="line">      &#125;</span><br><span class="line">      try &#123;</span><br><span class="line">          LogPrint.print_modbus(&quot; 同步写数据到保持寄存器D&quot;, &quot;add:&quot; + start + &quot;-value:&quot; + NumberUtil.toInt(values));</span><br><span class="line">          WriteRegistersRequest request = new WriteRegistersRequest(slaveId, start, values);</span><br><span class="line">          WriteRegistersResponse response = (WriteRegistersResponse) master.send(request);</span><br><span class="line">          if (!response.isException()) &#123;</span><br><span class="line">              return 0;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              return -1;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; catch (ModbusTransportException e) &#123;</span><br><span class="line">          onModbusTransportException(e, start);</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">      return -1;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>读<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 读取保持寄存器 功能代码 03</span><br><span class="line">   *</span><br><span class="line">   * @param master</span><br><span class="line">   * @param slaveId</span><br><span class="line">   * @param addr</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  public static int readHReg(final ModbusMaster master, int slaveId, int addr) &#123;</span><br><span class="line">      try &#123;</span><br><span class="line">          LogPrint.print_modbus(&quot;同步读保持寄存器D&quot;, &quot;add:&quot; + addr);</span><br><span class="line">          ReadHoldingRegistersRequest request2 = new ReadHoldingRegistersRequest(slaveId, addr, 1);</span><br><span class="line">          ReadHoldingRegistersResponse response2 = (ReadHoldingRegistersResponse) master.send(request2);</span><br><span class="line">          if (!response2.isException()) &#123;</span><br><span class="line">              return response2.getShortData()[0];</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125; catch (Exception e) &#123;</span><br><span class="line">          if (e instanceof ModbusTransportException) &#123;</span><br><span class="line">              onModbusTransportException((ModbusTransportException) e, addr);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####工作流程图如下，需要在新标签打开图片，放大才看的清楚些<br><img src="http://upload-images.jianshu.io/upload_images/5363507-cdfcc6fd6520bd0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Modbus流程图.png"></p>
+<p>####modbus到底是怎样的通讯的呢？<br>这是通讯app的控制面板，讲一个开门流程<br><img src="http://upload-images.jianshu.io/upload_images/5363507-fd7135a82d5b04c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="device-2018-02-26-175123.png"><br>点击开门开关<br> SwitchExecutor.openDoor();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> LogToFile.getInstane().write(LogToFile.SWITCH, &quot;开门&quot;);</span><br><span class="line">Observable openDoor = Observable.create(new Observable.OnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void call(Subscriber&lt;? super Integer&gt; subscriber) &#123;</span><br><span class="line">        SwitchTask switchTask = new SwitchTask(DOOR, true);</span><br><span class="line">        int result = switchTask.work(PLCRegAddr.OPEN_DOOR_COMP);</span><br><span class="line">        switch (result) &#123;</span><br><span class="line">            case EXEC_SUCCESS:</span><br><span class="line">                doorState = true;</span><br><span class="line">                LogToFile.getInstane().write(LogToFile.SWITCH, &quot;开门成功&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case EXEC_TIME_OUT:</span><br><span class="line">                PLCTaskBase.showMsg(&quot;开门执行超时&quot;);</span><br><span class="line">                LogToFile.getInstane().write(LogToFile.SWITCH, &quot;开门执行超时&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case WAIT_TIME_OUT:</span><br><span class="line">                PLCTaskBase.showMsg(&quot;开门等待超时&quot;);</span><br><span class="line">                LogToFile.getInstane().write(LogToFile.SWITCH, &quot;开门等待超时&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        subscriber.onCompleted();</span><br><span class="line">        SwitchMessage message = new SwitchMessage(result, DOOR);</span><br><span class="line">        message.setAction(true);</span><br><span class="line">        EventBus.getDefault().post(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">subscription = openDoor.observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">        .subscribeOn(Schedulers.io())</span><br><span class="line">        .subscribe(observer);</span><br></pre></td></tr></table></figure></p>
+<p>SwitchTask类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public SwitchTask(int type, boolean value) &#123;</span><br><span class="line">      this.setaGyrate(false);</span><br><span class="line">      this.type = type;</span><br><span class="line">      this.value = value;</span><br><span class="line">      MainApplication.setIsBusying(false);//全局变量，告知设备正在忙</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>work做什么工作<br>public static final int OPEN_DOOR_COMP = 6034;<br>switchTask.work(PLCRegAddr.OPEN_DOOR_COMP);<br>    1、检查设备是否旋转，因为我们自己的项目中设备能够旋转，如果在旋转，就必须停止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (aGyrate)&#123;</span><br><span class="line">     //如果A轴在,停止</span><br><span class="line">    GyRateTask.getInstance().stop(true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2、检查PLC，连接是否正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (MainApplication.getMaster()==null)&#123;</span><br><span class="line">    showMsg(&quot;主机与PLC的连接已经丢失请检查&quot;);</span><br><span class="line">    return WAIT_TIME_OUT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3、检查设备PLC是否空闲<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (MainApplication.isBusying())&#123;</span><br><span class="line">    return MACHINE_ISBUSY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4、设置设备正在忙，马上将要做其他的动作，要不然设备阻塞<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MainApplication.setIsBusying(true);</span><br></pre></td></tr></table></figure></p>
+<p>5、发送上机为就绪命令,参数解释，主机master ，PLC站号，指令id<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ModbusBridge.writeCoilRegister(MainApplication.getMaster(),MainApplication.getPlcNO(), PLCRegAddr.LCS_READY,true);</span><br></pre></td></tr></table></figure></p>
+<p>   6、读取PLC返回消息，检查是否准备好<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">while(!isReady)&#123;</span><br><span class="line">    //超时判断</span><br><span class="line">    if (waitTime&gt;waitTimeOut)&#123;</span><br><span class="line">        MainApplication.setIsBusying(false);</span><br><span class="line">        return WAIT_TIME_OUT;</span><br><span class="line">    &#125;</span><br><span class="line">    isReady=ModbusBridge.readCoilRegister(MainApplication.getMaster(),MainApplication.getPlcNO(), PLCRegAddr.PLC_READY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  7、 核心发送开门指令的代码区域<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ModbusBridge.writeCoilRegister(MainApplication.getMaster(),MainApplication.getPlcNO(), PLCRegAddr.CLOSE_LEFT_DOOR,false);</span><br><span class="line">            ModbusBridge.writeCoilRegister(MainApplication.getMaster(),MainApplication.getPlcNO(), PLCRegAddr.OPEN_LEFT_DOOR,true);</span><br></pre></td></tr></table></figure></p>
+<p> 8、读取PLC返回的消息，检查是否完成          </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">boolean isComplete=false;</span><br><span class="line">       while (!isComplete)&#123;</span><br><span class="line">           if(execTime&gt;execTimeOut)&#123;</span><br><span class="line">               reSetRegister();</span><br><span class="line">               if (aGyrate)&#123;</span><br><span class="line">                   GyrateSP.putStopTime(MainApplication.getTimestamp());</span><br><span class="line">               &#125;</span><br><span class="line">               MainApplication.setIsBusying(false);</span><br><span class="line">               return EXEC_TIME_OUT;</span><br><span class="line">           &#125;</span><br><span class="line">           isComplete=ModbusBridge.readCoilRegister(MainApplication.getMaster(),MainApplication.getPlcNO(),compAddr);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>流程图，需要在另外网页打开看的清楚一点<br><img src="http://upload-images.jianshu.io/upload_images/5363507-9d18431ccc413ad9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="App开门流程.png"></p>
+<p>#####以上就是一个完成的PLC开门的流程，可以看成一个水管放水的样子，我知道水管形态-PLC站号，同时知道需要往哪里放水-通讯地址，同时反馈给我们一个响应是否接收到到了，没有接收到，客服端再次的尝试，好吧这个比喻也不太明确，看做IP通讯也可以<br>分享点PLC的资料，如果有兴趣的话<br>链接: <a href="https://pan.baidu.com/s/1c3UpPL2" target="_blank" rel="noopener">https://pan.baidu.com/s/1c3UpPL2</a> 密码: w952</p>
+<p>#####安卓App启动流程图<br>说着比较枯燥，画了一张图来说明！<br><img src="http://upload-images.jianshu.io/upload_images/5363507-579ba794cbcb18f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="APP启动的流程图.png"></p>
+<p>#####App和服务器的交互流程<br>画了一张图，只能粗略的解释下整个流程<br><img src="http://upload-images.jianshu.io/upload_images/5363507-59debc53686f3ed0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="App和服务器的交互流程.png"></p>
+<p>以上就是差不多整个流程，仅限分享使用</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-02-26, 16:29:26</p>
+        <p><span>最后更新:</span>2018-08-14, 16:29:59</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/02/26/PLC通讯的安卓App/" title="PLC通讯的安卓App">http://yoursite.com/2018/02/26/PLC通讯的安卓App/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/02/26/PLC通讯的安卓App/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/04/14/Kotlin中的协变、逆变和不变/">
+                    Kotlin中的协变、逆变和不变
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">
+                    安卓画笔笔锋的实现探索（三）田字格Demo
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#认识中控板：华北工控-EMB-3550"><span class="toc-number">1.</span> <span class="toc-text">认识中控板：华北工控 EMB-3550</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本结构"><span class="toc-number"></span> <span class="toc-text">基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#中央处理单元"><span class="toc-number">1.</span> <span class="toc-text">中央处理单元</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#存储器"><span class="toc-number">2.</span> <span class="toc-text">存储器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#电源"><span class="toc-number">3.</span> <span class="toc-text">电源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#程式输入装置"><span class="toc-number">4.</span> <span class="toc-text">程式输入装置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输入输出回路"><span class="toc-number">5.</span> <span class="toc-text">输入输出回路</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"PLC通讯的安卓App　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/04/14/Kotlin中的协变、逆变和不变/" title="上一篇: Kotlin中的协变、逆变和不变">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/" title="下一篇: 安卓画笔笔锋的实现探索（三）田字格Demo">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

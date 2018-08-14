@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="###注解（元数据）为我们在代码中添加信息提供了一种形式化的方法，使我们可以在某个时刻非常方便的使用这些数据（受到了C#的启发 C#覆盖一个方法必须使用@Override，但是java不是必选的）  java SE5重要的语言的变化  注解使得我们的能够以将有编译器来测试和验证的格式，存储有关程序的额外的信息 注解可以用来生成描述符文件，甚至或是新的类定义，并有助于减轻编写样板代码的的负担 使用注">
+<meta name="keywords" content="注解（Annotation）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="注解（Annotation） by Thinking in Java">
+<meta property="og:url" content="http://yoursite.com/2018/04/27/Java/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="###注解（元数据）为我们在代码中添加信息提供了一种形式化的方法，使我们可以在某个时刻非常方便的使用这些数据（受到了C#的启发 C#覆盖一个方法必须使用@Override，但是java不是必选的）  java SE5重要的语言的变化  注解使得我们的能够以将有编译器来测试和验证的格式，存储有关程序的额外的信息 注解可以用来生成描述符文件，甚至或是新的类定义，并有助于减轻编写样板代码的的负担 使用注">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-14T08:26:39.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="注解（Annotation） by Thinking in Java">
+<meta name="twitter:description" content="###注解（元数据）为我们在代码中添加信息提供了一种形式化的方法，使我们可以在某个时刻非常方便的使用这些数据（受到了C#的启发 C#覆盖一个方法必须使用@Override，但是java不是必选的）  java SE5重要的语言的变化  注解使得我们的能够以将有编译器来测试和验证的格式，存储有关程序的额外的信息 注解可以用来生成描述符文件，甚至或是新的类定义，并有助于减轻编写样板代码的的负担 使用注">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>注解（Annotation） by Thinking in Java | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Java" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/27/Java/" class="article-date">
+      <time datetime="2018-04-27T08:25:17.000Z" itemprop="datePublished">2018-04-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      注解（Annotation） by Thinking in Java
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>###注解（元数据）为我们在代码中添加信息提供了一种形式化的方法，使我们可以在某个时刻非常方便的使用这些数据（受到了C#的启发 C#覆盖一个方法必须使用@Override，但是java不是必选的）</p>
+<p> java SE5重要的语言的变化</p>
+<ul>
+<li>注解使得我们的能够以将有编译器来测试和验证的格式，存储有关程序的额外的信息</li>
+<li>注解可以用来生成描述符文件，甚至或是新的类定义，并有助于减轻编写样板代码的的负担</li>
+<li>使用注解，我们可以将这些元数据保存在Java代码中，并利用 annotion API 为自己的注解构造处理工具</li>
+<li>更加干净易读的代码以及编译器类型的检查</li>
+<li>虽然Java SE5提供一些元数据，但是一般来说，主要还是需要我们自己定义新的注解，并且按照自己的方法使用它们<a id="more"></a> 
+###定义注解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * author： Created by shiming on 2018/4/27 11:41</span><br><span class="line"> * mailbox：lamshiming@sina.com</span><br><span class="line"> * 　　@Target(ElementType.TYPE)   //接口、类、枚举、注解</span><br><span class="line"> * 　　@Target(ElementType.FIELD) //字段、枚举的常量</span><br><span class="line"> * 　　@Target(ElementType.METHOD) //方法</span><br><span class="line"> * 　　@Target(ElementType.PARAMETER) //方法参数。参数声明</span><br><span class="line"> * 　　@Target(ElementType.CONSTRUCTOR)  //构造函数，构造器的声明</span><br><span class="line"> * 　　@Target(ElementType.LOCAL_VARIABLE)//局部变量</span><br><span class="line"> * 　　@Target(ElementType.ANNOTATION_TYPE)//注解</span><br><span class="line"> * 　　@Target(ElementType.PACKAGE) ///包</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.METHOD)//定义你的注解将应用在什么地方（一个方法，一个域）</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)//定义注解在哪个级别可以使用，在源码中（SOURCE）、类文件中（CALSS），或者运行时（RUNTIME）</span><br><span class="line">//没有元素的注解，称为标记注解（marker annotation），如果某个方法或者实现某个用例的需求，加上次方法，项目经理可以很好地观察到进度</span><br><span class="line">//如果需要修改系统的业务逻辑，则维护改项目的开发人员也可以很容易的找到相对于的实例</span><br><span class="line">public @interface Test &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>关于RetentionPolicy 类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * author： Created by shiming on 2018/4/27 15:09</span><br><span class="line"> * mailbox：lamshiming@sina.com</span><br><span class="line"> */</span><br><span class="line">public enum  RetentionPolicy &#123;</span><br><span class="line">        /**</span><br><span class="line">         * Annotations are to be discarded by the compiler.</span><br><span class="line">         * 注解将被编译器丢弃</span><br><span class="line">         */</span><br><span class="line">        SOURCE,</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * Annotations are to be recorded in the class file by the compiler</span><br><span class="line">         * but need not be retained by the VM at run time.  This is the default</span><br><span class="line">         * behavior.</span><br><span class="line">         * 注解在class文件中可用，但会被VM丢弃</span><br><span class="line">         */</span><br><span class="line">        CLASS,</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * Annotations are to be recorded in the class file by the compiler and</span><br><span class="line">         * retained by the VM at run time, so they may be read reflectively.</span><br><span class="line">         * VM将在运行期也保留注解，因此可以通过反射机制读取注解的信息</span><br><span class="line">         * @see java.lang.reflect.AnnotatedElement</span><br><span class="line">         */</span><br><span class="line">        RUNTIME</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###目前可以理解为注释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Testale &#123;</span><br><span class="line">    public void execute()&#123;</span><br><span class="line">        System.out.println(&quot;shiming execute&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Test//就好比一个注释</span><br><span class="line">    void testExecute()&#123;</span><br><span class="line">        execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###Demo—–&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * author： Created by shiming on 2018/4/27 14:25</span><br><span class="line"> * mailbox：lamshiming@sina.com</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface UseCase &#123;</span><br><span class="line">    //由于编译器会对id进行类型检查，因此将用例文档的追踪数据库与源代码想关联是可靠的</span><br><span class="line">    public int id();//默认值的限定，首先，元素不能有不确定的值，也就是说，元素必须要么具有默认值，要么具有使用元素提供的元素的值</span><br><span class="line">    //如果注解某个方法没有给出值的话，则该注解的处理器就会使用此元素的默认值</span><br><span class="line">    public String description() default &quot;shiming no descriprition 我是默认的des&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * author： Created by shiming on 2018/4/27 14:35</span><br><span class="line"> * mailbox：lamshiming@sina.com</span><br><span class="line"> * 注解的元素在使用时候为名-值对的形式，并需要置于@USECase申明之后的括号内，在方法注解中可以给出description的值，也可以不给</span><br><span class="line"> * 因此，在UseCase的注解处理器分析处理这个类时会使用该元素的默认值</span><br><span class="line"> */</span><br><span class="line">public class PasswordUtils &#123;</span><br><span class="line">    @UseCase(id = 1,description = &quot;start need d  我是id==1&quot;)</span><br><span class="line">    public boolean validatePassword(String s)&#123;</span><br><span class="line">        return s.startsWith(&quot;d&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @UseCase(id = 2)</span><br><span class="line">    public String validatePasswordReverse(String s)&#123;</span><br><span class="line">        return new StringBuilder(s).reverse().toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @UseCase(id = 3,description = &quot;start need 我是id==3&quot;)</span><br><span class="line">    public boolean validatePasswordStirng(String s)&#123;</span><br><span class="line">        return s.startsWith(&quot;shiming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> ####如果没有用来读取注解的工具，那么注解也不会比注释更加有用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * author： Created by shiming on 2018/4/27 15:16</span><br><span class="line"> * mailbox：lamshiming@sina.com</span><br><span class="line"> *</span><br><span class="line"> * 如果没有用来读取注解的工具，那么注解也不会比注释更加有用</span><br><span class="line"> */</span><br><span class="line">public class UseCaseTracker &#123;</span><br><span class="line">    @SuppressLint(&quot;UseValueOf&quot;)</span><br><span class="line">    public static void trackUseCases(List&lt;Integer&gt; useCases, Class&lt;?&gt; cl)&#123;</span><br><span class="line">        /**</span><br><span class="line">         * getDeclaredMethods返回 Method 对象的一个数组，</span><br><span class="line">         * 这些对象反映此 Class 对象表示的类或接口声明的所有方法，</span><br><span class="line">         * 包括公共、保护、默认（包）访问和私有方法，但不包括继承的方法</span><br><span class="line">         */</span><br><span class="line">        for (Method m:cl.getDeclaredMethods())&#123;</span><br><span class="line">            UseCase annotation = m.getAnnotation(UseCase.class);</span><br><span class="line">            System.out.println(&quot;执行了第几次 &quot;+annotation+&quot;-----&gt;m.getName&quot;+m.getName());</span><br><span class="line">            if (annotation!=null)&#123;</span><br><span class="line">                System.out.println(&quot;shiming  &quot;+annotation.id()+&quot;----&gt;&quot;+annotation.description());</span><br><span class="line">                //注意这是元素还有角标的问题</span><br><span class="line">                useCases.remove(new Integer(annotation.id()));</span><br><span class="line">            &#125;</span><br><span class="line">            for (int i:useCases)&#123;</span><br><span class="line">                System.out.println(&quot;shiming warning Missing usecase&quot;+i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;Integer&gt; integers = new ArrayList&lt;&gt;();</span><br><span class="line">  integers.add(1);</span><br><span class="line">  integers.add(2);</span><br><span class="line">  integers.add(3);</span><br><span class="line">  integers.add(4);</span><br><span class="line">  UseCaseTracker.trackUseCases(integers,PasswordUtils.class);</span><br></pre></td></tr></table></figure></p>
+<p>执行结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: 执行了第几次 null-----&gt;m.getNameaccess$super</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase1</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase2</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase3</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase4</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: 执行了第几次 @annotation.shimihg.demo.UseCase(description=start need d  我是id==1, id=1)-----&gt;m.getNamevalidatePassword</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming  1----&gt;start need d  我是id==1</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase2</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase3</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase4</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: 执行了第几次 @annotation.shimihg.demo.UseCase(description=shiming no descriprition 我是默认的des, id=2)-----&gt;m.getNamevalidatePasswordReverse</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming  2----&gt;shiming no descriprition 我是默认的des</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase3</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase4</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: 执行了第几次 @annotation.shimihg.demo.UseCase(description=start need 我是id==3, id=3)-----&gt;m.getNamevalidatePasswordStirng</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming  3----&gt;start need 我是id==3</span><br><span class="line">04-27 15:40:19.830 4425-4425/annotation.shimihg.com I/System.out: shiming warning Missing usecase4</span><br></pre></td></tr></table></figure></p>
+<p>####未完待续，☺☺☺！git：<a href="https://github.com/Shimingli/AnnotationDemo" target="_blank" rel="noopener">https://github.com/Shimingli/AnnotationDemo</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-04-27, 16:25:17</p>
+        <p><span>最后更新:</span>2018-08-14, 16:26:39</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/27/Java/" title="注解（Annotation） by Thinking in Java">http://yoursite.com/2018/04/27/Java/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/04/27/Java/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">
+                    Lint的使用（安卓性能提升必备掌握的工具）
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/04/22/基于Glide4-7-1二次封装/">
+                    基于Glide4.7.1二次封装
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"注解（Annotation） by Thinking in Java　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/" title="上一篇: Lint的使用（安卓性能提升必备掌握的工具）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/04/22/基于Glide4-7-1二次封装/" title="下一篇: 基于Glide4.7.1二次封装">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

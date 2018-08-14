@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="看效果">
+<meta name="keywords" content="Jni,So库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己实现Jni，生成so库，实现高效率的高斯模糊效果">
+<meta property="og:url" content="http://yoursite.com/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="看效果">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-ac94f6a250b7ab80.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-c1a17ae6f1d16d03.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-297cec9fdf894877.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-e81127e1886efb12.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-74e5d05d6ef22bc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-67165df6eb690eec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-8aba48543758ea36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-fd1f56e0d351912f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-5dde711d043f48ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-6e0e9527b313631a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-a524e10e9812c107.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5363507-45513de0f48af443.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:36:54.079Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自己实现Jni，生成so库，实现高效率的高斯模糊效果">
+<meta name="twitter:description" content="看效果">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5363507-ac94f6a250b7ab80.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>自己实现Jni，生成so库，实现高效率的高斯模糊效果 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-自己实现Jni，生成so库，实现高效率的高斯模糊效果" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/" class="article-date">
+      <time datetime="2017-09-26T08:36:01.000Z" itemprop="datePublished">2017-09-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自己实现Jni，生成so库，实现高效率的高斯模糊效果
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jni/">Jni</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/So库/">So库</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="看效果"><a href="#看效果" class="headerlink" title="看效果"></a>看效果</h2><p><img src="http://upload-images.jianshu.io/upload_images/5363507-ac94f6a250b7ab80.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20170927142832.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-c1a17ae6f1d16d03.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20170927142827.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-297cec9fdf894877.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20170927142824.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-e81127e1886efb12.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20170927142820.jpg"><br><a id="more"></a></p>
+<p>##为什么要做，因为在实现模糊图上，当radios过大的话不同手机设备上可能会导致OutOfMemoryError,高斯模糊在安卓上实现的算法，一般的手机还不能够完成，所以在想能不能把实现模糊图的过程让jni来玩成，通过自己找些开源的算法，然后生成自己需要的so库，这就是写这个Demo的原因</p>
+<p>####个人封装的Glide框架，在实现很模糊的效果上，在锤子手机渲染不出来，因为计算的次数太多了，这是代码的地址：<a href="http://www.jianshu.com/p/9080483bac91" target="_blank" rel="noopener">http://www.jianshu.com/p/9080483bac91</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br></pre></td><td class="code"><pre><span class="line">//本地图片，模糊处理</span><br><span class="line">        ImageLoader.getInstance().displayImageInResource(this, R.mipmap.test, mImageView_5, new BlurBitmapTransformation(this, 200));</span><br><span class="line"></span><br><span class="line"> /**</span><br><span class="line">     * 当设置过大的radius 容易内存溢出</span><br><span class="line">     * at iamgeloader.client.tranform.BlurBitmapTransformation.blur(BlurBitmapTransformation.java:80)</span><br><span class="line">     * @param source</span><br><span class="line">     * @param radius</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private Bitmap blur(Bitmap source, int radius) &#123;</span><br><span class="line">        Bitmap bitmap = source.copy(source.getConfig(), true);</span><br><span class="line">        int w = source.getWidth();</span><br><span class="line">        int h = source.getHeight();</span><br><span class="line">        int[] pix = new int[w * h];</span><br><span class="line">//        像素颜色写入位图</span><br><span class="line">//        要跳过的像素[ [] ]中的条目数</span><br><span class="line">//*行（必须是=位图的宽度）。</span><br><span class="line">//        从每行读取的像素数</span><br><span class="line">//        要读取的行数。</span><br><span class="line">        bitmap.getPixels(pix, 0, w, 0, 0, w, h);</span><br><span class="line"></span><br><span class="line">        int wm = w - 1;</span><br><span class="line">        int hm = h - 1;</span><br><span class="line">        int wh = w * h;</span><br><span class="line">        int div = radius + radius + 1;</span><br><span class="line"></span><br><span class="line">        int r[] = new int[wh];</span><br><span class="line">        int g[] = new int[wh];</span><br><span class="line">        int b[] = new int[wh];</span><br><span class="line">        int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;</span><br><span class="line">        int vmin[] = new int[Math.max(w, h)];</span><br><span class="line"></span><br><span class="line">        int divsum = (div + 1) &gt;&gt; 1;</span><br><span class="line">        divsum *= divsum;</span><br><span class="line">        int dv[] = new int[256 * divsum];</span><br><span class="line">        for (i = 0; i &lt; 256 * divsum; i++) &#123;</span><br><span class="line">            dv[i] = (i / divsum);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        yw = yi = 0;</span><br><span class="line"></span><br><span class="line">        int[][] stack = new int[div][3];</span><br><span class="line">        int stackPointer;</span><br><span class="line">        int stackStart;</span><br><span class="line">        int[] sir;</span><br><span class="line">        int rbs;</span><br><span class="line">        int r1 = radius + 1;</span><br><span class="line">        int routSum, goutSum, boutSum;</span><br><span class="line">        int rinSum, ginSum, binSum;</span><br><span class="line"></span><br><span class="line">        for (y = 0; y &lt; h; y++) &#123;</span><br><span class="line">            rinSum = ginSum = binSum = routSum = goutSum = boutSum = rsum = gsum = bsum = 0;</span><br><span class="line">            for (i = -radius; i &lt;= radius; i++) &#123;</span><br><span class="line">                p = pix[yi + Math.min(wm, Math.max(i, 0))];</span><br><span class="line">                sir = stack[i + radius];</span><br><span class="line">//    12&amp;5 的值是多少？答：12转成二进制数是1100（前四位省略了），</span><br><span class="line">// 5转成二进制数是0101，则运算后的结果为0100即4  这是两侧为数值时；</span><br><span class="line">                sir[0] = (p &amp; 0xff0000) &gt;&gt; 16;</span><br><span class="line">                sir[1] = (p &amp; 0x00ff00) &gt;&gt; 8;</span><br><span class="line">                sir[2] = (p &amp; 0x0000ff);</span><br><span class="line">                rbs = r1 - Math.abs(i);</span><br><span class="line">                rsum += sir[0] * rbs;</span><br><span class="line">                gsum += sir[1] * rbs;</span><br><span class="line">                bsum += sir[2] * rbs;</span><br><span class="line">                if (i &gt; 0) &#123;</span><br><span class="line">                    rinSum += sir[0];</span><br><span class="line">                    ginSum += sir[1];</span><br><span class="line">                    binSum += sir[2];</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    routSum += sir[0];</span><br><span class="line">                    goutSum += sir[1];</span><br><span class="line">                    boutSum += sir[2];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            stackPointer = radius;</span><br><span class="line"></span><br><span class="line">            for (x = 0; x &lt; w; x++) &#123;</span><br><span class="line"></span><br><span class="line">                r[yi] = dv[rsum];</span><br><span class="line">                g[yi] = dv[gsum];</span><br><span class="line">                b[yi] = dv[bsum];</span><br><span class="line"></span><br><span class="line">                rsum -= routSum;</span><br><span class="line">                gsum -= goutSum;</span><br><span class="line">                bsum -= boutSum;</span><br><span class="line"></span><br><span class="line">                stackStart = stackPointer - radius + div;</span><br><span class="line">                sir = stack[stackStart % div];</span><br><span class="line"></span><br><span class="line">                routSum -= sir[0];</span><br><span class="line">                goutSum -= sir[1];</span><br><span class="line">                boutSum -= sir[2];</span><br><span class="line"></span><br><span class="line">                if (y == 0) &#123;</span><br><span class="line">                    vmin[x] = Math.min(x + radius + 1, wm);</span><br><span class="line">                &#125;</span><br><span class="line">                p = pix[yw + vmin[x]];</span><br><span class="line"></span><br><span class="line">                sir[0] = (p &amp; 0xff0000) &gt;&gt; 16;</span><br><span class="line">                sir[1] = (p &amp; 0x00ff00) &gt;&gt; 8;</span><br><span class="line">                sir[2] = (p &amp; 0x0000ff);</span><br><span class="line"></span><br><span class="line">                rinSum += sir[0];</span><br><span class="line">                ginSum += sir[1];</span><br><span class="line">                binSum += sir[2];</span><br><span class="line"></span><br><span class="line">                rsum += rinSum;</span><br><span class="line">                gsum += ginSum;</span><br><span class="line">                bsum += binSum;</span><br><span class="line"></span><br><span class="line">                stackPointer = (stackPointer + 1) % div;</span><br><span class="line">                sir = stack[(stackPointer) % div];</span><br><span class="line"></span><br><span class="line">                routSum += sir[0];</span><br><span class="line">                goutSum += sir[1];</span><br><span class="line">                boutSum += sir[2];</span><br><span class="line"></span><br><span class="line">                rinSum -= sir[0];</span><br><span class="line">                ginSum -= sir[1];</span><br><span class="line">                binSum -= sir[2];</span><br><span class="line"></span><br><span class="line">                yi++;</span><br><span class="line">            &#125;</span><br><span class="line">            yw += w;</span><br><span class="line">        &#125;</span><br><span class="line">        for (x = 0; x &lt; w; x++) &#123;</span><br><span class="line">            rinSum = ginSum = binSum = routSum = goutSum = boutSum = rsum = gsum = bsum = 0;</span><br><span class="line">            yp = -radius * w;</span><br><span class="line">            for (i = -radius; i &lt;= radius; i++) &#123;</span><br><span class="line">                yi = Math.max(0, yp) + x;</span><br><span class="line"></span><br><span class="line">                sir = stack[i + radius];</span><br><span class="line"></span><br><span class="line">                sir[0] = r[yi];</span><br><span class="line">                sir[1] = g[yi];</span><br><span class="line">                sir[2] = b[yi];</span><br><span class="line"></span><br><span class="line">                rbs = r1 - Math.abs(i);</span><br><span class="line"></span><br><span class="line">                rsum += r[yi] * rbs;</span><br><span class="line">                gsum += g[yi] * rbs;</span><br><span class="line">                bsum += b[yi] * rbs;</span><br><span class="line"></span><br><span class="line">                if (i &gt; 0) &#123;</span><br><span class="line">                    rinSum += sir[0];</span><br><span class="line">                    ginSum += sir[1];</span><br><span class="line">                    binSum += sir[2];</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    routSum += sir[0];</span><br><span class="line">                    goutSum += sir[1];</span><br><span class="line">                    boutSum += sir[2];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (i &lt; hm) &#123;</span><br><span class="line">                    yp += w;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            yi = x;</span><br><span class="line">            stackPointer = radius;</span><br><span class="line">            for (y = 0; y &lt; h; y++) &#123;</span><br><span class="line">                // Preserve alpha channel: ( 0xff000000 &amp; pix[yi] )</span><br><span class="line">                //在该位置点出现一个萌白的点</span><br><span class="line">                pix[yi] = (0xff000000 &amp; pix[yi]) | (dv[rsum] &lt;&lt; 16) | (dv[gsum] &lt;&lt; 8) | dv[bsum];</span><br><span class="line"></span><br><span class="line">                rsum -= routSum;</span><br><span class="line">                gsum -= goutSum;</span><br><span class="line">                bsum -= boutSum;</span><br><span class="line"></span><br><span class="line">                stackStart = stackPointer - radius + div;</span><br><span class="line">                sir = stack[stackStart % div];</span><br><span class="line"></span><br><span class="line">                routSum -= sir[0];</span><br><span class="line">                goutSum -= sir[1];</span><br><span class="line">                boutSum -= sir[2];</span><br><span class="line"></span><br><span class="line">                if (x == 0) &#123;</span><br><span class="line">                    vmin[y] = Math.min(y + r1, hm) * w;</span><br><span class="line">                &#125;</span><br><span class="line">                p = x + vmin[y];</span><br><span class="line"></span><br><span class="line">                sir[0] = r[p];</span><br><span class="line">                sir[1] = g[p];</span><br><span class="line">                sir[2] = b[p];</span><br><span class="line"></span><br><span class="line">                rinSum += sir[0];</span><br><span class="line">                ginSum += sir[1];</span><br><span class="line">                binSum += sir[2];</span><br><span class="line"></span><br><span class="line">                rsum += rinSum;</span><br><span class="line">                gsum += ginSum;</span><br><span class="line">                bsum += binSum;</span><br><span class="line"></span><br><span class="line">                stackPointer = (stackPointer + 1) % div;</span><br><span class="line">                sir = stack[stackPointer];</span><br><span class="line"></span><br><span class="line">                routSum += sir[0];</span><br><span class="line">                goutSum += sir[1];</span><br><span class="line">                boutSum += sir[2];</span><br><span class="line"></span><br><span class="line">                rinSum -= sir[0];</span><br><span class="line">                ginSum -= sir[1];</span><br><span class="line">                binSum -= sir[2];</span><br><span class="line"></span><br><span class="line">                yi += w;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        bitmap.setPixels(pix, 0, w, 0, 0, w, h);</span><br><span class="line"></span><br><span class="line">        return bitmap;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####创建.c文件，创建jni文件夹，这里我们是没有so库的，所以我们要通过androidStudio生成so库</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-74e5d05d6ef22bc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>####配置ndk正确的方法<br><img src="http://upload-images.jianshu.io/upload_images/5363507-67165df6eb690eec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>这里是正确的配置地址</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-8aba48543758ea36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>####Android.mk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">#编译生成的文件的类库叫什么名字</span><br><span class="line">LOCAL_MODULE    := ShimingImageBlur</span><br><span class="line">#要编译的c文件</span><br><span class="line">LOCAL_SRC_FILES := com_shiming_imageloader_jnitest_JniUtils.cpp</span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure></p>
+<p>####Application.mk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#jni打包的C语言类库默认仅支持 arm架构，需要在jni目录下创建 Android.mk 文件添加如下代码可以支持x86架构</span><br><span class="line">#或者是 ：=all</span><br><span class="line">APP_ABI :=armeabi armeabi-v7a x86</span><br></pre></td></tr></table></figure></p>
+<p>####com_shiming_imageloader_jnitest_JniUtils.cpp 这里必须要注意一个问题JniUtils使我们的java类全地址，一定要加上Java_在前面，要不然生成的so库,会找不到方法，直接报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;com_shiming_imageloader_jnitest_JniUtils.h&quot;</span><br><span class="line">#include &quot;ShimingImageBlur.c&quot;</span><br><span class="line">#include &lt;android/log.h&gt;</span><br><span class="line"></span><br><span class="line">//用c++实现的，方法名必须为本地方法的全类名改为下划线</span><br><span class="line">//第一个参数为java虚拟机的内存地址的二级指正，用于本地方法与java虚拟机在内存中的交互</span><br><span class="line">//第二个参数为一个java对象，即是那个对象调用了这个c的方法 ，</span><br><span class="line">//后面的参数就是我们java的方法参数</span><br><span class="line">JNIEXPORT void JNICALL Java_com_shiming_imageloader_jnitest_JniUtils_blurIntArray</span><br><span class="line">(JNIEnv *env, jclass obj, jintArray arrIn, jint w, jint h, jint r)</span><br><span class="line">&#123;</span><br><span class="line">	jint *pix;</span><br><span class="line">	pix = env-&gt;GetIntArrayElements(arrIn, 0);</span><br><span class="line">	if (pix == NULL)</span><br><span class="line">		return;</span><br><span class="line">	//Start</span><br><span class="line">	pix = StackBlur(pix, w, h, r);</span><br><span class="line">	//End</span><br><span class="line">	//int size = w * h;</span><br><span class="line">	//jintArray result = env-&gt;NewIntArray(size);</span><br><span class="line">	//env-&gt;SetIntArrayRegion(result, 0, size, pix);</span><br><span class="line">	env-&gt;ReleaseIntArrayElements(arrIn, pix, 0);</span><br><span class="line">	//return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####com_shiming_imageloader_jnitest_JniUtils.h 在这里也是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/* DO NOT EDIT THIS FILE - it is machine generated */</span><br><span class="line">#include &lt;jni.h&gt;</span><br><span class="line">/* Header for class com_shiming_imageloader_jni_JniUtils */</span><br><span class="line"></span><br><span class="line">#ifndef _Included_com_shiming_imageloader_jnitest_JniUtils</span><br><span class="line">#define _Included_com_shiming_imageloader_jnitest_JniUtils</span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">extern &quot;C&quot; &#123;</span><br><span class="line">#endif</span><br><span class="line">/*</span><br><span class="line"> * Class:     Java_com_shiming_imageloader_jnitest_JniUtils</span><br><span class="line"> * Method:    blurIntArray</span><br><span class="line"> * Signature: ([IIII)V</span><br><span class="line"> * 可千万要加上 Java_的前缀 ，要不然找不到啊</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">JNIEXPORT void JNICALL Java_com_shiming_imageloader_jnitest_JniUtils_blurIntArray</span><br><span class="line">  (JNIEnv *, jclass, jintArray, jint, jint, jint);</span><br><span class="line"></span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">&#125;</span><br><span class="line">#endif</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure></p>
+<p>####ShimingImageBlur.c 这里面的算法，是我参考了git上一个开源的项目的算法在git上搜索：ImageBlur即可，但是我用不到那么的方法，所以只需要这个，实现高斯模糊的，其实这个算法和上面的java实现的模糊效果有相同之处，但是我还不能说的太明白，见谅</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;malloc.h&gt;</span><br><span class="line"></span><br><span class="line">#define ABS(a) ((a)&lt;(0)?(-a):(a))</span><br><span class="line">#define MAX(a,b) ((a)&gt;(b)?(a):(b))</span><br><span class="line">#define MIN(a,b) ((a)&lt;(b)?(a):(b))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">static int* StackBlur(int* pix, int w, int h, int radius) &#123;</span><br><span class="line">	int wm = w - 1;</span><br><span class="line">	int hm = h - 1;</span><br><span class="line">	int wh = w * h;</span><br><span class="line">	int div = radius + radius + 1;</span><br><span class="line">    // 指针</span><br><span class="line">	int *r = (int *)malloc(wh * sizeof(int));</span><br><span class="line">	int *g = (int *)malloc(wh * sizeof(int));</span><br><span class="line">	int *b = (int *)malloc(wh * sizeof(int));</span><br><span class="line">	int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;</span><br><span class="line"></span><br><span class="line">	int *vmin = (int *)malloc(MAX(w,h) * sizeof(int));</span><br><span class="line"></span><br><span class="line">	int divsum = (div + 1) &gt;&gt; 1;</span><br><span class="line">	divsum *= divsum;</span><br><span class="line">	int *dv = (int *)malloc(256 * divsum * sizeof(int));</span><br><span class="line">	for (i = 0; i &lt; 256 * divsum; i++) &#123;</span><br><span class="line">		dv[i] = (i / divsum);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	yw = yi = 0;</span><br><span class="line"></span><br><span class="line">	int(*stack)[3] = (int(*)[3])malloc(div * 3 * sizeof(int));</span><br><span class="line">	int stackpointer;</span><br><span class="line">	int stackstart;</span><br><span class="line">	int *sir;</span><br><span class="line">	int rbs;</span><br><span class="line">	int r1 = radius + 1;</span><br><span class="line">	int routsum, goutsum, boutsum;</span><br><span class="line">	int rinsum, ginsum, binsum;</span><br><span class="line"></span><br><span class="line">	for (y = 0; y &lt; h; y++) &#123;</span><br><span class="line">		rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;</span><br><span class="line">		for (i = -radius; i &lt;= radius; i++) &#123;</span><br><span class="line">			p = pix[yi + (MIN(wm, MAX(i, 0)))];</span><br><span class="line">			sir = stack[i + radius];</span><br><span class="line">			sir[0] = (p &amp; 0xff0000) &gt;&gt; 16;</span><br><span class="line">			sir[1] = (p &amp; 0x00ff00) &gt;&gt; 8;</span><br><span class="line">			sir[2] = (p &amp; 0x0000ff);</span><br><span class="line"></span><br><span class="line">			rbs = r1 - ABS(i);</span><br><span class="line">			rsum += sir[0] * rbs;</span><br><span class="line">			gsum += sir[1] * rbs;</span><br><span class="line">			bsum += sir[2] * rbs;</span><br><span class="line">			if (i &gt; 0) &#123;</span><br><span class="line">				rinsum += sir[0];</span><br><span class="line">				ginsum += sir[1];</span><br><span class="line">				binsum += sir[2];</span><br><span class="line">			&#125;</span><br><span class="line">			else &#123;</span><br><span class="line">				routsum += sir[0];</span><br><span class="line">				goutsum += sir[1];</span><br><span class="line">				boutsum += sir[2];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		stackpointer = radius;</span><br><span class="line"></span><br><span class="line">		for (x = 0; x &lt; w; x++) &#123;</span><br><span class="line"></span><br><span class="line">			r[yi] = dv[rsum];</span><br><span class="line">			g[yi] = dv[gsum];</span><br><span class="line">			b[yi] = dv[bsum];</span><br><span class="line"></span><br><span class="line">			rsum -= routsum;</span><br><span class="line">			gsum -= goutsum;</span><br><span class="line">			bsum -= boutsum;</span><br><span class="line"></span><br><span class="line">			stackstart = stackpointer - radius + div;</span><br><span class="line">			sir = stack[stackstart % div];</span><br><span class="line"></span><br><span class="line">			routsum -= sir[0];</span><br><span class="line">			goutsum -= sir[1];</span><br><span class="line">			boutsum -= sir[2];</span><br><span class="line"></span><br><span class="line">			if (y == 0) &#123;</span><br><span class="line">				vmin[x] = MIN(x + radius + 1, wm);</span><br><span class="line">			&#125;</span><br><span class="line">			p = pix[yw + vmin[x]];</span><br><span class="line"></span><br><span class="line">			sir[0] = (p &amp; 0xff0000) &gt;&gt; 16;</span><br><span class="line">			sir[1] = (p &amp; 0x00ff00) &gt;&gt; 8;</span><br><span class="line">			sir[2] = (p &amp; 0x0000ff);</span><br><span class="line"></span><br><span class="line">			rinsum += sir[0];</span><br><span class="line">			ginsum += sir[1];</span><br><span class="line">			binsum += sir[2];</span><br><span class="line"></span><br><span class="line">			rsum += rinsum;</span><br><span class="line">			gsum += ginsum;</span><br><span class="line">			bsum += binsum;</span><br><span class="line"></span><br><span class="line">			stackpointer = (stackpointer + 1) % div;</span><br><span class="line">			sir = stack[(stackpointer) % div];</span><br><span class="line"></span><br><span class="line">			routsum += sir[0];</span><br><span class="line">			goutsum += sir[1];</span><br><span class="line">			boutsum += sir[2];</span><br><span class="line"></span><br><span class="line">			rinsum -= sir[0];</span><br><span class="line">			ginsum -= sir[1];</span><br><span class="line">			binsum -= sir[2];</span><br><span class="line"></span><br><span class="line">			yi++;</span><br><span class="line">		&#125;</span><br><span class="line">		yw += w;</span><br><span class="line">	&#125;</span><br><span class="line">	for (x = 0; x &lt; w; x++) &#123;</span><br><span class="line">		rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;</span><br><span class="line">		yp = -radius * w;</span><br><span class="line">		for (i = -radius; i &lt;= radius; i++) &#123;</span><br><span class="line">			yi = MAX(0, yp) + x;</span><br><span class="line"></span><br><span class="line">			sir = stack[i + radius];</span><br><span class="line"></span><br><span class="line">			sir[0] = r[yi];</span><br><span class="line">			sir[1] = g[yi];</span><br><span class="line">			sir[2] = b[yi];</span><br><span class="line"></span><br><span class="line">			rbs = r1 - ABS(i);</span><br><span class="line"></span><br><span class="line">			rsum += r[yi] * rbs;</span><br><span class="line">			gsum += g[yi] * rbs;</span><br><span class="line">			bsum += b[yi] * rbs;</span><br><span class="line"></span><br><span class="line">			if (i &gt; 0) &#123;</span><br><span class="line">				rinsum += sir[0];</span><br><span class="line">				ginsum += sir[1];</span><br><span class="line">				binsum += sir[2];</span><br><span class="line">			&#125;</span><br><span class="line">			else &#123;</span><br><span class="line">				routsum += sir[0];</span><br><span class="line">				goutsum += sir[1];</span><br><span class="line">				boutsum += sir[2];</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			if (i &lt; hm) &#123;</span><br><span class="line">				yp += w;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		yi = x;</span><br><span class="line">		stackpointer = radius;</span><br><span class="line">		for (y = 0; y &lt; h; y++) &#123;</span><br><span class="line">			// Preserve alpha channel: ( 0xff000000 &amp; pix[yi] )</span><br><span class="line">			pix[yi] = (0xff000000 &amp; pix[yi]) | (dv[rsum] &lt;&lt; 16) | (dv[gsum] &lt;&lt; 8) | dv[bsum];</span><br><span class="line"></span><br><span class="line">			rsum -= routsum;</span><br><span class="line">			gsum -= goutsum;</span><br><span class="line">			bsum -= boutsum;</span><br><span class="line"></span><br><span class="line">			stackstart = stackpointer - radius + div;</span><br><span class="line">			sir = stack[stackstart % div];</span><br><span class="line"></span><br><span class="line">			routsum -= sir[0];</span><br><span class="line">			goutsum -= sir[1];</span><br><span class="line">			boutsum -= sir[2];</span><br><span class="line"></span><br><span class="line">			if (x == 0) &#123;</span><br><span class="line">				vmin[y] = MIN(y + r1, hm) * w;</span><br><span class="line">			&#125;</span><br><span class="line">			p = x + vmin[y];</span><br><span class="line"></span><br><span class="line">			sir[0] = r[p];</span><br><span class="line">			sir[1] = g[p];</span><br><span class="line">			sir[2] = b[p];</span><br><span class="line"></span><br><span class="line">			rinsum += sir[0];</span><br><span class="line">			ginsum += sir[1];</span><br><span class="line">			binsum += sir[2];</span><br><span class="line"></span><br><span class="line">			rsum += rinsum;</span><br><span class="line">			gsum += ginsum;</span><br><span class="line">			bsum += binsum;</span><br><span class="line"></span><br><span class="line">			stackpointer = (stackpointer + 1) % div;</span><br><span class="line">			sir = stack[stackpointer];</span><br><span class="line"></span><br><span class="line">			routsum += sir[0];</span><br><span class="line">			goutsum += sir[1];</span><br><span class="line">			boutsum += sir[2];</span><br><span class="line"></span><br><span class="line">			rinsum -= sir[0];</span><br><span class="line">			ginsum -= sir[1];</span><br><span class="line">			binsum -= sir[2];</span><br><span class="line"></span><br><span class="line">			yi += w;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    //记得要释放掉</span><br><span class="line">	free(r);</span><br><span class="line">	free(g);</span><br><span class="line">	free(b);</span><br><span class="line">	free(vmin);</span><br><span class="line">	free(dv);</span><br><span class="line">	free(stack);</span><br><span class="line">	return(pix);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有个算法和这个有异曲同工之妙，作用是把bitmap扫描，把Color.TRANSPARENT排除掉生成了一张位于正中的bitmap<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">private int mBackColor = Color.TRANSPARENT;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    * 逐行扫描 清楚边界空白。</span><br><span class="line">    *</span><br><span class="line">    * @param blank 边距留多少个像素</span><br><span class="line">    * @return tks github E-signature</span><br><span class="line">    */</span><br><span class="line"></span><br><span class="line">   public Bitmap clearBlank(int blank) &#123;</span><br><span class="line">       if (mBitmap != null) &#123;</span><br><span class="line">           int HEIGHT = mBitmap.getHeight();</span><br><span class="line">           int WIDTH = mBitmap.getWidth();</span><br><span class="line">           int top = 0, left = 0, right = 0, bottom = 0;</span><br><span class="line">           int[] pixs = new int[WIDTH];</span><br><span class="line">           boolean isStop;</span><br><span class="line">           for (int y = 0; y &lt; HEIGHT; y++) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, WIDTH, 0, y, WIDTH, 1);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line"></span><br><span class="line">                       top = y;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           for (int y = HEIGHT - 1; y &gt;= 0; y--) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, WIDTH, 0, y, WIDTH, 1);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line">                       bottom = y;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           pixs = new int[HEIGHT];</span><br><span class="line">           for (int x = 0; x &lt; WIDTH; x++) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, 1, x, 0, 1, HEIGHT);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line">                       left = x;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           for (int x = WIDTH - 1; x &gt; 0; x--) &#123;</span><br><span class="line">               mBitmap.getPixels(pixs, 0, 1, x, 0, 1, HEIGHT);</span><br><span class="line">               isStop = false;</span><br><span class="line">               for (int pix : pixs) &#123;</span><br><span class="line">                   if (pix != mBackColor) &#123;</span><br><span class="line">                       right = x;</span><br><span class="line">                       isStop = true;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (isStop) &#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           if (blank &lt; 0) &#123;</span><br><span class="line">               blank = 0;</span><br><span class="line">           &#125;</span><br><span class="line">           left = left - blank &gt; 0 ? left - blank : 0;</span><br><span class="line">           top = top - blank &gt; 0 ? top - blank : 0;</span><br><span class="line">           right = right + blank &gt; WIDTH - 1 ? WIDTH - 1 : right + blank;</span><br><span class="line">           bottom = bottom + blank &gt; HEIGHT - 1 ? HEIGHT - 1 : bottom + blank;</span><br><span class="line">           return Bitmap.createBitmap(mBitmap, left, top, right - left, bottom - top);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           return null;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-fd1f56e0d351912f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>####JniUtils类,加载本地方法，本地方法的方法名要和jni中一样,引用so库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 参照：MediaPlayer的写法</span><br><span class="line">      static &#123;</span><br><span class="line">      System.loadLibrary(&quot;media_jni&quot;);</span><br><span class="line">      native_init();</span><br><span class="line">       &#125;</span><br><span class="line">     */</span><br><span class="line">    static &#123;</span><br><span class="line">        /**</span><br><span class="line">         * #编译生成的文件的类库叫什么名字</span><br><span class="line">         LOCAL_MODULE    := ShimingImageBlur</span><br><span class="line">         必须和Android.mk中的一样，生成的so库虽然会加上libShimingImageBlur.so 但是调用得到</span><br><span class="line">         */</span><br><span class="line">        System.loadLibrary(&quot;ShimingImageBlur&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####设置图片的view模糊 ，使用getViewTreeObserver(）监听在绘画完成前，获取缓存的bitmap<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// Register a callback to be invoked when the view tree is about to be drawn</span><br><span class="line">       //翻译注册一个回调，view将要drawn，意思还没有drawn上去</span><br><span class="line">       view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() &#123;</span><br><span class="line">           /**</span><br><span class="line">            * 再绘图前加上</span><br><span class="line">            * @return</span><br><span class="line">            */</span><br><span class="line">           @Override</span><br><span class="line">           public boolean onPreDraw() &#123;</span><br><span class="line">               view.getViewTreeObserver().removeOnPreDrawListener(this);</span><br><span class="line">               //buildDrawingCache(false);</span><br><span class="line">               //如果绘制无效，则强制构建绘图缓存，</span><br><span class="line">               view.buildDrawingCache();</span><br><span class="line"></span><br><span class="line">               Bitmap bmp = view.getDrawingCache();</span><br><span class="line">               blur(bmp, view,flag);</span><br><span class="line">               //通常cache会占用一定量的内存，所以必须销毁</span><br><span class="line">               view.destroyDrawingCache();</span><br><span class="line">               //返回 true 继续绘制，返回false取消。 如果返回为false的，页面就不会绘制了</span><br><span class="line">               return true;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####下一步进行的方法吗，在这里有个问题，      ((ImageView)view).setImageDrawable(blurDrawable); 这里有个问题，当我们调用次数过多的时候，这个方法显示不出来图片， 我还不知道为什么？todo 源于知乎上的一句话：简单地理解为 Bitmap 储存的是 像素信息，Drawable 储存的是 对 Canvas 的一系列操作。而 BitmapDrawable 储存的是「把 Bitmap 渲染到 Canvas 上」这个操作，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 模糊图片</span><br><span class="line">   *  @param blurFactor 模糊因子</span><br><span class="line">   * @param blurRadius 模糊半径</span><br><span class="line">   * @param bitmap     图片</span><br><span class="line">   * @param view       view</span><br><span class="line">   * @param flag 是否需要jni里面的算法 </span><br><span class="line">   */</span><br><span class="line">  public static void blur(float blurFactor, float blurRadius, Bitmap bitmap, final View view, boolean flag) &#123;</span><br><span class="line"></span><br><span class="line">      Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / blurFactor),</span><br><span class="line">              (int) (view.getMeasuredHeight() / blurFactor), Bitmap.Config.ARGB_8888);</span><br><span class="line">       overlay.getHeight();</span><br><span class="line">      overlay.getWidth();</span><br><span class="line">      Canvas canvas = new Canvas(overlay);</span><br><span class="line">      //如果我们需要放大1倍，即 scale(2, 2);缩放的中心点默认也是canvas的左上角，所以先要进行坐标平移，才能去缩放</span><br><span class="line">      //平移，将画布的坐标原点向左右方向移动x，向上下方向移动y.canvas的默认位置是在（0,0）</span><br><span class="line">      canvas.translate(-view.getLeft() / blurFactor, -view.getTop() / blurFactor);</span><br><span class="line">      canvas.scale(1 / blurFactor, 1 / blurFactor);</span><br><span class="line">      Paint paint = new Paint();</span><br><span class="line">      //抗锯齿</span><br><span class="line">      paint.setFlags(Paint.FILTER_BITMAP_FLAG);</span><br><span class="line">      canvas.drawBitmap(bitmap, 0, 0, paint);</span><br><span class="line">      //这里的overlay已经包含了信息</span><br><span class="line">      //是否需要jni的计算</span><br><span class="line">      if (flag) &#123;</span><br><span class="line">          overlay = doBlurJniArray(overlay, (int) blurRadius, true);</span><br><span class="line">      &#125;</span><br><span class="line">      BitmapDrawable blurDrawable = new BitmapDrawable(MyApp.getInstance().getApplicationContext()</span><br><span class="line">              .getResources(), overlay);</span><br><span class="line">      if (view instanceof ImageView) &#123;</span><br><span class="line">          ((ImageView)view).setImageDrawable(blurDrawable);</span><br><span class="line">          System.out.println(&quot;shiming  blurDrawable&quot; +blurDrawable);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          view.setBackgroundDrawable(blurDrawable);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####核心的方法对pix进行操作，JniUtils.blurIntArray(pix, w, h, radius); 在通过   bitmap.setPixels(pix, 0, w, 0, 0, w, h); 和java实现所用的方法一样，但是性能上提升的不是一点两点，很流畅,而且在显示的效果上有很明显的不一样，如上图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  *</span><br><span class="line">  * @param sentBitmap</span><br><span class="line">  * @param radius</span><br><span class="line">  * @param canReuseInBitmap</span><br><span class="line">  * @return</span><br><span class="line">  *</span><br><span class="line"> 参数 :http://ranlic.iteye.com/blog/1313735</span><br><span class="line"> pixels      接收位图颜色值的数组</span><br><span class="line"> offset      写入到pixels[]中的第一个像素索引值</span><br><span class="line"> stride      pixels[]中的行间距个数值(必须大于等于位图宽度)。可以为负数</span><br><span class="line"> x          　从位图中读取的第一个像素的x坐标值。</span><br><span class="line"> y           从位图中读取的第一个像素的y坐标值</span><br><span class="line"> width    　　从每一行中读取的像素宽度</span><br><span class="line"> height 　　　读取的行数</span><br><span class="line">         异常</span><br><span class="line"> IilegalArgumentExcepiton       如果x，y，width，height越界或stride的绝对值小于位图宽度时将被抛出。</span><br><span class="line"> ArrayIndexOutOfBoundsException          如果像素数组太小而无法接收指定书目的像素值时将被抛出。</span><br><span class="line"> */</span><br><span class="line"> private static Bitmap doBlurJniArray(Bitmap sentBitmap, int radius, boolean canReuseInBitmap) &#123;</span><br><span class="line">     Bitmap bitmap;</span><br><span class="line">     if (canReuseInBitmap) &#123;</span><br><span class="line">         bitmap = sentBitmap;</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     if (radius &lt; 1) &#123;</span><br><span class="line">         return (null);</span><br><span class="line">     &#125;</span><br><span class="line">     int w = bitmap.getWidth();</span><br><span class="line">     int h = bitmap.getHeight();</span><br><span class="line">     int[] pix = new int[w * h];</span><br><span class="line">     bitmap.getPixels(pix, 0, w, 0, 0, w, h);</span><br><span class="line">     //pix数组，所有的关键的逻辑都是这个pix的操作，这里我们去交给了so.库去处理了，所以这里才是关键</span><br><span class="line">     JniUtils.blurIntArray(pix, w, h, radius);</span><br><span class="line">     bitmap.setPixels(pix, 0, w, 0, 0, w, h);</span><br><span class="line">     return (bitmap);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>####如何生成so库,在build.gradle</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-5dde711d043f48ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">        //ndk编译生成.so文件</span><br><span class="line">        // 只要是第一次生成了so库的文件，那么以后就不用生成这个文件，记住一定要记住，如果需要生成so文件</span><br><span class="line">        //需要把外面的目录的jni移动到和mian目录下和Java同级的目录下</span><br><span class="line">//        ndk &#123;</span><br><span class="line">//            moduleName &quot;ShimingImageBlur&quot;         //生成的so名字</span><br><span class="line">//            abiFilters &quot;armeabi&quot;, &quot;armeabi-v7a&quot;, &quot;x86&quot;  //输出指定三种abi体系结构下的so库。</span><br><span class="line">//        &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-6e0e9527b313631a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>####这里才是so库生成正确的目录地址，一定是生成完成了，然后复制出来放在libs目录下</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-a524e10e9812c107.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5363507-45513de0f48af443.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>##这个就生成了自己需要的so文件了，然后就可以使用了，哈哈，建议可以实际操作下，然后学点c，就可以实现jni了，哈哈，我吹牛了！</p>
+<p>##git：<a href="https://github.com/Shimingli/ImageLoader" target="_blank" rel="noopener">https://github.com/Shimingli/ImageLoader</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2017-09-26, 16:36:01</p>
+        <p><span>最后更新:</span>2018-08-14, 16:36:54</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/" title="自己实现Jni，生成so库，实现高效率的高斯模糊效果">http://yoursite.com/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">
+                    安卓画笔笔锋的实现探索（二）
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/09/23/自定义卡片效果的ViewGroup/">
+                    自定义卡片效果的ViewGroup
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#看效果"><span class="toc-number">1.</span> <span class="toc-text">看效果</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"自己实现Jni，生成so库，实现高效率的高斯模糊效果　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/" title="上一篇: 安卓画笔笔锋的实现探索（二）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/09/23/自定义卡片效果的ViewGroup/" title="下一篇: 自定义卡片效果的ViewGroup">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

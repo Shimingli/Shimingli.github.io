@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="共1083字，阅读需要2分钟 泛型实参的继承关系对泛型类型的影响协变：泛型类型与实参的继承关系相同逆变：泛型类型与实参的继承关系相反不变：泛型类型没有关系协变点：返回值类型是泛型参数类型逆变点：入参类型是泛型参数类型@UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行">
+<meta name="keywords" content="Kotlin中的协变、逆变和不变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin中的协变、逆变和不变">
+<meta property="og:url" content="http://yoursite.com/2018/04/14/Kotlin中的协变、逆变和不变/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="共1083字，阅读需要2分钟 泛型实参的继承关系对泛型类型的影响协变：泛型类型与实参的继承关系相同逆变：泛型类型与实参的继承关系相反不变：泛型类型没有关系协变点：返回值类型是泛型参数类型逆变点：入参类型是泛型参数类型@UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-3140138a6889c906.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-929cfc0a004bba08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-14T08:28:56.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kotlin中的协变、逆变和不变">
+<meta name="twitter:description" content="共1083字，阅读需要2分钟 泛型实参的继承关系对泛型类型的影响协变：泛型类型与实参的继承关系相同逆变：泛型类型与实参的继承关系相反不变：泛型类型没有关系协变点：返回值类型是泛型参数类型逆变点：入参类型是泛型参数类型@UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-3140138a6889c906.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Kotlin中的协变、逆变和不变 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Kotlin中的协变、逆变和不变" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/14/Kotlin中的协变、逆变和不变/" class="article-date">
+      <time datetime="2018-04-14T08:28:07.000Z" itemprop="datePublished">2018-04-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kotlin中的协变、逆变和不变
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>共1083字，阅读需要2分钟</p>
+<h3 id="泛型实参的继承关系对泛型类型的影响"><a href="#泛型实参的继承关系对泛型类型的影响" class="headerlink" title="泛型实参的继承关系对泛型类型的影响"></a>泛型实参的继承关系对泛型类型的影响</h3><h5 id="协变：泛型类型与实参的继承关系相同"><a href="#协变：泛型类型与实参的继承关系相同" class="headerlink" title="协变：泛型类型与实参的继承关系相同"></a>协变：泛型类型与实参的继承关系相同</h5><h5 id="逆变：泛型类型与实参的继承关系相反"><a href="#逆变：泛型类型与实参的继承关系相反" class="headerlink" title="逆变：泛型类型与实参的继承关系相反"></a>逆变：泛型类型与实参的继承关系相反</h5><h5 id="不变：泛型类型没有关系"><a href="#不变：泛型类型没有关系" class="headerlink" title="不变：泛型类型没有关系"></a>不变：泛型类型没有关系</h5><h5 id="协变点：返回值类型是泛型参数类型"><a href="#协变点：返回值类型是泛型参数类型" class="headerlink" title="协变点：返回值类型是泛型参数类型"></a>协变点：返回值类型是泛型参数类型</h5><h5 id="逆变点：入参类型是泛型参数类型"><a href="#逆变点：入参类型是泛型参数类型" class="headerlink" title="逆变点：入参类型是泛型参数类型"></a>逆变点：入参类型是泛型参数类型</h5><h5 id="UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行"><a href="#UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行" class="headerlink" title="@UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行"></a>@UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行</h5><a id="more"></a> 
+<p>###1、泛型<br>什么是泛型？泛化的类型或者是类型的抽象，鸭子类型（看起来像鸭子，走起来也像鸭子，就是鸭子类型）在静态语言中的一种静态实现<br>1、抽象类，是这个类的本质，它是什么<br>2、接口，关心类能够做什么，行为能力</p>
+<p>####举两个例子<br>两个数的比较大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 需要有对比的功能，没有的话就会报错a&lt;b</span><br><span class="line">//加入限制 Comparable 具有对比的功能</span><br><span class="line">fun&lt;T:Comparable&lt;T&gt;&gt; maxOf(a:T,b:T):T&#123;</span><br><span class="line">    return if (a&lt;b) b else a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>方法调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val a=2</span><br><span class="line">val b=3</span><br><span class="line">val maxOf = maxOf(2, 3)</span><br><span class="line"> println(&quot;shiming &quot;+maxOf)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shiming 3</span><br></pre></td></tr></table></figure></p>
+<p>让一个类具备对比的能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data class Complex(val a:Double,val b:Double):Comparable&lt;Complex&gt;&#123;</span><br><span class="line">    override fun compareTo(other: Complex): Int &#123;</span><br><span class="line">        return (value()-other.value()).toInt()</span><br><span class="line">    &#125;</span><br><span class="line">    fun value():Double&#123;</span><br><span class="line">        return a*a+b*b</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun toString(): String &#123;</span><br><span class="line">        return &quot;$a*$a+$b*$b=&quot;+(a*a+b*b)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>方法调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">val Complex1=Complex(4.0,5.0)</span><br><span class="line"> val Complex2=Complex(5.0,6.0)</span><br><span class="line"> println(&quot;shiming Complex1=&quot;+Complex1)</span><br><span class="line"> println(&quot;shiming Complex2=&quot;+Complex2)</span><br><span class="line"> println(&quot;shiming&quot;+Complex1.compareTo(Complex2))</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">04-16 11:22:10.824 26429-26429/com.kotlin.demo I/System.out: shiming Complex1=4.0*a+5.0*b=41.0</span><br><span class="line">04-16 11:22:10.824 26429-26429/com.kotlin.demo I/System.out: shiming Complex2=5.0*a+6.0*b=61.0</span><br><span class="line">04-16 11:22:10.824 26429-26429/com.kotlin.demo I/System.out: shiming-20</span><br></pre></td></tr></table></figure></p>
+<p>####通过Demo的测试的结果的发现：泛型不管你到底是什么，它只管你能够做什么事情</p>
+<p>####定义多个泛型参数<br>kotlin中的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    (1..2).map &#123; println(&quot;shiming $it==&quot;+it) &#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Returns a list containing the results of applying the given [transform] function</span><br><span class="line"> * to each element in the original collection. </span><br><span class="line">      (1..2).map调用的底层的方法</span><br><span class="line"> */</span><br><span class="line">public inline fun &lt;T, R&gt; Iterable&lt;T&gt;.map(transform: (T) -&gt; R): List&lt;R&gt; &#123;</span><br><span class="line">    return mapTo(ArrayList&lt;R&gt;(collectionSizeOrDefault(10)), transform)</span><br><span class="line">&#125;</span><br><span class="line">/** A function that takes 22 arguments. function中最多的参数22.一共有23个方法 */</span><br><span class="line">public interface Function22&lt;in P1, in P2, in P3, in P4, in P5, in P6, in P7, in P8, in P9, in P10, in P11, in P12, in P13, in P14, in P15, in P16, in P17, in P18, in P19, in P20, in P21, in P22, out R&gt; : Function&lt;R&gt; &#123;</span><br><span class="line">    /** Invokes the function with the specified arguments. */</span><br><span class="line">    public operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9, p10: P10, p11: P11, p12: P12, p13: P13, p14: P14, p15: P15, p16: P16, p17: P17, p18: P18, p19: P19, p20: P20, p21: P21, p22: P22): R</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kotlin中的类传入泛型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data class ComplexNumber&lt; T : Number&gt;(val a:T,val b:T)&#123;</span><br><span class="line">    override fun toString(): String &#123;</span><br><span class="line">        return &quot;$a*$a+$b*$b&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####泛型的实现的机制</p>
+<p>何为伪泛型（Java 、Kotlin）？编译完了，泛型就没有了（真正的原因就是最开始写Java编译器的几个人偷懒取巧，留下了历史问题，<a href="https://baike.baidu.com/item/Scala" target="_blank" rel="noopener">Martin Odersky</a>爆料。Martin Odersky是Typesafe的联合创始人，也是<a href="https://baike.baidu.com/item/Scala" target="_blank" rel="noopener">Scala</a>编程语言的发明者。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//按照重载的定义这两个方法应该编译的过的，但是Java和kotlin编译完了成了object或者是没有</span><br><span class="line">fun needList(list:List&lt;Double&gt;)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">fun needList(list:List&lt;Int&gt;)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过反编译可以看到,卧槽我的泛型没有了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static final void needList(@NotNull List list) &#123;</span><br><span class="line">   Intrinsics.checkParameterIsNotNull(list, &quot;list&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static final void needList(@NotNull List list) &#123;</span><br><span class="line">   Intrinsics.checkParameterIsNotNull(list, &quot;list&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-3140138a6889c906.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="没有编译通过"><br>何为真泛型（C#）？编译完了，还在<br>如果把以上的代码放在C#中，就不会报错，原因是C#的泛型不仅存在于编译器，也存在运行期</p>
+<p>####java1.5才有的泛型特性，迫于现实的需求！用的人太多，但是C#第一个版本也没有泛型，但是用的人少，所以C#使用的是真泛型<br>但是有一种方式可以在编译器得到泛型类型:<br>reified让泛型参数具体化，定义在inline中 ，kotlin实现为伪泛型，需要这个关键字植入到调用出才可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//inline inline可用内联函数(inline function)消除这些额外内存开销,</span><br><span class="line">//说白了就是在调用处插入函数体代码,以此减少新建函数栈和对象的内存开销!</span><br><span class="line">inline fun&lt;reified T&gt; getT()&#123;</span><br><span class="line">    println(&quot;shiming&quot;+T::class.java)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">getT&lt;String&gt;()</span><br><span class="line">getT&lt;Double&gt;()</span><br><span class="line">//通过反编译得到的结果，说白了，其实就是打印了，这样永远都不会丢失</span><br><span class="line">      String var21 = &quot;shiming&quot; + String.class;</span><br><span class="line">      System.out.println(var21);</span><br><span class="line">      var21 = &quot;shiming&quot; + Double.class;</span><br><span class="line">      System.out.println(var21);</span><br></pre></td></tr></table></figure></p>
+<p>得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">04-16 15:28:59.775 31782-31782/com.kotlin.demo I/System.out: shimingclass java.lang.String</span><br><span class="line">04-16 15:28:59.775 31782-31782/com.kotlin.demo I/System.out: shimingclass java.lang.Double</span><br></pre></td></tr></table></figure></p>
+<p>在实际工作中可以这样用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">data class Person(val name:String,val age:Int)&#123;</span><br><span class="line">    //重写，得到json字符串</span><br><span class="line">    override fun toString(): String &#123;</span><br><span class="line">        return &quot;&#123;name=&quot;+&quot;\&quot;&quot;+name+&quot;\&quot;,&quot;+&quot;age=&quot;+age+&quot;&#125;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//例子 通过inline把这个前面的代码植入到后面</span><br><span class="line">// reified让泛型参数具体化，定义在inline中 ，kotlin实现为伪泛型，需要这个关键字植入到调用出才可以</span><br><span class="line">inline fun &lt;reified T&gt; Gson.fromJson(json:String):T=fromJson(json,T::class.java)</span><br><span class="line">//模拟网络请求返回的json数据，得到bean类</span><br><span class="line"> val person=Person(&quot;shiming&quot;,20)</span><br><span class="line"> println(&quot;shiming  &quot;+person)</span><br><span class="line">  val toString = person.toString()</span><br><span class="line">  val person1= Gson().fromJson&lt;Person&gt;(toString)</span><br><span class="line">  println(&quot;shiming person1&quot;+person1)</span><br><span class="line"></span><br><span class="line">//上面一段代码的反编译的结果，和java是一样的，执行的流程</span><br><span class="line">      Person person = new Person(&quot;shiming&quot;, 20);</span><br><span class="line">      String toString = &quot;shiming  &quot; + person;</span><br><span class="line">      System.out.println(toString);</span><br><span class="line">      toString = person.toString();</span><br><span class="line">      Gson $receiver$iv = new Gson();</span><br><span class="line">      Person person1 = (Person)$receiver$iv.fromJson(toString, Person.class);</span><br><span class="line">      String var25 = &quot;shiming person1&quot; + person1;</span><br><span class="line">      System.out.println(var25);</span><br></pre></td></tr></table></figure></p>
+<p>###具体的关系<br>f(⋅)是逆变（contravariant）的，当A≤B时有f(B)≤f(A)成立；<br>f(⋅)是协变（covariant）的，当A≤B时有成立f(A)≤f(B)成立；<br>f(⋅)是不变（invariant）的，当A≤B时上述两个式子均不成立，即f(A)与f(B)相互之间没有继承关系。</p>
+<p>###协变<br>在kotlin中List不是Java中的List，它只是只读的,查看源码如下List<out e=""> ，看见Out就是协变的，只读类型，List中根本没有add的方法，不可添加元素<br> //out 协变 Number 是Int的父类，协变点函数得返回类型<br> val numberList:List<number> = listOf<int>(1,58)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"> public interface List&lt;out E&gt; : Collection&lt;E&gt; &#123;</span><br><span class="line">    // Query Operations</span><br><span class="line">    override val size: Int</span><br><span class="line"></span><br><span class="line">    override fun isEmpty(): Boolean</span><br><span class="line">   //告诉编译器 我知道，你不要管我知道怎么搞</span><br><span class="line">    override fun contains(element: @UnsafeVariance E): Boolean</span><br><span class="line">    override fun iterator(): Iterator&lt;E&gt;</span><br><span class="line"></span><br><span class="line">    // Bulk Operations</span><br><span class="line">    override fun containsAll(elements: Collection&lt;@UnsafeVariance E&gt;): Boolean</span><br><span class="line"></span><br><span class="line">    // Positional Access Operations</span><br><span class="line">    /**</span><br><span class="line">     * Returns the element at the specified index in the list.、</span><br><span class="line">     返回值的类型是E</span><br><span class="line">     */</span><br><span class="line">    public operator fun get(index: Int): E</span><br><span class="line"></span><br><span class="line">    // Search Operations</span><br><span class="line">    /**</span><br><span class="line">     * Returns the index of the first occurrence of the specified element in the list, or -1 if the specified</span><br><span class="line">     * element is not contained in the list.</span><br><span class="line">     */</span><br><span class="line">    public fun indexOf(element: @UnsafeVariance E): Int</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Returns the index of the last occurrence of the specified element in the list, or -1 if the specified</span><br><span class="line">     * element is not contained in the list.</span><br><span class="line">     */</span><br><span class="line">    public fun lastIndexOf(element: @UnsafeVariance E): Int</span><br><span class="line"></span><br><span class="line">    // List Iterators</span><br><span class="line">    /**</span><br><span class="line">     * Returns a list iterator over the elements in this list (in proper sequence).</span><br><span class="line">     */</span><br><span class="line">    public fun listIterator(): ListIterator&lt;E&gt;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Returns a list iterator over the elements in this list (in proper sequence), starting at the specified [index].</span><br><span class="line">     */</span><br><span class="line">    public fun listIterator(index: Int): ListIterator&lt;E&gt;</span><br><span class="line"></span><br><span class="line">    // View</span><br><span class="line">    /**</span><br><span class="line">     * Returns a view of the portion of this list between the specified [fromIndex] (inclusive) and [toIndex] (exclusive).</span><br><span class="line">     * The returned list is backed by this list, so non-structural changes in the returned list are reflected in this list, and vice-versa.</span><br><span class="line">     *</span><br><span class="line">     * Structural changes in the base list make the behavior of the view undefined.</span><br><span class="line">     */</span><br><span class="line">    public fun subList(fromIndex: Int, toIndex: Int): List&lt;E&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></int></number></out></p>
+<p>逆变：Comparable接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   //in 逆变 ，泛型的继承关系相反 逆变点就是函数参数的类型  Any是Int的父类</span><br><span class="line">  val intComparable:Comparable&lt;Int&gt; = object :Comparable&lt;Any&gt;&#123;</span><br><span class="line">            override fun compareTo(other: Any): Int &#123;</span><br><span class="line">                return 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">public interface Comparable&lt;in T&gt; &#123;</span><br><span class="line">    public operator fun compareTo(other: T): Int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不变：MutableList相当于Java中的|ArrayList，可读可写，不可变，泛型没有in 或者是out ，泛型的继承关系也没有具体的关系，前面是后面的子类或者是后面是前面的子类，都是不成立。<br><img src="https://upload-images.jianshu.io/upload_images/5363507-929cfc0a004bba08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public interface MutableList&lt;E&gt; : List&lt;E&gt;, MutableCollection&lt;E&gt; &#123;</span><br><span class="line">    override fun add(element: E): Boolean</span><br><span class="line">    override fun remove(element: E): Boolean</span><br><span class="line">    override fun addAll(elements: Collection&lt;E&gt;): Boolean</span><br><span class="line">    public fun addAll(index: Int, elements: Collection&lt;E&gt;): Boolean</span><br><span class="line">    override fun removeAll(elements: Collection&lt;E&gt;): Boolean</span><br><span class="line">    override fun retainAll(elements: Collection&lt;E&gt;): Boolean</span><br><span class="line">    override fun clear(): Unit</span><br><span class="line">    public operator fun set(index: Int, element: E): E</span><br><span class="line">    public fun add(index: Int, element: E): Unit</span><br><span class="line">    public fun removeAt(index: Int): E</span><br><span class="line">    override fun listIterator(): MutableListIterator&lt;E&gt;</span><br><span class="line">    override fun listIterator(index: Int): MutableListIterator&lt;E&gt;</span><br><span class="line">    override fun subList(fromIndex: Int, toIndex: Int): MutableList&lt;E&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###星投影：始终找最安全的解决方法，安全方式是定义泛型类型的这种投影，该泛型类型的每个具体实例化将是该投影的子类型</p>
+<p>如果泛型类型具有多个类型参数，则每个类型参数都可以单独投影。<br>例如，如果类型被声明为 interface Function <in t,="" out="" u="">，可以想象以下星投影：<br>Function&lt;<em>, String&gt; 表示 Function<in nothing,="" string="">；<br>Function&lt;Int, </in></em>&gt; 表示 Function&lt;Int, out Any?&gt;；<br>Function&lt;<em>, </em>&gt; 表示 Function<in nothing,="" out="" any?="">。</in></in></p>
+<p>可用的星投影的地方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> //out 协变 Number 是Int的子类，协变点函数得返回类型</span><br><span class="line">        val numberList:List&lt;*&gt; = listOf&lt;Int&gt;(1,58)</span><br><span class="line">        val any = numberList[1] //星投影，去找父类</span><br><span class="line">        //in 逆变 ，泛型的继承关系相反 逆变点就是函数参数的类型</span><br><span class="line">        val intComparable:Comparable&lt;*&gt; = object :Comparable&lt;Any&gt;&#123;</span><br><span class="line">            override fun compareTo(other: Any): Int &#123;</span><br><span class="line">                return 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //星投影，去找父类 Nothing</span><br><span class="line">        intComparable.compareTo()</span><br><span class="line"></span><br><span class="line">fun &lt;T&gt; hello()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">open class Hello&lt;T&gt;&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">//这样 就可以使用星投影</span><br><span class="line">class Hello33&lt;T&gt;</span><br><span class="line">//这样也可以使用星投影</span><br><span class="line">class Hello2:Hello&lt;Hello&lt;*&gt;&gt;()</span><br><span class="line">class Hello332:Hello&lt;Hello33&lt;*&gt;&gt;()</span><br></pre></td></tr></table></figure></p>
+<p>在kotlin中调用java的类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        //这样也可以使用星投影</span><br><span class="line">  val raw:Raw&lt;*&gt; = Raw.getRaw()</span><br><span class="line">public class Raw&lt;T&gt; &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;老子是Raw&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public static Raw getRaw()&#123;</span><br><span class="line">        return new Raw();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不可以使用星投影的地方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">        //不变的话，就根本没有继承关系，没有任何的关系 原因是这样不安全</span><br><span class="line">//        val list1:MutableList&lt;Number&gt; = mutableListOf&lt;Int&gt;(1,5,4)</span><br><span class="line">       list1.add(BigDecimal(1244444444))</span><br><span class="line">//        val list2:MutableList&lt;Int&gt; = mutableListOf&lt;Number&gt;(1,5,4)</span><br><span class="line"></span><br><span class="line">        //泛型的实参不要使用星号</span><br><span class="line">//        val numberList11d:List&lt;*&gt; = listOf&lt;*&gt;(1,58)</span><br><span class="line">//</span><br><span class="line">//        hello&lt;*&gt;()</span><br><span class="line">//</span><br><span class="line">//        val hello: Any = Hello&lt;*&gt;()</span><br><span class="line">fun &lt;T&gt; hello()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">open class Hello&lt;T&gt;&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>##安卓中一个MvpDemo,使用到了星投影和协变！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">package com.kotlin.demo.star_demo</span><br><span class="line"></span><br><span class="line">import org.jetbrains.annotations.NotNull</span><br><span class="line">import java.lang.reflect.ParameterizedType</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * author： Created by shiming on 2018/4/14 15:08</span><br><span class="line"> * mailbox：lamshiming@sina.com</span><br><span class="line"> */</span><br><span class="line">//Mvp 中的V层 超级接口</span><br><span class="line">interface IView&lt;out P:Ipresenter&lt;IView&lt;P&gt;&gt;&gt;&#123;</span><br><span class="line">    val presenter:P</span><br><span class="line">&#125;</span><br><span class="line">//P层的超级接口</span><br><span class="line">interface Ipresenter&lt;out V:IView&lt;Ipresenter&lt;V&gt;&gt;&gt;&#123;</span><br><span class="line">//    @NotNull</span><br><span class="line">//    IView getView();</span><br><span class="line">    val view:V</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">abstract class BaseView&lt;out P:BasePresenter&lt;BaseView&lt;P&gt;&gt;&gt;:IView&lt;P&gt;&#123;</span><br><span class="line">    override val presenter:P</span><br><span class="line"></span><br><span class="line">    init &#123;</span><br><span class="line">        presenter= findPresenterClass().newInstance()</span><br><span class="line">        presenter.view=this</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 得到相对于的Class的文件</span><br><span class="line">     */</span><br><span class="line">    private fun findPresenterClass():Class&lt;P&gt;&#123;</span><br><span class="line">        //不知道，使用星投影去接收  相当于  Class thisClass = this.getClass();</span><br><span class="line">        var thisClass:Class&lt;*&gt; = this.javaClass</span><br><span class="line">//        while(true) &#123;</span><br><span class="line">//            Type var10000 = thisClass.getGenericSuperclass();</span><br><span class="line">//            if(!(var10000 instanceof ParameterizedType)) &#123;</span><br><span class="line">//                var10000 = null;</span><br><span class="line">//            &#125;</span><br><span class="line">//            ParameterizedType var5 = (ParameterizedType)var10000;</span><br><span class="line">//            if(var5 != null) &#123;</span><br><span class="line">//                Type[] var6 = var5.getActualTypeArguments();</span><br><span class="line">//                if(var6 != null) &#123;</span><br><span class="line">//                    var10000 = (Type)ArraysKt.firstOrNull((Object[])var6);</span><br><span class="line">//                    if(var10000 != null) &#123;</span><br><span class="line">//                        Type var2 = var10000;</span><br><span class="line">//                        if(var2 == null) &#123;</span><br><span class="line">//                            throw new TypeCastException(&quot;null cannot be cast to non-null type java.lang.Class&lt;P&gt;&quot;);</span><br><span class="line">//                        &#125;</span><br><span class="line">//</span><br><span class="line">//                        return (Class)var2;</span><br><span class="line">//                    &#125;</span><br><span class="line">//                &#125;</span><br><span class="line">//            &#125;</span><br><span class="line">//        &#125;</span><br><span class="line">        //以下的代码相当于上面的代码</span><br><span class="line">        while (true)&#123;</span><br><span class="line">            (thisClass.genericSuperclass as? ParameterizedType)</span><br><span class="line">                    ?.actualTypeArguments</span><br><span class="line">                    ?.firstOrNull()</span><br><span class="line">                    ?.let &#123;</span><br><span class="line">                        return it as Class&lt;P&gt;</span><br><span class="line">                    &#125;?.run&#123;</span><br><span class="line">                            thisClass=thisClass.superclass ?:throw IllegalAccessException()</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">abstract class BasePresenter&lt;out V:IView&lt;BasePresenter&lt;V&gt;&gt;&gt;:Ipresenter&lt;V&gt;&#123;</span><br><span class="line">    //lateinit 延迟初始化</span><br><span class="line">    //@UnsafeVariance 告诉编译器 我很安全 不要管我</span><br><span class="line">    override lateinit var view:@UnsafeVariance V</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MainView:BaseView&lt;MainPresenter&gt;()</span><br><span class="line"></span><br><span class="line">class MainPresenter:BasePresenter&lt;MainView&gt;()</span><br><span class="line"></span><br><span class="line">class Mvp&#123;</span><br><span class="line">    init &#123;</span><br><span class="line">        MainView().presenter.let(::println)</span><br><span class="line">        //相当于下面的代码</span><br><span class="line">//        BasePresenter var1 = (new MainView()).getPresenter();</span><br><span class="line">//        System.out.println(var1);</span><br><span class="line">        MainView().presenter.let &#123; println(&quot;shiming P=&quot;+it) &#125;</span><br><span class="line">        //相当于下面的代码</span><br><span class="line">//        var1 = (new MainView()).getPresenter();</span><br><span class="line">//        MainPresenter it = (MainPresenter)var1;</span><br><span class="line">//        String var3 = &quot;shiming P=&quot; + it;</span><br><span class="line">//        System.out.println(var3);</span><br><span class="line">//        (new MainPresenter()).getView();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>####输出的结果是：shiming P=com.kotlin.demo.star_demo.MainPresenter@fc35795<br>以上就是大概的理解，谢谢！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-04-14, 16:28:07</p>
+        <p><span>最后更新:</span>2018-08-14, 16:28:56</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/14/Kotlin中的协变、逆变和不变/" title="Kotlin中的协变、逆变和不变">http://yoursite.com/2018/04/14/Kotlin中的协变、逆变和不变/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/04/14/Kotlin中的协变、逆变和不变/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/04/22/基于Glide4-7-1二次封装/">
+                    基于Glide4.7.1二次封装
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/02/26/PLC通讯的安卓App/">
+                    PLC通讯的安卓App
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#泛型实参的继承关系对泛型类型的影响"><span class="toc-number">1.</span> <span class="toc-text">泛型实参的继承关系对泛型类型的影响</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#协变：泛型类型与实参的继承关系相同"><span class="toc-number">1.0.1.</span> <span class="toc-text">协变：泛型类型与实参的继承关系相同</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#逆变：泛型类型与实参的继承关系相反"><span class="toc-number">1.0.2.</span> <span class="toc-text">逆变：泛型类型与实参的继承关系相反</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#不变：泛型类型没有关系"><span class="toc-number">1.0.3.</span> <span class="toc-text">不变：泛型类型没有关系</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#协变点：返回值类型是泛型参数类型"><span class="toc-number">1.0.4.</span> <span class="toc-text">协变点：返回值类型是泛型参数类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#逆变点：入参类型是泛型参数类型"><span class="toc-number">1.0.5.</span> <span class="toc-text">逆变点：入参类型是泛型参数类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行"><span class="toc-number">1.0.6.</span> <span class="toc-text">@UnsafeVariance：协变点违例，告诉编译器，没事，你就按照我的意思执行</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Kotlin中的协变、逆变和不变　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/04/22/基于Glide4-7-1二次封装/" title="上一篇: 基于Glide4.7.1二次封装">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/02/26/PLC通讯的安卓App/" title="下一篇: PLC通讯的安卓App">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
