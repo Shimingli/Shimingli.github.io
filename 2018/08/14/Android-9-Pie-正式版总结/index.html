@@ -14,20 +14,27 @@
 <meta name="author" content="Shiming_Li" />
 
 
-    
-    
 
-
-<meta name="description" content="好好学习，天天向上">
-<meta property="og:type" content="website">
-<meta property="og:title" content="仕明">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="先声明下，以下的整理的资料一部分来源于公众号谷歌开发者,一部分来源于谷歌安卓官方网站（不用翻墙，gogogo），还有小部分自己的理解。  微信公众号号谷歌开发者推送了 Android 9 Pie 现已面向全球正式发布！,就去更新 Android API 28,想看看正式版那些功能，就发生了如下的故事    这是我的电脑IP地址   然后我的电脑就被限制速度了，为了同事们能够好好工作，现在模拟器镜">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 9 Pie 正式版总结">
+<meta property="og:url" content="http://yoursite.com/2018/08/14/Android-9-Pie-正式版总结/index.html">
 <meta property="og:site_name" content="仕明">
-<meta property="og:description" content="好好学习，天天向上">
+<meta property="og:description" content="先声明下，以下的整理的资料一部分来源于公众号谷歌开发者,一部分来源于谷歌安卓官方网站（不用翻墙，gogogo），还有小部分自己的理解。  微信公众号号谷歌开发者推送了 Android 9 Pie 现已面向全球正式发布！,就去更新 Android API 28,想看看正式版那些功能，就发生了如下的故事    这是我的电脑IP地址   然后我的电脑就被限制速度了，为了同事们能够好好工作，现在模拟器镜">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-88fbec19dcb39405.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-246697c1c7a1fd7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-2570704afb0266ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-981c91a3d7305557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-4fdf1483b6f645f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-085482fa43bb2721.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-57240ac05547289b.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-1298304aefb3084e.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2018-08-14T05:46:06.379Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="仕明">
-<meta name="twitter:description" content="好好学习，天天向上">
+<meta name="twitter:title" content="Android 9 Pie 正式版总结">
+<meta name="twitter:description" content="先声明下，以下的整理的资料一部分来源于公众号谷歌开发者,一部分来源于谷歌安卓官方网站（不用翻墙，gogogo），还有小部分自己的理解。  微信公众号号谷歌开发者推送了 Android 9 Pie 现已面向全球正式发布！,就去更新 Android API 28,想看看正式版那些功能，就发生了如下的故事    这是我的电脑IP地址   然后我的电脑就被限制速度了，为了同事们能够好好工作，现在模拟器镜">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-88fbec19dcb39405.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -55,13 +62,11 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-    <style> .article { opacity: 0;} </style>
-
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>仕明</title>
+<title>Android 9 Pie 正式版总结 | 仕明</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -70,8 +75,8 @@
     var yiliaConfig = {
         fancybox: true,
         animate: true,
-        isHome: true,
-        isPost: false,
+        isHome: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -265,9 +270,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-Android-9-Pie-正式版总结" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android-9-Pie-正式版总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/08/14/Android-9-Pie-正式版总结/" class="article-date">
@@ -285,12 +288,19 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a>
+    <h1 class="article-title" itemprop="name">
+      Android 9 Pie 正式版总结
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -481,148 +491,119 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-08-14, 11:48:40</p>
+        <p><span>最后更新:</span>2018-08-14, 13:46:06</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/08/14/Android-9-Pie-正式版总结/" title="Android 9 Pie 正式版总结">http://yoursite.com/2018/08/14/Android-9-Pie-正式版总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/08/14/Android-9-Pie-正式版总结/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/08/14/test/">
+                    test
+                </a>
+            </div>
+        
+    </nav>
+
   
 </article>
 
-
-
-
-
-
-
-
-
-  
-    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/14/test/" class="article-date">
-      <time datetime="2018-08-14T02:46:39.000Z" itemprop="datePublished">2018-08-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/14/test/">test</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、应用待机分组"><span class="toc-number">1.</span> <span class="toc-text">1、应用待机分组</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#5个分组如下-活跃-Active-、工作-Working-set-、-常用-Frequent-、-极少-Rare-、应用偶尔被使用-App-is-not-frequently-used"><span class="toc-number">1.1.</span> <span class="toc-text">5个分组如下  活跃 (Active)、工作 (Working set)、 常用 (Frequent)、 极少 (Rare)、应用偶尔被使用 (App is not frequently used)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、后台限制"><span class="toc-number">2.</span> <span class="toc-text">2、后台限制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、省电模式的优化"><span class="toc-number">3.</span> <span class="toc-text">3、省电模式的优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、低耗能模式，-当用户一段时间没有使用设备时候，设备将进入低耗电模式，所有的应用都将要受到影响。Android-P并没有针对低电耗模式做出改变"><span class="toc-number">4.</span> <span class="toc-text">4、低耗能模式， 当用户一段时间没有使用设备时候，设备将进入低耗电模式，所有的应用都将要受到影响。Android P并没有针对低电耗模式做出改变.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、Slices-App-Actions"><span class="toc-number">5.</span> <span class="toc-text">5、Slices  App Actions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、文本识别与-Smart-Linkify"><span class="toc-number">6.</span> <span class="toc-text">6、文本识别与 Smart Linkify</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、神经网络-API-1-1"><span class="toc-number">7.</span> <span class="toc-text">7、神经网络 API 1.1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#人机交互"><span class="toc-number"></span> <span class="toc-text">人机交互</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、全新系统导航"><span class="toc-number">1.</span> <span class="toc-text">1、全新系统导航</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、-凹口屏支持"><span class="toc-number">2.</span> <span class="toc-text">2、 凹口屏支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、-通知与智能回复"><span class="toc-number">3.</span> <span class="toc-text">3、 通知与智能回复</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、文本放大镜"><span class="toc-number">4.</span> <span class="toc-text">4、文本放大镜</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户安全与隐私"><span class="toc-number"></span> <span class="toc-text">用户安全与隐私</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、统一身份验证对话框"><span class="toc-number">1.</span> <span class="toc-text">1、统一身份验证对话框</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、Android-Protected-Confirmation"><span class="toc-number">2.</span> <span class="toc-text">2、Android Protected Confirmation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、KeyStore-加强密钥安全保护"><span class="toc-number">3.</span> <span class="toc-text">3、KeyStore 加强密钥安全保护</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、Android-P默认使用了HTTPS"><span class="toc-number">4.</span> <span class="toc-text">5、Android P默认使用了HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、基于编译器的安全缓解措施"><span class="toc-number">5.</span> <span class="toc-text">6、基于编译器的安全缓解措施</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、用户隐私"><span class="toc-number">6.</span> <span class="toc-text">7、用户隐私</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#摄像和影音的全面升级"><span class="toc-number"></span> <span class="toc-text">摄像和影音的全面升级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、多摄像头的API的改进-–-gt"><span class="toc-number">1.</span> <span class="toc-text">1、多摄像头的API的改进 –&gt;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、使用动态处理增强音频–-gt-降噪技术"><span class="toc-number">2.</span> <span class="toc-text">2、使用动态处理增强音频–&gt;降噪技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、ImageDecoder-API"><span class="toc-number">3.</span> <span class="toc-text">3、ImageDecoder API</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络连接与位置"><span class="toc-number"></span> <span class="toc-text">网络连接与位置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、使用-Wi-Fi-RTT-，进行室内定位"><span class="toc-number">1.</span> <span class="toc-text">1、使用 Wi-Fi RTT ，进行室内定位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、JobScheduler-中的数据费用敏感度"><span class="toc-number">2.</span> <span class="toc-text">2、JobScheduler 中的数据费用敏感度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、-用于-NFC-支付和安全交易的-Open-Mobile-API"><span class="toc-number">3.</span> <span class="toc-text">3、 用于 NFC 支付和安全交易的 Open Mobile API</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更强劲的性能表现"><span class="toc-number"></span> <span class="toc-text">更强劲的性能表现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、ART-性能提升"><span class="toc-number">1.</span> <span class="toc-text">1、ART 性能提升</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、Kotlin-优化"><span class="toc-number">2.</span> <span class="toc-text">2、Kotlin 优化</span></a></li></ol>
         
-      
     </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
     
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
+<div class="share">
     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/14/hello-world/" class="article-date">
-      <time datetime="2018-08-14T02:35:27.739Z" itemprop="datePublished">2018-08-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Android 9 Pie 正式版总结　| 仕明　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
     
-      <input type="hidden" class="isFancy" />
+
     
+</div>
+
+
+
+
+
+
+
     
-      <header class="article-header">
+
+
+
+
+    <div class="scroll" id="post-nav-button">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/14/hello-world/">Hello World</a>
-    </h1>
-  
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
-      
+        
+            <a href="/2018/08/14/test/" title="下一篇: test">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
     </div>
-    
-    <div class="article-info article-info-index">
-      
-      
 
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/test/">test</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/hello-world/">Hello World</a></li></ul>
 
 
 
 
-
-
-
-
-
-  
-  
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
