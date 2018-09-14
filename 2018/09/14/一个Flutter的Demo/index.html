@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！ 美团技术团队Flutter见解 下一代移动端跨平台框架-Flutter大解密">
+<meta name="keywords" content="Flutter,Demo,Apk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个Flutter的Demo">
+<meta property="og:url" content="http://yoursite.com/2018/09/14/一个Flutter的Demo/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！ 美团技术团队Flutter见解 下一代移动端跨平台框架-Flutter大解密">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-8f053f1f4bdbdaa3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a3a6b8c67f6c91a7.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a5aa441b40672140.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a5ac11b98426ed74.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-83593aae936c8b0d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a8bf490c02429f68.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-861c721e72f18243.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a9422980c719b94d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-09-14T06:42:04.027Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个Flutter的Demo">
+<meta name="twitter:description" content="首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！ 美团技术团队Flutter见解 下一代移动端跨平台框架-Flutter大解密">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-8f053f1f4bdbdaa3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>一个Flutter的Demo | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?1add6c64d9c467153aaed18d249d81c4";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apk/">Apk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayList/">ArrayList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashMap/">HashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashSet/">HashSet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinckedList/">LinckedList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinkedHashMap/">LinkedHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LruCache/">LruCache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SparseArray/">SparseArray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vector/">Vector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/剑指几道算法题的思考/">剑指几道算法题的思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" target="_blank" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-一个Flutter的Demo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/14/一个Flutter的Demo/" class="article-date">
+      <time datetime="2018-09-14T06:40:31.000Z" itemprop="datePublished">2018-09-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一个Flutter的Demo
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Apk/">Apk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Demo/">Demo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flutter/">Flutter</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！<ul>
+<li><a href="https://mp.weixin.qq.com/s/cJjKZCqc8UuzvEtxK1BJCw" target="_blank" rel="noopener">美团技术团队Flutter见解</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ZMp2fSOTlYkZ_aNIOrUZdw" target="_blank" rel="noopener">下一代移动端跨平台框架-Flutter大解密</a><a id="more"></a></li>
+</ul>
+</li>
+<li>Demo 的下载地址（正式包，使用Flutter命令打的正式包）<br><img src="https://upload-images.jianshu.io/upload_images/5363507-8f053f1f4bdbdaa3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="蒲公英.png"></li>
+<li>App详情</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-a3a6b8c67f6c91a7.gif?imageMogr2/auto-orient/strip" alt="ezgif-2-c954a6dd5e.gif"><br><img src="https://upload-images.jianshu.io/upload_images/5363507-a5aa441b40672140.gif?imageMogr2/auto-orient/strip" alt="ezgif-2-f3661cf95e.gif"></p>
+<p>###　App的页面详情</p>
+<h4 id="HomePage-里面嵌套了四个页面，使用的是TabBar和-TabBarView的组合，比如安卓中的Fragment-Viewpager"><a href="#HomePage-里面嵌套了四个页面，使用的是TabBar和-TabBarView的组合，比如安卓中的Fragment-Viewpager" class="headerlink" title="HomePage;里面嵌套了四个页面，使用的是TabBar和 TabBarView的组合，比如安卓中的Fragment Viewpager"></a><code>HomePage</code>;里面嵌套了四个页面，使用的是<code>TabBar</code>和 <code>TabBarView</code>的组合，比如安卓中的<code>Fragment</code> <code>Viewpager</code></h4><ul>
+<li>1、首页的第一页使用豆瓣电影的接口，请求数据，并且展示出来了，工程中如何代码中如何使用依赖？如下代码所示<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  flutter:</span><br><span class="line">  sdk: flutter</span><br><span class="line"># The following adds the Cupertino Icons font to your application.</span><br><span class="line"># Use with the CupertinoIcons class for iOS style icons.</span><br><span class="line">cupertino_icons: ^0.1.0</span><br><span class="line">fluttertoast: ^2.0.7 #&quot;Packages get&quot; 要去主动的 get 一次依赖</span><br><span class="line"> dio: ^v1.0.3</span><br><span class="line"># 添加网络依赖</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>2、演示了图片控件摆放</li>
+<li>3、综合列表的展示</li>
+<li><p>4、其他控件的使用Demo</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-a5ac11b98426ed74.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="首页.jpg"></p>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-83593aae936c8b0d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一些控件.jpg"></p>
+<pre><code> * 首页的关键代码
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"> //为给定的[子]控件创建默认选项卡控制器。</span><br><span class="line">return new DefaultTabController(</span><br><span class="line">    length: 5,</span><br><span class="line">    child: new Scaffold(</span><br><span class="line">      appBar: new AppBar(</span><br><span class="line">        backgroundColor: Colors.black45,</span><br><span class="line">       // title: titleWidget(),</span><br><span class="line">        title: new Text(&quot;首页&quot;,style: new TextStyle(color: Colors.white,fontSize: 22.00),),</span><br><span class="line">        actions: &lt;Widget&gt;[</span><br><span class="line">          new IconButton(</span><br><span class="line">              icon: new Icon(Icons.add_a_photo), onPressed: () &#123;</span><br><span class="line">            Navigator</span><br><span class="line">                .of(context)</span><br><span class="line">                .push(new MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">              return new OtherPage();</span><br><span class="line">            &#125;));</span><br><span class="line">          &#125;)</span><br><span class="line">        ],</span><br><span class="line">        bottom: new TabBar(</span><br><span class="line">            isScrollable: true,</span><br><span class="line">            labelStyle: new TextStyle(fontSize: 22.00,color: Colors.red),</span><br><span class="line">            indicatorPadding:EdgeInsets.zero,</span><br><span class="line">            labelColor: Colors.white,</span><br><span class="line">            indicatorWeight:4.0,</span><br><span class="line">            unselectedLabelColor: Colors.blueAccent,</span><br><span class="line">            tabs: [</span><br><span class="line">              new Tab(</span><br><span class="line">                text: &quot;豆瓣电影&quot;,</span><br><span class="line">              ),</span><br><span class="line">              new Tab(</span><br><span class="line">                text: &quot;控件摆放&quot;,</span><br><span class="line">              ),</span><br><span class="line">              new Tab(</span><br><span class="line">                text: &quot;列表展示&quot;,</span><br><span class="line">              ),</span><br><span class="line">              new Tab(</span><br><span class="line">                text: &quot;其他控件展示&quot;,</span><br><span class="line">              ),</span><br><span class="line">            ]),</span><br><span class="line">      ),</span><br><span class="line">      body: new TabBarView(children: [new TabOne(), new TabTwo(),new TabThree(),new TabFroth()]),</span><br><span class="line">    ));</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。"><a href="#SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。" class="headerlink" title="SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。"></a>SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。</h4><ul>
+<li><p>1、使用了<code>TextField</code>相当于安卓中的<code>Edittext</code>,只不过获取值的时候有些变化</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">new Expanded(</span><br><span class="line">      child: new TextField(</span><br><span class="line">        //不要主动弹起来</span><br><span class="line">        autofocus: false,</span><br><span class="line">        controller: _textController,</span><br><span class="line">        decoration: new InputDecoration.collapsed(</span><br><span class="line">            hintText: &quot;请输入要查找的词&quot;,</span><br><span class="line">            hintStyle: new TextStyle(color: Colors.red)),</span><br><span class="line">      ),</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、如何退出页面<code>Navigator.of(context).pop();</code></p>
+</li>
+<li><p>3、如何使用<code>Toast</code>，这里我是使用了三方的依赖!底层原理是使用了反射，具体实现的方法，有兴趣的同学可以看看<code>String res = await _channel.invokeMethod(&#39;showToast&#39;, params);</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Fluttertoast.showToast(</span><br><span class="line">                 msg: &quot;输入为空，请重新输入&quot;,</span><br><span class="line">                 timeInSecForIos: 1,</span><br><span class="line">                 bgcolor: &quot;#e74c3c&quot;,</span><br><span class="line">                 textcolor: &apos;#ffffff&apos;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、带框的Button的使用，具体请看实现的代码。</li>
+<li>5、具体页面如下</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-a8bf490c02429f68.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="近义词页面.jpg"></p>
+<ul>
+<li>6、代码如下 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line">             import &apos;dart:convert&apos;;</span><br><span class="line">import &apos;dart:io&apos;;</span><br><span class="line">import &apos;package:flutter/material.dart&apos;;</span><br><span class="line">import &apos;package:flutter_app/bean/DataBean.dart&apos;;</span><br><span class="line">import &apos;package:fluttertoast/fluttertoast.dart&apos;;</span><br><span class="line"></span><br><span class="line">class SimilarWordsPage extends StatefulWidget &#123;</span><br><span class="line">  @override</span><br><span class="line">  State&lt;StatefulWidget&gt; createState() &#123;</span><br><span class="line">    return new SimilarWordsPageState();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class SimilarWordsPageState extends State&lt;SimilarWordsPage&gt; &#123;</span><br><span class="line">  List&lt;DataBean&gt; datas = [];</span><br><span class="line">  static int i=0;</span><br><span class="line">  final TextEditingController _textController = new TextEditingController();</span><br><span class="line"></span><br><span class="line">  @override</span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    return new Scaffold(</span><br><span class="line">      appBar: findAppBar(),</span><br><span class="line">      backgroundColor: Colors.black12,</span><br><span class="line">      body: findBody(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  findBody() &#123;</span><br><span class="line">    return new Container(</span><br><span class="line">        child: new Scaffold(</span><br><span class="line">      body: new ListView.builder(</span><br><span class="line">        itemCount: datas.length,</span><br><span class="line">        itemBuilder: (BuildContext context, int position) &#123;</span><br><span class="line">          i=position;</span><br><span class="line">          return getRow(position);</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">    ));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Widget findAppBar() &#123;</span><br><span class="line">    return new AppBar(</span><br><span class="line">        title: new Container(</span><br><span class="line">      child: new Row(</span><br><span class="line">        children: &lt;Widget&gt;[</span><br><span class="line">          new Container(</span><br><span class="line">            child: new FlatButton.icon(</span><br><span class="line">              onPressed: () &#123;</span><br><span class="line">                // 本来就在栈顶，退出会有显示的问题</span><br><span class="line">                Navigator.of(context).pop();</span><br><span class="line">              &#125;,</span><br><span class="line">              icon: new Icon(Icons.close, color: Colors.white30),</span><br><span class="line">              label: new Text(&quot;&quot;),</span><br><span class="line">            ),</span><br><span class="line">            width: 60.0,</span><br><span class="line">          ),</span><br><span class="line">          new Expanded(</span><br><span class="line">            child: new TextField(</span><br><span class="line">              //不要主动弹起来</span><br><span class="line">              autofocus: false,</span><br><span class="line">              controller: _textController,</span><br><span class="line">              decoration: new InputDecoration.collapsed(</span><br><span class="line">                  hintText: &quot;请输入要查找的词&quot;,</span><br><span class="line">                  hintStyle: new TextStyle(color: Colors.red)),</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">          //点击事件的第一种实现的方式  我觉得不太好</span><br><span class="line">          //  new GestureDetector(child: new Icon(Icons.find_in_page),onTap: ()&#123;print(&quot;dd&quot;);&#125;)</span><br><span class="line">          // 这种点击时间有点效果</span><br><span class="line">          new IconButton(</span><br><span class="line">              icon: new Icon(Icons.find_in_page),</span><br><span class="line">              onPressed: () &#123;</span><br><span class="line">                print(_textController.text);</span><br><span class="line">                if (_textController.text.isEmpty) &#123;</span><br><span class="line">                  Fluttertoast.showToast(</span><br><span class="line">                      msg: &quot;输入为空，请重新输入&quot;,</span><br><span class="line">                      timeInSecForIos: 1,</span><br><span class="line">                      bgcolor: &quot;#e74c3c&quot;,</span><br><span class="line">                      textcolor: &apos;#ffffff&apos;);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                  FocusNode focusNode = new FocusNode();</span><br><span class="line">                  FocusScope.of(context).requestFocus(new FocusNode());</span><br><span class="line">                  Fluttertoast.showToast(</span><br><span class="line">                      msg: &quot;查找值为：&quot; + _textController.text,</span><br><span class="line">                      timeInSecForIos: 1,</span><br><span class="line">                      bgcolor: &quot;#e74c3c&quot;,</span><br><span class="line">                      textcolor: &apos;#ffffff&apos;);</span><br><span class="line">                  getApiData(_textController.text);</span><br><span class="line">                  focusNode.unfocus();</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;)</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">      decoration: new BoxDecoration(</span><br><span class="line">          borderRadius: const BorderRadius.all(const Radius.circular(4.0)),</span><br><span class="line">          color: Colors.white10),</span><br><span class="line">    ));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Widget getRow(int i) &#123;</span><br><span class="line">    return new Padding(</span><br><span class="line">      padding: new EdgeInsets.all(10.0),</span><br><span class="line">      // child: new Text(&quot;Row $&#123;datas[i].key&#125;&quot;,style: new TextStyle(color: Colors.orange,fontSize: 18.00),)</span><br><span class="line">      //  Column 相当于 相对布局  Row 线性布局</span><br><span class="line">      child: new Column(</span><br><span class="line">        children: &lt;Widget&gt;[</span><br><span class="line">          new Padding(</span><br><span class="line">            padding: new EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),</span><br><span class="line">            child: new Row(</span><br><span class="line">              children: &lt;Widget&gt;[</span><br><span class="line">                new Expanded(</span><br><span class="line">                    child: new OutlineButton(</span><br><span class="line">                      borderSide:new BorderSide(color: Theme.of(context).primaryColor),</span><br><span class="line">                      child: new Text(&apos;条目 = &apos;+i.toString(),style: new TextStyle(color: Theme.of(context).primaryColor),),</span><br><span class="line">                      onPressed: ()&#123;&#125;,</span><br><span class="line">                    )</span><br><span class="line">                ),</span><br><span class="line">              ],</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line"></span><br><span class="line">          new Container(</span><br><span class="line">            child: new Text(</span><br><span class="line">              &quot;联想到的词：&quot; + datas[i].key,</span><br><span class="line">              style: new TextStyle(color: Colors.purple, fontSize: 12.00),</span><br><span class="line">            ),</span><br><span class="line">            padding: new EdgeInsets.all(10.0),</span><br><span class="line">          ),</span><br><span class="line">          new Container(</span><br><span class="line">            child: new Text(&quot;联想到词的翻译信息：&quot; + datas[i].message,</span><br><span class="line">                style: new TextStyle(color: Colors.cyan, fontSize: 15.00)),</span><br><span class="line">            padding: new EdgeInsets.all(10.0),</span><br><span class="line">          )</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @override</span><br><span class="line">  void initState() &#123;</span><br><span class="line">    super.initState();</span><br><span class="line">    // 网络请求</span><br><span class="line">    //http://dict-mobile.iciba.com/interface/index.php?c=word&amp;m=getsuggest&amp;nums=10&amp;client=6&amp;is_need_mean=1&amp;word=sm</span><br><span class="line">    //我的 Api的地址</span><br><span class="line">    getApiData(&quot;sm&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 网络请求</span><br><span class="line">  void getApiData(String tag) async &#123;</span><br><span class="line">    // 注意导入的包的地方是  import &apos;dart:io&apos;;</span><br><span class="line">    var httpClient = new HttpClient();</span><br><span class="line">    var url =</span><br><span class="line">        &quot;http://dict-mobile.iciba.com/interface/index.php?c=word&amp;m=getsuggest&amp;nums=20&amp;client=6&amp;is_need_mean=1&amp;word=&quot; +</span><br><span class="line">            tag;</span><br><span class="line">    var request = await httpClient.getUrl(Uri.parse(url));</span><br><span class="line">    var response = await request.close();</span><br><span class="line">    if (response.statusCode == HttpStatus.OK) &#123;</span><br><span class="line">      var jsonData = await response.transform(utf8.decoder).join();</span><br><span class="line">      setState(() &#123;</span><br><span class="line">        datas = DataBean.decodeData(jsonData);</span><br><span class="line">      &#125;);</span><br><span class="line">      for (int i = 0; i &lt; datas.length; i++) &#123;</span><br><span class="line">        print(datas[i].key);</span><br><span class="line">        print(datas[i].message);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="官方Demo"><a href="#官方Demo" class="headerlink" title="官方Demo"></a>官方Demo</h4><p><img src="https://upload-images.jianshu.io/upload_images/5363507-861c721e72f18243.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方Demo.jpg"></p>
+<h4 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h4><p><img src="https://upload-images.jianshu.io/upload_images/5363507-a9422980c719b94d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="关于我.jpg"></p>
+<h4 id="一些总结"><a href="#一些总结" class="headerlink" title="一些总结"></a>一些总结</h4><ul>
+<li><code>widget</code>相当于<code>View</code>，<code>Widget</code>的实例仅仅存在每一帧之间，并且每一帧之间 <code>Flutter</code>都会主动的创建一颗<code>Widget</code>树用于下一帧的渲染。</li>
+<li><code>Android</code> 中 <code>View</code> 是可变的，在 <code>Flutter</code> 中的 <code>Widget</code> 是不可变的。这种特性使得 <code>Flutter</code> 中的 <code>Widget</code> 变得十分轻量级</li>
+<li>一个 <code>Widget</code>会变化，那么它就是有状态的。但是如果一个子<code>Widget</code>是有状态的，但是其父<code>Widget</code>是不可变的话父<code>Widget</code>也可以是 <code>StatelessWidget</code>。</li>
+<li><code>TatelessWidget</code>和<code>StatefulWidget</code> 的核心内容是一致的，它们都会在每一帧中被重构，不同之处在于<code>StatefulWidget</code> 有一个 <code>State</code> 对象，它可以为 <code>StatefulWidget</code> 在不同帧之间存储数据。</li>
+<li><code>Flutter</code> 中<code>UI</code>的布局是通过在<code>dart</code> 文件中构建 <code>Widget</code> 树来实现的。</li>
+<li>在 <code>Android</code>中，使用 <code>LinearLayout</code> 使你的部件垂直或水平放置。在 <code>Flutter</code>中，你可以使用<code>Row</code> 或者 <code>Co​​lumn</code> 来实现相同的效果。</li>
+<li>在 <code>Flutter</code> 中，最简单的方法是使用<code>ListView</code> 。在<code>Flutter</code> 中，<code>ListView</code> 既是<code>ScrollView</code> 又是<code>Android</code>中的<code>ListView</code>。</li>
+<li>通过使用<code>Column</code>，<code>Row</code> 和<code>Stack</code>等 <code>Widget</code> 的组合来实现 <code>RelativeLayout</code> 的效果</li>
+<li><code>Flutter</code> 中，添加触摸监听器有两种方法<ul>
+<li>如果<code>Widget</code>支持事件检测，则可以将一个函数传递给它并进行处理。例如，<code>RaisedButton</code> 有一个<code>onPressed</code> 参数</li>
+<li>如果 <code>Widget</code>不支持事件检测，则可以将该 <code>Widget</code> 包装到 <code>GestureDetector</code>中，并将函数传递给<code>onTap</code> 参数。</li>
+</ul>
+</li>
+<li><code>GestureDetector</code> 我们可以监听广泛的手势</li>
+<li>要充分利用应用程序中的 <code>Material</code>风格的组件的话，可以把顶级部件 <code>MaterialApp</code>作为应用程序的入口。<code>MaterialApp</code>作为一个比较方便的部件，包装了许多实现了 <code>Material</code> 风格所需要的部件（如 <code>Scaffold</code>）。<code>MaterialApp</code>是在 <code>WidgetsApp</code> 的基础上进行实现的</li>
+<li><code>Flutter</code>不会自动导入包</li>
+<li><code>Column</code>相当于 相对布局<code>Row</code>线性布局 </li>
+<li>首页的数据结构展示 </li>
+<li><code>HttpClient</code>导入的包是  <code>io</code>里面的  </li>
+<li><code>DEBUG</code> 包要不正式包大很多 <code>Built build\app\outputs\apk\debug\app-debug.apk (31.9MB).</code>而正式包才<code>8.4M</code>.</li>
+<li>解决的<code>Bug</code>的时候太痛苦了，<code>Flutter</code>使用 <code>ide</code> ，太痛苦了</li>
+<li>在脑袋要构思出 这个布局的整体的结构 </li>
+<li>关闭系统自带的防火墙，重启OK  由于需要出差，就是用的是笔记本开发，导致自己笔记本的防火墙没有被关闭，真的是日了狗了,<a href="https://www.cnblogs.com/dreamyu/p/8032588.html" target="_blank" rel="noopener">解决防火墙</a>。</li>
+<li>MediaQuery.of(context).size.width /  4分之一的屏幕</li>
+<li><code>MaterialApp</code> 带有 <code>Debug</code>的标记 </li>
+</ul>
+<h4 id="感谢以下资料给与我的帮助"><a href="#感谢以下资料给与我的帮助" class="headerlink" title="感谢以下资料给与我的帮助"></a>感谢以下资料给与我的帮助</h4><ul>
+<li><a href="http://doc.flutter-dev.cn/flutter-for-android/" target="_blank" rel="noopener">Android 开发者参考</a></li>
+<li>Api的接口 <a href="https://github.com/jokermonn/-Api/blob/master/KingsoftDic.md" target="_blank" rel="noopener">查询近义词</a></li>
+<li>Api的接口 <a href="https://api.douban.com/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b&amp;city=%E6%B7%B1%E5%9C%B3&amp;start=0&amp;count=100&amp;client=somemessage&amp;udid=dddddddddddddddddddddd" target="_blank" rel="noopener">豆瓣电影</a></li>
+<li><a href="https://www.jianshu.com/p/f91b4e84cec8" target="_blank" rel="noopener">打包的流程</a></li>
+</ul>
+<h1 id="求赞或者求星星-FlutterApp"><a href="#求赞或者求星星-FlutterApp" class="headerlink" title="求赞或者求星星 FlutterApp"></a>求赞或者求星星 <strong><a href="https://github.com/Shimingli/FlutterApp" target="_blank" rel="noopener">FlutterApp</a></strong></h1>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-09-14, 14:40:31</p>
+        <p><span>最后更新:</span>2018-09-14, 14:42:04</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/09/14/一个Flutter的Demo/" title="一个Flutter的Demo">http://yoursite.com/2018/09/14/一个Flutter的Demo/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/09/14/一个Flutter的Demo/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/09/03/剑指offer中几道算法题的思考/">
+                    剑指几道算法题的思考
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#HomePage-里面嵌套了四个页面，使用的是TabBar和-TabBarView的组合，比如安卓中的Fragment-Viewpager"><span class="toc-number">1.</span> <span class="toc-text">HomePage;里面嵌套了四个页面，使用的是TabBar和 TabBarView的组合，比如安卓中的Fragment Viewpager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。"><span class="toc-number">2.</span> <span class="toc-text">SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#官方Demo"><span class="toc-number">3.</span> <span class="toc-text">官方Demo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于我"><span class="toc-number">4.</span> <span class="toc-text">关于我</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些总结"><span class="toc-number">5.</span> <span class="toc-text">一些总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#感谢以下资料给与我的帮助"><span class="toc-number">6.</span> <span class="toc-text">感谢以下资料给与我的帮助</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#求赞或者求星星-FlutterApp"><span class="toc-number"></span> <span class="toc-text">求赞或者求星星 FlutterApp</span></a>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"一个Flutter的Demo　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/09/03/剑指offer中几道算法题的思考/" title="下一篇: 剑指几道算法题的思考">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/03/剑指offer中几道算法题的思考/">剑指几道算法题的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/02/智能食柜/">智能食柜</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/27/新零售平台V1/">新零售平台V1</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/22/常用集合的原理分析/">常用集合的原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
