@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="22、就是同一个消息队列，直接两个观察者共享这个消息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2-Android-Samlpes（二）">
+<meta property="og:url" content="http://yoursite.com/2018/11/30/Rxjava2-Android-Samlpes（二）/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="22、就是同一个消息队列，直接两个观察者共享这个消息">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-04T01:30:00.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2-Android-Samlpes（二）">
+<meta name="twitter:description" content="22、就是同一个消息队列，直接两个观察者共享这个消息">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Rxjava2-Android-Samlpes（二） | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?1add6c64d9c467153aaed18d249d81c4";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apk/">Apk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayList/">ArrayList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashMap/">HashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashSet/">HashSet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java后端/">Java后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinckedList/">LinckedList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinkedHashMap/">LinkedHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LruCache/">LruCache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTfulAPI/">RESTfulAPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SparseArray/">SparseArray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger2/">Swagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vector/">Vector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/剑指几道算法题的思考/">剑指几道算法题的思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" target="_blank" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Rxjava2-Android-Samlpes（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/30/Rxjava2-Android-Samlpes（二）/" class="article-date">
+      <time datetime="2018-11-30T01:20:22.000Z" itemprop="datePublished">2018-11-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Rxjava2-Android-Samlpes（二）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>22、就是同一个消息队列，直接两个观察者共享这个消息</li>
+</ul>
+<a id="more"></a> 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">/* ReplaySubject emits to any observer all of the items that were emitted</span><br><span class="line">    * by the source Observable, regardless of when the observer subscribes.</span><br><span class="line">    *</span><br><span class="line">    * RePress主题向所有观察者发出所有被发射的项目。</span><br><span class="line">    *源可观察，不管观察者何时订阅。</span><br><span class="line">    */</span><br><span class="line">   private void doSomeWork() &#123;</span><br><span class="line"></span><br><span class="line">       ReplaySubject&lt;Integer&gt; source = ReplaySubject.create();</span><br><span class="line"></span><br><span class="line">       source.subscribe(getFirstObserver()); // it will get 1, 2, 3, 4</span><br><span class="line"></span><br><span class="line">       source.onNext(1);</span><br><span class="line">       source.onNext(2);</span><br><span class="line">       source.onNext(3);</span><br><span class="line">       source.onNext(4);</span><br><span class="line">       source.onComplete();</span><br><span class="line"></span><br><span class="line">       /*</span><br><span class="line">        * it will emit 1, 2, 3, 4 for second observer also as we have used replay</span><br><span class="line">        */</span><br><span class="line">       source.subscribe(getSecondObserver());</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   private Observer&lt;Integer&gt; getFirstObserver() &#123;</span><br><span class="line">       return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               Log.d(TAG, &quot; First onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(Integer value) &#123;</span><br><span class="line">               textView.append(&quot; First onNext : value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; First onNext value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; First onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; First onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; First onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; First onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observer&lt;Integer&gt; getSecondObserver() &#123;</span><br><span class="line">       return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               textView.append(&quot; Second onSubscribe : isDisposed :&quot; + d.isDisposed());</span><br><span class="line">               Log.d(TAG, &quot; Second onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(Integer value) &#123;</span><br><span class="line">               textView.append(&quot; Second onNext : value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; Second onNext value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; Second onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; Second onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输出结果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:21:52.062 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  First onSubscribe : false</span><br><span class="line">11-30 14:21:52.070 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  First onNext value : 1</span><br><span class="line">11-30 14:21:52.074 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  First onNext value : 2</span><br><span class="line">11-30 14:21:52.076 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  First onNext value : 3</span><br><span class="line">11-30 14:21:52.079 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  First onNext value : 4</span><br><span class="line">11-30 14:21:52.081 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  First onComplete</span><br><span class="line">11-30 14:21:52.083 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  Second onSubscribe : false</span><br><span class="line">11-30 14:21:52.087 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  Second onNext value : 1</span><br><span class="line">11-30 14:21:52.090 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  Second onNext value : 2</span><br><span class="line">11-30 14:21:52.092 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  Second onNext value : 3</span><br><span class="line">11-30 14:21:52.094 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  Second onNext value : 4</span><br><span class="line">11-30 14:21:52.096 19690-19690/com.rxjava2.android.samples D/ReplaySubjectExampleActivity:  Second onComplete</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>23、感觉就是两个订阅者，分开订阅 ，其中一个订阅者只关心一个结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">/* PublishSubject emits to an observer only those items that are emitted</span><br><span class="line">    * by the source Observable, subsequent to the time of the subscription.</span><br><span class="line">    * 发布主题仅向观察者发射那些被发射的项目。由来源可观察到，在订阅的时间之后。</span><br><span class="line">    */</span><br><span class="line">   private void doSomeWork() &#123;</span><br><span class="line"></span><br><span class="line">       PublishSubject&lt;Integer&gt; source = PublishSubject.create();</span><br><span class="line"></span><br><span class="line">       source.subscribe(getFirstObserver()); // it will get 1, 2, 3, 4 and onComplete</span><br><span class="line"></span><br><span class="line">       source.onNext(1);</span><br><span class="line">       source.onNext(2);</span><br><span class="line">       source.onNext(3);</span><br><span class="line"></span><br><span class="line">       /*</span><br><span class="line">        * it will emit 4 and onComplete for second observer also.</span><br><span class="line">        * 它将发射4和完成为第二观察员也。</span><br><span class="line">        */</span><br><span class="line">       source.subscribe(getSecondObserver());</span><br><span class="line"></span><br><span class="line">       source.onNext(4);</span><br><span class="line">       source.onComplete();</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   private Observer&lt;Integer&gt; getFirstObserver() &#123;</span><br><span class="line">       return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               Log.d(TAG, &quot; First onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(Integer value) &#123;</span><br><span class="line">               textView.append(&quot; First onNext : value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; First onNext value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; First onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; First onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; First onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; First onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observer&lt;Integer&gt; getSecondObserver() &#123;</span><br><span class="line">       return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               textView.append(&quot; Second onSubscribe : isDisposed :&quot; + d.isDisposed());</span><br><span class="line">               Log.d(TAG, &quot; Second onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(Integer value) &#123;</span><br><span class="line">               textView.append(&quot; Second onNext : value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; Second onNext value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; Second onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; Second onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:23:25.179 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  First onSubscribe : false</span><br><span class="line">11-30 14:23:25.186 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  First onNext value : 1</span><br><span class="line">11-30 14:23:25.188 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  First onNext value : 2</span><br><span class="line">11-30 14:23:25.191 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  First onNext value : 3</span><br><span class="line">11-30 14:23:25.193 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  Second onSubscribe : false</span><br><span class="line">11-30 14:23:25.198 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  First onNext value : 4</span><br><span class="line">11-30 14:23:25.201 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  Second onNext value : 4</span><br><span class="line">11-30 14:23:25.202 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  First onComplete</span><br><span class="line">11-30 14:23:25.205 19690-19690/com.rxjava2.android.samples D/PublishSubjectExampleActivity:  Second onComplete</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>24、BehaviorSubject 发出一个消息，然后订阅了，另外一个订阅者就会马上走这个结果输出，而且是交替输出的，不是单独输出的</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">private void doSomeWork() &#123;</span><br><span class="line"></span><br><span class="line">        BehaviorSubject&lt;Integer&gt; source = BehaviorSubject.create();</span><br><span class="line"></span><br><span class="line">        source.subscribe(getFirstObserver()); // it will get 1, 2, 3, 4 and onComplete</span><br><span class="line"></span><br><span class="line">        source.onNext(1);</span><br><span class="line">        source.onNext(2);</span><br><span class="line">        source.onNext(3);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">         * it will emit 3(last emitted), 4 and onComplete for second observer also.</span><br><span class="line">         */</span><br><span class="line">        source.subscribe(getSecondObserver());</span><br><span class="line"></span><br><span class="line">        source.onNext(4);</span><br><span class="line">        source.onComplete();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Observer&lt;Integer&gt; getFirstObserver() &#123;</span><br><span class="line">        return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onSubscribe(Disposable d) &#123;</span><br><span class="line">                Log.d(TAG, &quot; First onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onNext(Integer value) &#123;</span><br><span class="line">                textView.append(&quot; First onNext : value : &quot; + value);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; First onNext value : &quot; + value);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(Throwable e) &#123;</span><br><span class="line">                textView.append(&quot; First onError : &quot; + e.getMessage());</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; First onError : &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onComplete() &#123;</span><br><span class="line">                textView.append(&quot; First onComplete&quot;);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; First onComplete&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Observer&lt;Integer&gt; getSecondObserver() &#123;</span><br><span class="line">        return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onSubscribe(Disposable d) &#123;</span><br><span class="line">                textView.append(&quot; Second onSubscribe : isDisposed :&quot; + d.isDisposed());</span><br><span class="line">                Log.d(TAG, &quot; Second onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onNext(Integer value) &#123;</span><br><span class="line">                textView.append(&quot; Second onNext : value : &quot; + value);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; Second onNext value : &quot; + value);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(Throwable e) &#123;</span><br><span class="line">                textView.append(&quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onComplete() &#123;</span><br><span class="line">                textView.append(&quot; Second onComplete&quot;);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; Second onComplete&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>输出结果：当第一个观察者结束的时候，倒数第二个位置就会接收到值，结果如下 a1 a2 a3 b3 a4 b4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:27:29.950 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  First onSubscribe : false</span><br><span class="line">11-30 14:27:29.955 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  First onNext value : 1</span><br><span class="line">11-30 14:27:29.958 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  First onNext value : 2</span><br><span class="line">11-30 14:27:29.965 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  First onNext value : 3</span><br><span class="line">11-30 14:27:29.967 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  Second onSubscribe : false</span><br><span class="line">11-30 14:27:29.970 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  Second onNext value : 3</span><br><span class="line">11-30 14:27:29.974 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  First onNext value : 4</span><br><span class="line">11-30 14:27:29.978 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  Second onNext value : 4</span><br><span class="line">11-30 14:27:29.981 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  First onComplete</span><br><span class="line">11-30 14:27:29.985 19690-19690/com.rxjava2.android.samples D/BehaviorSubjectExampleActivity:  Second onComplete</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>25、AsyncSubject 就只能观察到最后一个值，另个订阅者 就只能接收到一个值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">rivate void doSomeWork() &#123;</span><br><span class="line">        AsyncSubject&lt;Integer&gt; source = AsyncSubject.create();</span><br><span class="line">        source.subscribe(getFirstObserver()); // it will emit only 4 and onComplete</span><br><span class="line">        source.onNext(1);</span><br><span class="line">        source.onNext(2);</span><br><span class="line">        source.onNext(3);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">         * it will emit 4 and onComplete for second observer also.</span><br><span class="line">         */</span><br><span class="line">        source.subscribe(getSecondObserver());</span><br><span class="line"></span><br><span class="line">        source.onNext(4);</span><br><span class="line">        source.onComplete();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Observer&lt;Integer&gt; getFirstObserver() &#123;</span><br><span class="line">        return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onSubscribe(Disposable d) &#123;</span><br><span class="line">                Log.d(TAG, &quot; First onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onNext(Integer value) &#123;</span><br><span class="line">                textView.append(&quot; First onNext : value : &quot; + value);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; First onNext value : &quot; + value);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(Throwable e) &#123;</span><br><span class="line">                textView.append(&quot; First onError : &quot; + e.getMessage());</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; First onError : &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onComplete() &#123;</span><br><span class="line">                textView.append(&quot; First onComplete&quot;);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; First onComplete&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Observer&lt;Integer&gt; getSecondObserver() &#123;</span><br><span class="line">        return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onSubscribe(Disposable d) &#123;</span><br><span class="line">                textView.append(&quot; Second onSubscribe : isDisposed :&quot; + d.isDisposed());</span><br><span class="line">                Log.d(TAG, &quot; Second onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onNext(Integer value) &#123;</span><br><span class="line">                textView.append(&quot; Second onNext : value : &quot; + value);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; Second onNext value : &quot; + value);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(Throwable e) &#123;</span><br><span class="line">                textView.append(&quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; Second onError : &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onComplete() &#123;</span><br><span class="line">                textView.append(&quot; Second onComplete&quot;);</span><br><span class="line">                textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                Log.d(TAG, &quot; Second onComplete&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:31:14.631 19690-19690/com.rxjava2.android.samples D/AsyncSubjectExampleActivity:  First onSubscribe : false</span><br><span class="line">11-30 14:31:14.637 19690-19690/com.rxjava2.android.samples D/AsyncSubjectExampleActivity:  Second onSubscribe : false</span><br><span class="line">11-30 14:31:14.641 19690-19690/com.rxjava2.android.samples D/AsyncSubjectExampleActivity:  First onNext value : 4</span><br><span class="line">11-30 14:31:14.642 19690-19690/com.rxjava2.android.samples D/AsyncSubjectExampleActivity:  First onComplete</span><br><span class="line">11-30 14:31:14.643 19690-19690/com.rxjava2.android.samples D/AsyncSubjectExampleActivity:  Second onNext value : 4</span><br><span class="line">11-30 14:31:14.645 19690-19690/com.rxjava2.android.samples D/AsyncSubjectExampleActivity:  Second onComplete</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>26、throttleFirst  一定时间内取第一次发送的事件。例子：防止按钮的连续点击</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">private void doSomeWork() &#123;</span><br><span class="line">       getObservable()</span><br><span class="line">               .throttleFirst(500, TimeUnit.MILLISECONDS)</span><br><span class="line">               // Run on a background thread</span><br><span class="line">               .subscribeOn(Schedulers.io())</span><br><span class="line">               // Be notified on the main thread</span><br><span class="line">               .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">               .subscribe(getObserver());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observable&lt;Integer&gt; getObservable() &#123;</span><br><span class="line">       return Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception &#123;</span><br><span class="line">               // send events with simulated time wait</span><br><span class="line">               // TODO: 2018/11/26 发送模拟时间等待事件</span><br><span class="line">               Thread.sleep(0);</span><br><span class="line">               emitter.onNext(1); // deliver</span><br><span class="line">               emitter.onNext(2); // skip 跳过</span><br><span class="line">               Thread.sleep(505);</span><br><span class="line">               emitter.onNext(3); // deliver</span><br><span class="line">               Thread.sleep(99);</span><br><span class="line">               emitter.onNext(4); // skip</span><br><span class="line">               Thread.sleep(100);</span><br><span class="line">               emitter.onNext(5); // skip</span><br><span class="line">               emitter.onNext(6); // skip</span><br><span class="line">               Thread.sleep(305);</span><br><span class="line">               emitter.onNext(7); // deliver</span><br><span class="line">               Thread.sleep(510);</span><br><span class="line">               emitter.onComplete();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observer&lt;Integer&gt; getObserver() &#123;</span><br><span class="line">       return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               Log.d(TAG, &quot; onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(Integer value) &#123;</span><br><span class="line">               textView.append(&quot; onNext : &quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               textView.append(&quot; value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onNext &quot;);</span><br><span class="line">               Log.d(TAG, &quot; value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出结果，说通俗一点就是跨过一段时间输出一个事件，并且时间到了才输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:32:50.433 19690-19690/com.rxjava2.android.samples D/ThrottleFirstExampleActivity:  onSubscribe : false</span><br><span class="line">11-30 14:32:50.447 19690-19690/com.rxjava2.android.samples D/ThrottleFirstExampleActivity:  onNext </span><br><span class="line">     value : 1</span><br><span class="line">11-30 14:32:50.957 19690-19690/com.rxjava2.android.samples D/ThrottleFirstExampleActivity:  onNext </span><br><span class="line">11-30 14:32:50.958 19690-19690/com.rxjava2.android.samples D/ThrottleFirstExampleActivity:  value : 3</span><br><span class="line">11-30 14:32:51.467 19690-19690/com.rxjava2.android.samples D/ThrottleFirstExampleActivity:  onNext </span><br><span class="line">     value : 7</span><br><span class="line">11-30 14:32:51.976 19690-19690/com.rxjava2.android.samples D/ThrottleFirstExampleActivity:  onComplete</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>27、throttleLast 这个是结尾啊 ，取这段时间的结尾 ，而不是开头的时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">private void doSomeWork() &#123;</span><br><span class="line">      getObservable()</span><br><span class="line">              .throttleLast(500, TimeUnit.MILLISECONDS)</span><br><span class="line">              // Run on a background thread</span><br><span class="line">              .subscribeOn(Schedulers.io())</span><br><span class="line">              // Be notified on the main thread</span><br><span class="line">              .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">              .subscribe(getObserver());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private Observable&lt;Integer&gt; getObservable() &#123;</span><br><span class="line">      return Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception &#123;</span><br><span class="line">              // send events with simulated time wait</span><br><span class="line">              Thread.sleep(0);</span><br><span class="line">              emitter.onNext(1); // skip</span><br><span class="line">              emitter.onNext(2); // deliver</span><br><span class="line">              Thread.sleep(505);</span><br><span class="line">              emitter.onNext(3); // skip</span><br><span class="line">              Thread.sleep(99);</span><br><span class="line">              emitter.onNext(4); // skip</span><br><span class="line">              Thread.sleep(100);</span><br><span class="line">              emitter.onNext(5); // skip</span><br><span class="line">              emitter.onNext(6); // deliver</span><br><span class="line">              Thread.sleep(305);</span><br><span class="line">              emitter.onNext(7); // deliver</span><br><span class="line">              Thread.sleep(510);</span><br><span class="line">              emitter.onComplete();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private Observer&lt;Integer&gt; getObserver() &#123;</span><br><span class="line">      return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onSubscribe(Disposable d) &#123;</span><br><span class="line">              Log.d(TAG, &quot; onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onNext(Integer value) &#123;</span><br><span class="line">              textView.append(&quot; onNext : &quot;);</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              textView.append(&quot; value : &quot; + value);</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              Log.d(TAG, &quot; onNext &quot;);</span><br><span class="line">              Log.d(TAG, &quot; value : &quot; + value);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onError(Throwable e) &#123;</span><br><span class="line">              textView.append(&quot; onError : &quot; + e.getMessage());</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              Log.d(TAG, &quot; onError : &quot; + e.getMessage());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onComplete() &#123;</span><br><span class="line">              textView.append(&quot; onComplete&quot;);</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              Log.d(TAG, &quot; onComplete&quot;);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出结果，延迟一段时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:34:48.726 19690-19690/com.rxjava2.android.samples D/ThrottleLastExampleActivity:  onSubscribe : false</span><br><span class="line">11-30 14:34:49.246 19690-19690/com.rxjava2.android.samples D/ThrottleLastExampleActivity:  onNext </span><br><span class="line">     value : 2</span><br><span class="line">11-30 14:34:49.745 19690-19690/com.rxjava2.android.samples D/ThrottleLastExampleActivity:  onNext </span><br><span class="line">     value : 6</span><br><span class="line">11-30 14:34:50.247 19690-19690/com.rxjava2.android.samples D/ThrottleLastExampleActivity:  onNext </span><br><span class="line">11-30 14:34:50.248 19690-19690/com.rxjava2.android.samples D/ThrottleLastExampleActivity:  value : 7</span><br><span class="line">11-30 14:34:50.274 19690-19690/com.rxjava2.android.samples D/ThrottleLastExampleActivity:  onComplete</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>28、类似一个弹簧，如果一个事件相当于挤压它一下的话，它回到初始状态需要一段时间，那如果一直有事件不断的挤压它，那它一直回不到初始状态，就一个事件也弹不出来。一旦有一段时间里面没有人挤压它，他就把最后一个弹出来了。周而复始</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">private void doSomeWork() &#123;</span><br><span class="line">       getObservable()</span><br><span class="line">               .debounce(500, TimeUnit.MILLISECONDS)</span><br><span class="line">               // Run on a background thread</span><br><span class="line">               .subscribeOn(Schedulers.io())</span><br><span class="line">               // Be notified on the main thread</span><br><span class="line">               .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">               .subscribe(getObserver());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observable&lt;Integer&gt; getObservable() &#123;</span><br><span class="line">       return Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception &#123;</span><br><span class="line">               // send events with simulated time wait</span><br><span class="line">               emitter.onNext(1); // skip</span><br><span class="line">               Thread.sleep(400);</span><br><span class="line">               emitter.onNext(2); // deliver</span><br><span class="line">               Thread.sleep(505);</span><br><span class="line">               emitter.onNext(3); // skip</span><br><span class="line">               Thread.sleep(100);</span><br><span class="line">               emitter.onNext(4); // deliver</span><br><span class="line">               Thread.sleep(605);</span><br><span class="line">               emitter.onNext(5); // deliver</span><br><span class="line">               Thread.sleep(510);</span><br><span class="line">               emitter.onComplete();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observer&lt;Integer&gt; getObserver() &#123;</span><br><span class="line">       return new Observer&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               Log.d(TAG, &quot; onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(Integer value) &#123;</span><br><span class="line">               textView.append(&quot; onNext : &quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               textView.append(&quot; value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onNext &quot;);</span><br><span class="line">               Log.d(TAG, &quot; value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>输出结果：这种的应用场景：在Edittext上添加监听，当里面输入的内容变化后进行搜索。换句话说就是当用户的输入操作停止几秒钟之后再去搜索。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:42:45.659 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  onSubscribe : false</span><br><span class="line">11-30 14:42:46.584 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  onNext </span><br><span class="line">     value : 2</span><br><span class="line">11-30 14:42:47.190 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  onNext </span><br><span class="line">11-30 14:42:47.191 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  value : 4</span><br><span class="line">11-30 14:42:47.799 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  onNext </span><br><span class="line">11-30 14:42:47.800 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  value : 5</span><br><span class="line">11-30 14:42:47.807 19690-19690/com.rxjava2.android.samples D/DebounceExampleActivity:  onComplete</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>29、 RxJava的window()函数和buffer()很像，但是它发射的是Observable而不是列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">protected void doSomeWork() &#123;</span><br><span class="line">      //interval轮询</span><br><span class="line">      // take()函数用整数N来作为一个参数，从原始的序列中发射前N个元素，然后完成：</span><br><span class="line">      Observable.interval(1, TimeUnit.SECONDS).take(12)</span><br><span class="line">              .window(3, TimeUnit.SECONDS)</span><br><span class="line">              .subscribeOn(Schedulers.io())</span><br><span class="line">              .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">              .subscribe(getConsumer());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public Consumer&lt;Observable&lt;Long&gt;&gt; getConsumer() &#123;</span><br><span class="line">      return new Consumer&lt;Observable&lt;Long&gt;&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public void accept(Observable&lt;Long&gt; observable) &#123;</span><br><span class="line">              Log.d(TAG, &quot;Sub Divide begin....&quot;);</span><br><span class="line">              textView.append(&quot;Sub Divide begin ....&quot;);</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              observable</span><br><span class="line">                      .subscribeOn(Schedulers.io())</span><br><span class="line">                      .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                      .subscribe(new Consumer&lt;Long&gt;() &#123;</span><br><span class="line">                          @Override</span><br><span class="line">                          public void accept(Long value) &#123;</span><br><span class="line">                              Log.d(TAG, &quot;Next:&quot; + value);</span><br><span class="line">                              textView.append(&quot;Next:&quot; + value);</span><br><span class="line">                              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">                          &#125;</span><br><span class="line">                      &#125;);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出结果:一组一组的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:44:56.147 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Sub Divide begin....</span><br><span class="line">11-30 14:44:57.154 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:0</span><br><span class="line">11-30 14:44:58.151 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:1</span><br><span class="line">11-30 14:44:59.149 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:2</span><br><span class="line">11-30 14:44:59.164 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Sub Divide begin....</span><br><span class="line">11-30 14:45:00.148 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:3</span><br><span class="line">11-30 14:45:01.150 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:4</span><br><span class="line">11-30 14:45:02.150 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:5</span><br><span class="line">11-30 14:45:02.164 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Sub Divide begin....</span><br><span class="line">11-30 14:45:03.151 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:6</span><br><span class="line">11-30 14:45:04.150 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:7</span><br><span class="line">11-30 14:45:05.149 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Sub Divide begin....</span><br><span class="line">11-30 14:45:05.174 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:8</span><br><span class="line">11-30 14:45:06.150 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:9</span><br><span class="line">11-30 14:45:07.152 19690-19690/com.rxjava2.android.samples D/WindowExampleActivity: Next:10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>30、 使用延迟2秒后发射的简单示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">private void doSomeWork() &#123;</span><br><span class="line">       getObservable().delay(2, TimeUnit.SECONDS)</span><br><span class="line">               // Run on a background thread</span><br><span class="line">               .subscribeOn(Schedulers.io())</span><br><span class="line">               // Be notified on the main thread</span><br><span class="line">               .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">               .subscribe(getObserver());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observable&lt;String&gt; getObservable() &#123;</span><br><span class="line">       return Observable.just(&quot;Amit&quot;);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Observer&lt;String&gt; getObserver() &#123;</span><br><span class="line">       return new Observer&lt;String&gt;() &#123;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onSubscribe(Disposable d) &#123;</span><br><span class="line">               Log.d(TAG, &quot; onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onNext(String value) &#123;</span><br><span class="line">               textView.append(&quot; onNext : value : &quot; + value);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onNext : value : &quot; + value);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onError(Throwable e) &#123;</span><br><span class="line">               textView.append(&quot; onError : &quot; + e.getMessage());</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onError : &quot; + e.getMessage());</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @Override</span><br><span class="line">           public void onComplete() &#123;</span><br><span class="line">               textView.append(&quot; onComplete&quot;);</span><br><span class="line">               textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">               Log.d(TAG, &quot; onComplete&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>延迟2s输出结果</p>
+</li>
+<li><p>31、 每当源Observable发出一个新项时，它将取消订阅并停止镜像从先前发出的项生成的Observable，并开始只镜像当前项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">private void doSomeWork() &#123;</span><br><span class="line">      getObservable()</span><br><span class="line">              .switchMap(new Function&lt;Integer, ObservableSource&lt;String&gt;&gt;() &#123;</span><br><span class="line">                  @Override</span><br><span class="line">                  public ObservableSource&lt;String&gt; apply(Integer integer) &#123;</span><br><span class="line">                      int delay = new Random().nextInt(2);</span><br><span class="line"></span><br><span class="line">                      return Observable.just(integer.toString() + &quot;x&quot;)</span><br><span class="line">                              .delay(delay, TimeUnit.SECONDS, Schedulers.io());</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;)</span><br><span class="line">              .subscribeOn(Schedulers.io())</span><br><span class="line">              .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">              .subscribe(getObserver());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private Observable&lt;Integer&gt; getObservable() &#123;</span><br><span class="line">      return Observable.just(1, 2, 3, 4, 5);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private Observer&lt;String&gt; getObserver() &#123;</span><br><span class="line">      return new Observer&lt;String&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public void onSubscribe(Disposable d) &#123;</span><br><span class="line">              Log.d(TAG, &quot; onSubscribe : &quot; + d.isDisposed());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onNext(String value) &#123;</span><br><span class="line">              textView.append(&quot; onNext : value : &quot; + value);</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              Log.d(TAG, &quot; onNext value : &quot; + value);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onError(Throwable e) &#123;</span><br><span class="line">              textView.append(&quot; onError : &quot; + e.getMessage());</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              Log.d(TAG, &quot; onError : &quot; + e.getMessage());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onComplete() &#123;</span><br><span class="line">              textView.append(&quot; onComplete&quot;);</span><br><span class="line">              textView.append(AppConstant.LINE_SEPARATOR);</span><br><span class="line">              Log.d(TAG, &quot; onComplete&quot;);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出结果:输出最后的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">11-30 14:47:59.787 19690-19690/com.rxjava2.android.samples D/SwitchMapExampleActivity:  onSubscribe : false</span><br><span class="line">11-30 14:48:00.814 19690-19690/com.rxjava2.android.samples D/SwitchMapExampleActivity:  onNext value : 5x</span><br><span class="line">11-30 14:48:00.816 19690-19690/com.rxjava2.android.samples D/SwitchMapExampleActivity:  onComplete</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="RxBus"><a href="#RxBus" class="headerlink" title="RxBus"></a>RxBus</h4><h3 id="NetWork"><a href="#NetWork" class="headerlink" title="NetWork"></a>NetWork</h3><h3 id="Pagination-分页Demo"><a href="#Pagination-分页Demo" class="headerlink" title="Pagination 分页Demo"></a>Pagination 分页Demo</h3><h3 id="SearchDemo，主要是延迟请求网络，和-SearchView-相互的结合"><a href="#SearchDemo，主要是延迟请求网络，和-SearchView-相互的结合" class="headerlink" title="SearchDemo，主要是延迟请求网络，和 SearchView 相互的结合"></a>SearchDemo，主要是延迟请求网络，和 <code>SearchView</code> 相互的结合</h3><ul>
+<li>最后说明几点</li>
+<li>1、Rxjava2定时器周期执行任务，可以很好地避免内存泄漏，因为使用handler如果处理的不好，容易内存泄露</li>
+<li>2、RxJava2实现定时器的优势也是简洁，但它的简洁的与众不同之处在于，随着程序逻辑变得越来越复杂，它依然能够保持简洁。</li>
+<li>3、<a href="https://zh.wikipedia.org/wiki/%E4%B8%89%E8%A7%92%E5%BD%A2%E6%95%B8" target="_blank" rel="noopener">三角形数</a> 1 3 6 10 15 … 一定数目的点或圆在等距离的排列下可以形成一个等边三角形，这样的数被称为三角形数。比如10个点可以组成一个等边三角形，因此10是一个三角形数</li>
+<li>4、合并多个Observables的发射物， Merge 可能会让合并的Observables发射的数据交错（有一个类似的操作符 Concat 不会让数 据交错，它会按顺序一个接着一个发射多个Observables的发射物</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/11/30/Rxjava2-Android-Samlpes（二）/">Rxjava2-Android-Samlpes（二）</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-11-30, 09:20:22</p>
+        <p><span>最后更新:</span>2018-12-04, 09:30:00</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/11/30/Rxjava2-Android-Samlpes（二）/" title="Rxjava2-Android-Samlpes（二）">http://yoursite.com/2018/11/30/Rxjava2-Android-Samlpes（二）/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/11/30/Rxjava2-Android-Samlpes（二）/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/12/04/Hement：MVP架构设计（一）/">
+                    Hement：MVP架构设计（一）
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/11/30/Rxjava2-Android-Samlpes（一）/">
+                    Rxjava2-Android-Samlpes（一）
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#RxBus"><span class="toc-number">1.</span> <span class="toc-text">RxBus</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NetWork"><span class="toc-number"></span> <span class="toc-text">NetWork</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pagination-分页Demo"><span class="toc-number"></span> <span class="toc-text">Pagination 分页Demo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SearchDemo，主要是延迟请求网络，和-SearchView-相互的结合"><span class="toc-number"></span> <span class="toc-text">SearchDemo，主要是延迟请求网络，和 SearchView 相互的结合</span></a>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Rxjava2-Android-Samlpes（二）　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/12/04/Hement：MVP架构设计（一）/" title="上一篇: Hement：MVP架构设计（一）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/11/30/Rxjava2-Android-Samlpes（一）/" title="下一篇: Rxjava2-Android-Samlpes（一）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/04/Hement：MVP架构设计（一）/">Hement：MVP架构设计（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（二）/">Rxjava2-Android-Samlpes（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（一）/">Rxjava2-Android-Samlpes（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/Linux学习/">Linux学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/13/我的第一个正式的Java后端程序/">我的第一个正式的Java后端程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/">Spring Boot整合Swagger2、Mybatis构建RESTfulAPI</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/03/剑指offer中几道算法题的思考/">剑指几道算法题的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/02/智能食柜/">智能食柜</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/27/新零售平台V1/">新零售平台V1</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/22/常用集合的原理分析/">常用集合的原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
