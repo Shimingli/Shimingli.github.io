@@ -288,6 +288,201 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android源码分析ViewStub源码解析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/07/Android源码分析ViewStub源码解析/" class="article-date">
+      <time datetime="2018-06-07T08:11:17.000Z" itemprop="datePublished">2018-06-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="源码基于安卓8-0分析结果"><a href="#源码基于安卓8-0分析结果" class="headerlink" title="源码基于安卓8.0分析结果"></a>源码基于安卓8.0分析结果</h2><ul>
+<li><code>ViewStub</code>是一种不可见的并且大小为0的试图，它可以延迟到运行时才填充<code>inflate</code> 布局资源，当<code>Viewstub</code>设为可见或者是<code>inflate</code>的时候，就会填充布局资源，这个布局和普通的试图就基本上没有任何区别，比如说，加载网络失败，或者是一个比较消耗性能的功能，需要用户去点击才可以加载!从而这样更加的节约了性能。对安卓布局很友好！
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/绘制/">绘制</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/06/07/Android源码分析ViewStub源码解析/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android源码分析（Activity-setContentView源码析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/29/Android源码分析（Activity-setContentView源码析/" class="article-date">
+      <time datetime="2018-05-29T08:14:28.000Z" itemprop="datePublished">2018-05-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="源码基于安卓8-0分析结果"><a href="#源码基于安卓8-0分析结果" class="headerlink" title="源码基于安卓8.0分析结果"></a>源码基于安卓8.0分析结果</h2><ul>
+<li>为什么要写这篇文章？其实是给这个LayoutInflater类铺垫的，要解释这个LayoutInflater源码，就必须知道到底怎么调用的，包括include、merge、ViewStub和原理，如何自己撸一个大小为0的View，我们最能够接触到的地方都是这个方法。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/05/29/Android源码分析（Activity-setContentView源码析/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android源码分析（Handler机制）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/26/Android源码分析（Handler机制）/" class="article-date">
+      <time datetime="2018-05-26T08:20:50.000Z" itemprop="datePublished">2018-05-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="源码基于安卓8-0分析结果"><a href="#源码基于安卓8-0分析结果" class="headerlink" title="源码基于安卓8.0分析结果"></a>源码基于安卓8.0分析结果</h2><h4 id="关键类ActivityThread、Handler、Looper、Message、MessageQueue"><a href="#关键类ActivityThread、Handler、Looper、Message、MessageQueue" class="headerlink" title="关键类ActivityThread、Handler、Looper、Message、MessageQueue"></a>关键类ActivityThread、Handler、Looper、Message、MessageQueue</h4><ul>
+<li>ActivityThread中的流程：应用程序入口是在ActivityThread的main方法中，程序启动，底层去调用C/C++去调用main方法
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handler机制/">Handler机制</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/05/26/Android源码分析（Handler机制）/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Android源码分析（事件传递）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -752,203 +947,9 @@
 
 
   
-    <article id="post-安卓画笔笔锋的实现探索（三）田字格Demo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/" class="article-date">
-      <time datetime="2018-02-24T08:30:33.000Z" itemprop="datePublished">2018-02-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h3 id="Demo的下载地址"><a href="#Demo的下载地址" class="headerlink" title="Demo的下载地址"></a>Demo的下载地址</h3><p><img src="http://upload-images.jianshu.io/upload_images/5363507-fd626ece6fbccfb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="下载地址"><br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2018" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/25/2018/" class="article-date">
-      <time datetime="2018-01-25T08:31:39.000Z" itemprop="datePublished">2018-01-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/25/2018/">2018年</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <ul>
-<li>最近换了工作，一下子负责了两个App，一个硬件的一个商城的，突然感觉这应该是来深圳3年了，这才是最累的时候，早上6点就被吵醒，晚上11点下班，突然感觉好累</li>
-<li>哈哈哈！ 好好工作吧，心跳最重要</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/杂文/">杂文</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-安卓画笔笔锋的实现探索（二）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/" class="article-date">
-      <time datetime="2017-10-18T08:34:13.000Z" itemprop="datePublished">2017-10-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <ul>
-<li>本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</li>
-</ul>
-<h4 id="1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3"><a href="#1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3" class="headerlink" title="1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3"></a>1、下图的效果的实现看这篇文章：<a href="http://www.jianshu.com/p/6746d68ef2c3" target="_blank" rel="noopener">http://www.jianshu.com/p/6746d68ef2c3</a></h4><p><img src="http://upload-images.jianshu.io/upload_images/5363507-5c24ce51a1e6f311.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018135736.jpg"><br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>
