@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="GitHub地址：Hement:持续更新中   apk下载地址">
+<meta name="keywords" content="LifeCycle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hement：LifeCycle的使用（五）">
+<meta property="og:url" content="http://yoursite.com/2018/12/21/Hement：LifeCycle的使用（五）/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="GitHub地址：Hement:持续更新中   apk下载地址">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-e8d792a95259eb48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-ce522a1167b68de7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-6ba74ad7ebbcbde6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-c8cdd3c913162aa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-12-21T02:11:09.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hement：LifeCycle的使用（五）">
+<meta name="twitter:description" content="GitHub地址：Hement:持续更新中   apk下载地址">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-e8d792a95259eb48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Hement：LifeCycle的使用（五） | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?1add6c64d9c467153aaed18d249d81c4";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apk/">Apk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayList/">ArrayList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashMap/">HashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashSet/">HashSet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java后端/">Java后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LifeCycle/">LifeCycle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinckedList/">LinckedList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinkedHashMap/">LinkedHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LruCache/">LruCache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTfulAPI/">RESTfulAPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava2/">RxJava2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SparseArray/">SparseArray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger2/">Swagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vector/">Vector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/依赖/">依赖</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/剑指几道算法题的思考/">剑指几道算法题的思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/架构/">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" target="_blank" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Hement：LifeCycle的使用（五）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/12/21/Hement：LifeCycle的使用（五）/" class="article-date">
+      <time datetime="2018-12-21T02:10:24.000Z" itemprop="datePublished">2018-12-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hement：LifeCycle的使用（五）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LifeCycle/">LifeCycle</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li><strong>GitHub地址</strong>：<a href="https://github.com/Shimingli/Hement" target="_blank" rel="noopener">Hement</a>:持续更新中</li>
+</ul>
+<ul>
+<li><strong>apk下载地址</strong><br><img src="https://upload-images.jianshu.io/upload_images/5363507-e8d792a95259eb48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<a id="more"></a> 
+<ul>
+<li><strong>app详情</strong><br><img src="https://upload-images.jianshu.io/upload_images/5363507-ce522a1167b68de7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="app详情.png"></li>
+<li><p><strong>欢迎关注我的公众号</strong><br><img src="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="公众号"></p>
+</li>
+<li><p><strong>LifeCycle</strong></p>
+</li>
+<li>在17年的谷歌IO大会上，Google官方向我们推出了 <a href="https://developer.android.com/topic/libraries/architecture/index.html" target="_blank" rel="noopener">Android Architecture Components</a>,其中谈到Android组件处理生命周期的问题，向我们介绍了 <a href="https://developer.android.com/topic/libraries/architecture/lifecycle.html" target="_blank" rel="noopener">Handling Lifecycles</a>。</li>
+<li>由于和小组成员讨论过，感觉使用时机还没有到，而且那个时候我反编译微信的apk，发现也没有使用的到，所以这个框架的学习计划就不断地搁浅，前几天又反编译了一下微信的安卓apk，发现它使用了来减少代码的臃肿！<br>推荐一个<strong><a href="https://github.com/Shimingli/jadx" target="_blank" rel="noopener">反编译工具</a></strong></li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-6ba74ad7ebbcbde6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信反编译的结果图.png"></p>
+<ul>
+<li><p>所以就有必要了解它到底是个什么东西</p>
+</li>
+<li><p><strong>为什么要使用Lifecycle</strong></p>
+</li>
+<li>我们在处理Activity或者Fragment组件的生命周期相关时，不可避免会遇到这样的问题：<br>我们在Activity的onCreate()中初始化某些成员（比如MVP架构中的Presenter，或者AudioManager、MediaPlayer等），然后在onStop中对这些成员进行对应处理，在onDestroy中释放这些资源，这样导致我们的代码也许会像这样：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> class MyPresenter&#123;</span><br><span class="line">    public MyPresenter() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void create() &#123;</span><br><span class="line">        //do something</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void destroy() &#123;</span><br><span class="line">        //do something</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MyActivity extends AppCompatActivity &#123;</span><br><span class="line">    private MyPresenter presenter;</span><br><span class="line"></span><br><span class="line">    public void onCreate(...) &#123;</span><br><span class="line">        presenter= new MyPresenter ();</span><br><span class="line">        presenter.create();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        presenter.destory();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>代码没有问题，关键问题是，实际生产环境中 ，这样的代码会非常复杂，你最终会有太多的类似调用并且会导致 onCreate() 和 onDestroy() 方法变的非常臃肿。</li>
+</ul>
+<ul>
+<li><p><strong>如何使用Lifecycle</strong><br>在前面我写过一篇文章<a href="https://www.jianshu.com/p/e46cace343a4" target="_blank" rel="noopener">Hement：MVP架构中的网络框架(RxJava2+Retrofit2+RxAndroid)（二）</a>这是没有使用的Lifecycle的网络请求的Presenter必须在onDestroy时候去销毁view！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDestroy() &#123;</span><br><span class="line">    super.onDestroy();</span><br><span class="line">    mMainPresenter.detachView();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>能不能集成到<code>BasePresenter</code>的中去呢？其实是可以滴,只需要把<code>BasePresenter</code>实现<code>LifecycleObserver</code>即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">public class NewBasePresenter&lt;V extends IMvpView&gt; implements LifecycleObserver &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static final String TAG = &quot;NewBasePresenter&quot;;</span><br><span class="line">    private V mMvpView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void attachView(V mvpView) &#123;</span><br><span class="line">        mMvpView = mvpView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onDestroy lifecycle event.start &quot;);</span><br><span class="line">        detachView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 由于在每次这个方法都会去执行，所以可以这样进行</span><br><span class="line">     * @param owner</span><br><span class="line">     * @param event</span><br><span class="line">     */</span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)</span><br><span class="line">    public void onLifecycleChanged(@NotNull LifecycleOwner owner, @NotNull Lifecycle.Event event) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void detachView() &#123;</span><br><span class="line">        mMvpView = null;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 判断是否还在连接在一起的</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean isViewAttached() &#123;</span><br><span class="line">        return mMvpView != null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取View</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public V getMvpView() &#123;</span><br><span class="line">        return mMvpView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 检查View是否附着</span><br><span class="line">     */</span><br><span class="line">    public void checkViewAttached() &#123;</span><br><span class="line">        if (!isViewAttached()) throw new MvpViewNotAttachedException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static class MvpViewNotAttachedException extends RuntimeException &#123;</span><br><span class="line">        public MvpViewNotAttachedException() &#123;</span><br><span class="line">            super(&quot;在绑定数据之前一定要绑定视图&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 这是Observer 中的 onServer ,当我们调用这个方法，直接就不会走到 onNext中去</span><br><span class="line">     * @param disposable</span><br><span class="line">     */</span><br><span class="line">    public  void dispose(Disposable disposable) &#123;</span><br><span class="line">        if (disposable != null &amp;&amp; !disposable.isDisposed()) &#123;</span><br><span class="line">            disposable.dispose();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>具体的Preseter的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">public class NewNetWorkPresenter extends NewBasePresenter&lt;NetWorkView&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Disposable mDisposable;</span><br><span class="line">    private final IRemoteServer mIRemoteServer;</span><br><span class="line"></span><br><span class="line">    public NewNetWorkPresenter() &#123;</span><br><span class="line">        mIRemoteServer = IRemoteServer.Creator.newHementService();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void attachView(NetWorkView mvpView) &#123;</span><br><span class="line">        super.attachView(mvpView);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void detachView() &#123;</span><br><span class="line">        super.detachView();</span><br><span class="line">        if (mDisposable != null) mDisposable.dispose();</span><br><span class="line">        Timber.tag(TAG).d(&quot;onDestroy lifecycle event. end &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void loadData(String key,String day)&#123;</span><br><span class="line">        //检查View是否附着在上面，不在直接抛出异常</span><br><span class="line">        checkViewAttached();</span><br><span class="line">        //检查是否往下运行</span><br><span class="line">        dispose(mDisposable);</span><br><span class="line">        loadData(key,day,new BaseObserver&lt;SMResponse&lt;ArrayList&lt;TodayBean&gt;&gt;&gt;(new SubscriberListener&lt;SMResponse&lt;ArrayList&lt;TodayBean&gt;&gt;&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onSubscribe(Disposable disposable) &#123;</span><br><span class="line">                super.onSubscribe(disposable);</span><br><span class="line">                mDisposable = disposable;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onSuccess(SMResponse&lt;ArrayList&lt;TodayBean&gt;&gt; response) &#123;</span><br><span class="line">                getMvpView().getDataSuccess(response.result);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onFail(String errorCode, String errorMsg) &#123;</span><br><span class="line">                getMvpView().getDataFail(errorCode,errorMsg);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(Throwable e) &#123;</span><br><span class="line">                getMvpView().onError(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    public void loadData(String key, String day, BaseObserver observer) &#123;</span><br><span class="line">        Observable&lt;SMResponse&lt;ArrayList&lt;TodayBean&gt;&gt;&gt; today = mIRemoteServer.getToday(key, day);</span><br><span class="line">        today.observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribeOn(Schedulers.io())</span><br><span class="line">                .subscribe(observer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Activity中的使用,只需要使用这样使用，我们就能够检测到生命周期的使用，有兴趣的可以下载Apk查看日志！</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private NewNetWorkPresenter mNewNetWorkPresenter;</span><br><span class="line">@Override</span><br><span class="line">protected void onCreate(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_new_net_work);</span><br><span class="line">    mNewNetWorkPresenter = new NewNetWorkPresenter();</span><br><span class="line">    getLifecycle().addObserver(mNewNetWorkPresenter);</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Lifecycle的升级使用</strong></li>
+<li>假如我们有个这样的需求，某个页面需要去查询数据库展示数据，同时使用到<code>RxJava2</code>的依赖,查询数据的过程在子线程处理数据回调到UI线程，当突然有一天产品经理说这个页面的数据我们要从网络获取，那么你也不确定那到底是把代码删除了还是备份，这些你都不知道！所以这时候你就需要独立绑定<code>getLifecycle().addObserver(mSyncLifecycleObserver);</code>Activity只关心结果即可！代码如下</li>
+<li>在这里需要使用这个依赖<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">api  &quot;com.jakewharton.rxrelay2:rxrelay:2.0.0&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-c8cdd3c913162aa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li><p>SyncResponse </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class SyncResponse &#123;</span><br><span class="line">    public final SyncResponseEventType eventType;</span><br><span class="line">    public final Events comment;</span><br><span class="line"></span><br><span class="line">    public SyncResponse(SyncResponseEventType eventType, Events comment) &#123;</span><br><span class="line">        this.eventType = eventType;</span><br><span class="line">        this.comment = comment;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SyncLifecycleObserver <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.shiming.hement.lifecycle;</span><br><span class="line"></span><br><span class="line">import android.arch.lifecycle.Lifecycle;</span><br><span class="line">import android.arch.lifecycle.LifecycleObserver;</span><br><span class="line">import android.arch.lifecycle.OnLifecycleEvent;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">import com.shiming.hement.utils.Events;</span><br><span class="line"></span><br><span class="line">import org.w3c.dom.Comment;</span><br><span class="line"></span><br><span class="line">import io.reactivex.Completable;</span><br><span class="line">import io.reactivex.android.schedulers.AndroidSchedulers;</span><br><span class="line">import io.reactivex.disposables.CompositeDisposable;</span><br><span class="line">import io.reactivex.functions.Action;</span><br><span class="line">import io.reactivex.functions.Consumer;</span><br><span class="line">import io.reactivex.schedulers.Schedulers;</span><br><span class="line">import timber.log.Timber;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * &lt;/p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author shiming</span><br><span class="line"> * @version v1.0</span><br><span class="line"> * @since 2018/12/18 10:44</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class SyncLifecycleObserver implements LifecycleObserver &#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = &quot;SyncLifecycleObserver&quot;;</span><br><span class="line"></span><br><span class="line">    private final CompositeDisposable disposables = new CompositeDisposable();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onCreate lifecycle event.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_START)</span><br><span class="line">    public void onStart() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onStart lifecycle event.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)</span><br><span class="line">    public void onResume() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onResume lifecycle event.&quot;);</span><br><span class="line">        disposables.add(SyncRxBus.getInstance().toObservable()</span><br><span class="line">                .subscribe(new Consumer&lt;SyncResponse&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void accept(SyncResponse syncResponse) throws Exception &#123;</span><br><span class="line">                        handleSyncResponse(syncResponse);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, new Consumer&lt;Throwable&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void accept(Throwable throwable) throws Exception &#123;</span><br><span class="line">                        Timber.tag(TAG).d(&quot;onResume lifecycle event.  Throwable=  %s&quot;,throwable);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void handleSyncResponse(SyncResponse response) &#123;</span><br><span class="line">        if (response.eventType == SyncResponseEventType.SUCCESS) &#123;</span><br><span class="line">            onSyncSuccess(response.comment);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            onSyncFailed(response.comment);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void onSyncSuccess(Events comment) &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;received sync comment success event for comment %s&quot;, comment);</span><br><span class="line">        disposables.add(Completable.fromAction(new Action() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() throws Exception &#123;</span><br><span class="line">                doWhat();</span><br><span class="line">                Thread thread = Thread.currentThread();</span><br><span class="line">                Timber.tag(TAG).i(thread.toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">                .subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribe(new Action() &#123;</span><br><span class="line">                               @Override</span><br><span class="line">                               public void run() throws Exception &#123;</span><br><span class="line">                                   Timber.tag(TAG).d(&quot;  success&quot;);</span><br><span class="line">                               &#125;</span><br><span class="line">                           &#125;,</span><br><span class="line">                        new Consumer&lt;Throwable&gt;() &#123;</span><br><span class="line">                            @Override</span><br><span class="line">                            public void accept(Throwable throwable) throws Exception &#123;</span><br><span class="line">                                Timber.tag(TAG).e(throwable, &quot;  error&quot;);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 可以做些子线程的数据操作</span><br><span class="line">     */</span><br><span class="line">    private void doWhat() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    private void onSyncFailed(Events comment) &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;received sync comment failed event for comment %s&quot;, comment);</span><br><span class="line">        disposables.add(Completable.fromAction(new Action() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() throws Exception &#123;</span><br><span class="line">                doWhat();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">                .subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribe(new Action() &#123;</span><br><span class="line">                               @Override</span><br><span class="line">                               public void run() throws Exception &#123;</span><br><span class="line">                                   Timber.tag(TAG).d(&quot;  success&quot;);</span><br><span class="line">                               &#125;</span><br><span class="line">                           &#125;,</span><br><span class="line">                        new Consumer&lt;Throwable&gt;() &#123;</span><br><span class="line">                            @Override</span><br><span class="line">                            public void accept(Throwable throwable) throws Exception &#123;</span><br><span class="line">                                Timber.tag(TAG).e(throwable, &quot;  error&quot;);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 12-19 15:35:52.317 29721-29721/com.shiming.hement D/SyncLifecycleObserver: received sync comment success event for comment Events=我是NewRxBusDemoActivity中发出成功的事件</span><br><span class="line">     * 12-19 15:35:52.318 29721-29834/com.shiming.hement I/SyncLifecycleObserver: Thread[RxCachedThreadScheduler-2,5,main]</span><br><span class="line">     * 12-19 15:35:52.318 29721-29721/com.shiming.hement D/SyncLifecycleObserver: received sync comment success event for comment Events=我是NewRxBusDemoActivity中发出成功的事件</span><br><span class="line">     * 12-19 15:35:52.319 29721-29835/com.shiming.hement I/SyncLifecycleObserver: Thread[RxCachedThreadScheduler-3,5,main]</span><br><span class="line">     * 12-19 15:35:52.320 29721-29721/com.shiming.hement D/SyncLifecycleObserver: received sync comment success event for comment Events=我是NewRxBusDemoActivity中发出成功的事件</span><br><span class="line">     * 12-19 15:35:52.321 29721-29834/com.shiming.hement I/SyncLifecycleObserver: Thread[RxCachedThreadScheduler-2,5,main]</span><br><span class="line">     * 12-19 15:35:52.323 29721-29721/com.shiming.hement D/SyncLifecycleObserver:   success</span><br><span class="line">     * 12-19 15:35:52.330 29721-29721/com.shiming.hement D/SyncLifecycleObserver:   success</span><br><span class="line">     */</span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)</span><br><span class="line">    public void onPause() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onPause lifecycle event.&quot;);</span><br><span class="line">        // 如果不在这里</span><br><span class="line">        disposables.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)</span><br><span class="line">    public void onStop() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onStop lifecycle event.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onDestroy lifecycle event.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 所有的事件都会输出</span><br><span class="line">     */</span><br><span class="line">    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)</span><br><span class="line">    public void onAny() &#123;</span><br><span class="line">        Timber.tag(TAG).d(&quot;onAny 所有的事件都会输出&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>SyncResponseEventType </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public enum SyncResponseEventType &#123;</span><br><span class="line">    SUCCESS,</span><br><span class="line">    FAILED</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SyncRxBus </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class SyncRxBus &#123;</span><br><span class="line"></span><br><span class="line">    private static SyncRxBus instance;</span><br><span class="line">    private final PublishRelay&lt;SyncResponse&gt; relay;</span><br><span class="line"></span><br><span class="line">    public static synchronized SyncRxBus getInstance() &#123;</span><br><span class="line">        if (instance == null) &#123;</span><br><span class="line">            instance = new SyncRxBus();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private SyncRxBus() &#123;</span><br><span class="line">        relay = PublishRelay.create();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void post(SyncResponseEventType eventType, Events comment) &#123;</span><br><span class="line">        relay.accept(new SyncResponse(eventType, comment));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Observable&lt;SyncResponse&gt; toObservable() &#123;</span><br><span class="line">        return relay;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Activity中的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// 如果使用的多的话，可以放在BaseActivity中</span><br><span class="line"> private SyncLifecycleObserver mSyncLifecycleObserver = new SyncLifecycleObserver();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"> protected void onCreate(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">     super.onCreate(savedInstanceState);</span><br><span class="line">     setContentView(R.layout.activity_rx_bus_layout);</span><br><span class="line">     getLifecycle().addObserver(mSyncLifecycleObserver);</span><br><span class="line"></span><br><span class="line">     findViewById(R.id.btn_mock_send_s_onclick).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">         @Override</span><br><span class="line">         public void onClick(View v) &#123;</span><br><span class="line">             Events events = new Events(&quot;我是NewRxBusDemoActivity中发出成功的事件&quot;);</span><br><span class="line">             SyncRxBus.getInstance().post(SyncResponseEventType.SUCCESS, events);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br><span class="line">     findViewById(R.id.btn_mock_send_f_onclick).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">         @Override</span><br><span class="line">         public void onClick(View v) &#123;</span><br><span class="line">             Events events = new Events(&quot;我是NewRxBusDemoActivity中发出失败的事件&quot;);</span><br><span class="line">             SyncRxBus.getInstance().post(SyncResponseEventType.FAILED, events);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果后续我们不需要使用的话，直接就把Activity中两行代码注释掉就行~~~ </p>
+<ul>
+<li><strong>GitHub地址</strong>：<a href="https://github.com/Shimingli/Hement" target="_blank" rel="noopener">Hement</a>:持续更新中</li>
+</ul>
+</li>
+<li><p><strong>感谢以下博客对我的帮助</strong></p>
+<ul>
+<li><a href="https://blog.csdn.net/mq2553299/article/details/79029657" target="_blank" rel="noopener">Android官方架构组件:Lifecycle详解&amp;原理分析</a><ul>
+<li><a href="https://www.jianshu.com/p/acf8c55533f1" target="_blank" rel="noopener">Android官方架构组件介绍之LifeCycle</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/12/21/Hement：LifeCycle的使用（五）/">Hement：LifeCycle的使用（五）</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2018-12-21, 10:10:24</p>
+        <p><span>最后更新:</span>2018-12-21, 10:11:09</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/12/21/Hement：LifeCycle的使用（五）/" title="Hement：LifeCycle的使用（五）">http://yoursite.com/2018/12/21/Hement：LifeCycle的使用（五）/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/12/21/Hement：LifeCycle的使用（五）/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/12/13/Hement：项目中的三方依赖（四）/">
+                    Hement：项目中的三方依赖（四）
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Hement：LifeCycle的使用（五）　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/12/13/Hement：项目中的三方依赖（四）/" title="下一篇: Hement：项目中的三方依赖（四）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/Hement：LifeCycle的使用（五）/">Hement：LifeCycle的使用（五）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/13/Hement：项目中的三方依赖（四）/">Hement：项目中的三方依赖（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/07/Hement：关于项目中的Dagger2的使用三/">Hement：关于项目中的Dagger2的使用三</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/06/Hement：MVP架构中的网络框架-RxJava2-Retrofit2-RxAndroid/">Hement：MVP架构中的网络框架(RxJava2+Retrofit2+RxAndroid)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/04/Hement：MVP架构设计（一）/">Hement：MVP架构设计（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（二）/">Rxjava2-Android-Samlpes（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（一）/">Rxjava2-Android-Samlpes（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/Linux学习/">Linux学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/13/我的第一个正式的Java后端程序/">我的第一个正式的Java后端程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/">Spring Boot整合Swagger2、Mybatis构建RESTfulAPI</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/03/剑指offer中几道算法题的思考/">剑指几道算法题的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/02/智能食柜/">智能食柜</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/27/新零售平台V1/">新零售平台V1</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/22/常用集合的原理分析/">常用集合的原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
