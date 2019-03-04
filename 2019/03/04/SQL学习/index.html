@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Shiming_Li" />
+
+
+
+<meta name="description" content="欢迎关注我的公众号1、SQL简介SQL：Structured Query Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法 结构化查询语言的工业标准由ANSI(美国国家标准学会，ISO的成员之一)维护。  DQL：数据查询语言 DML：数据操作语言 DDL：数据定义语言 DCL：数据控制语言 TPL：事务处理语言 CCL：指针控制语言   优点：最大的优点共享数据、">
+<meta name="keywords" content="SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL学习">
+<meta property="og:url" content="http://yoursite.com/2019/03/04/SQL学习/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="欢迎关注我的公众号1、SQL简介SQL：Structured Query Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法 结构化查询语言的工业标准由ANSI(美国国家标准学会，ISO的成员之一)维护。  DQL：数据查询语言 DML：数据操作语言 DDL：数据定义语言 DCL：数据控制语言 TPL：事务处理语言 CCL：指针控制语言   优点：最大的优点共享数据、">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-58128ffe9aba36f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-89922863d865b8f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-0b9e91f84e63e987.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-e6fcf16a4c9fdef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-b6b67c95b7afe3b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-f8d429e4fbe88680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-dfa4af18498bd690.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-eee28e0ba290be15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-04T06:14:58.566Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL学习">
+<meta name="twitter:description" content="欢迎关注我的公众号1、SQL简介SQL：Structured Query Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法 结构化查询语言的工业标准由ANSI(美国国家标准学会，ISO的成员之一)维护。  DQL：数据查询语言 DML：数据操作语言 DDL：数据定义语言 DCL：数据控制语言 TPL：事务处理语言 CCL：指针控制语言   优点：最大的优点共享数据、">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>SQL学习 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?1add6c64d9c467153aaed18d249d81c4";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apk/">Apk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayList/">ArrayList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashMap/">HashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashSet/">HashSet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java后端/">Java后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LifeCycle/">LifeCycle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinckedList/">LinckedList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinkedHashMap/">LinkedHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LruCache/">LruCache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTfulAPI/">RESTfulAPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava2/">RxJava2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SparseArray/">SparseArray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger2/">Swagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vector/">Vector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/依赖/">依赖</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/剑指几道算法题的思考/">剑指几道算法题的思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/架构/">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" target="_blank" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-SQL学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/04/SQL学习/" class="article-date">
+      <time datetime="2019-03-04T06:14:11.000Z" itemprop="datePublished">2019-03-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SQL学习
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li><strong>欢迎关注我的公众号</strong><br><img src="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="公众号"><h2 id="1、SQL简介"><a href="#1、SQL简介" class="headerlink" title="1、SQL简介"></a>1、SQL简介</h2><h4 id="SQL：Structured-Query-Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法"><a href="#SQL：Structured-Query-Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法" class="headerlink" title="SQL：Structured Query Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法"></a>SQL：<code>Structured Query Language</code>的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法</h4></li>
+<li><p>结构化查询语言的工业标准由<code>ANSI</code>(美国国家标准学会，ISO的成员之一)维护。</p>
+<ul>
+<li>DQL：数据查询语言</li>
+<li>DML：数据操作语言</li>
+<li>DDL：数据定义语言</li>
+<li>DCL：数据控制语言</li>
+<li>TPL：事务处理语言</li>
+<li>CCL：指针控制语言</li>
+</ul>
+</li>
+<li>优点：最大的优点共享数据、安全性有很大的保障，但是也不是绝对的安全（黑客）、操作数据很容易</li>
+</ul>
+<a id="more"></a> 
+<p>##　2、常用数据库</p>
+<p>Oracle<br>DB2<br>Informix<br>Sybase<br>SQL Server<br>ProstgreSQL面向对象数据库<br>MySQL<br>Access<br>SQLite等</p>
+<h2 id="3、数据库服务器、数据库和表的关系"><a href="#3、数据库服务器、数据库和表的关系" class="headerlink" title="3、数据库服务器、数据库和表的关系"></a>3、数据库服务器、数据库和表的关系</h2><ul>
+<li>数据库服务器、数据库和表的关系如图<br><img src="https://upload-images.jianshu.io/upload_images/5363507-58128ffe9aba36f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>*　表的一行称之为一条记录，表中一条记录对应一个java对象的数据</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-89922863d865b8f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="4、DDL数据定义语言"><a href="#4、DDL数据定义语言" class="headerlink" title="4、DDL数据定义语言"></a>4、DDL数据定义语言</h2><h4 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h4><ul>
+<li>创建数据库 create database mydb ;</li>
+<li>查看创建数据库的语句 show create database mydb ; </li>
+<li>改变当前的数据库 use mydb ; </li>
+<li>删除数据库 drop database mydb ; </li>
+<li>查看所有的数据库 show databases ; </li>
+<li>修改数据库mydb1的字符集为utf8 <code>alter database mydb1 character set utf8</code>; </li>
+<li>创建数据库mydb1,字符集用gbk <code>create database mydb1 character set gbk</code> ; </li>
+<li>查看数据库中所有的校对规则 show collation ; </li>
+<li>查看中文的校验规则 <code>show collation like &#39;%gb%&#39;</code> ;</li>
+<li>创建数据库mydb2,字符集用gbk,校验规则用<code>gbk_bin</code> <code>create database mydb2 character set gbk collate gbk_bin</code> ; <h4 id="针对表的操作"><a href="#针对表的操作" class="headerlink" title="针对表的操作"></a>针对表的操作</h4></li>
+<li>创建表t  <code>create table t( id int , name varchar(30) ) ;</code></li>
+<li>查看创建表的源码 <code>show create table t ;</code><ul>
+<li>创建表t1,使用字符集gbk create table t1( id int , name varchar(30) )character set gbk ; </li>
+<li>创建表t4 <code>create table t4 ( id int , name varchar(30), optime timestamp ) ;</code><h4 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h4></li>
+<li>设置客户端的字符集为gbk <code>set character_set_client=gbk;</code>  </li>
+</ul>
+</li>
+<li>设置结果集的字符集为gbk <code>set character_set_results=gbk ; insert into t4(id,name) values(1,&#39;张无忌&#39;) ; insert t4(id,name) values(2,&#39;乔峰&#39;) ;</code>  into 可以省略</li>
+<li>省略字段，意味着所有的字段都必须给值(自增例外) <code>insert t4 values(3,&#39;杨过&#39;,&#39;2014-4-3&#39;) ;</code><h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4></li>
+<li>将表t4的第三条记录姓名字段改为杨康<code>update t4 set name=&#39;杨康&#39; where id = 3 ;</code><ul>
+<li>将所有记录的名字都改为东方不败 <code>update t4 set name = &#39;东方不败&#39; ;</code></li>
+<li>修改多个字段 <code>update t4 set id=6,name=&#39;萧峰&#39; where id = 2 ;</code><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4></li>
+</ul>
+</li>
+<li><code>delete from t4 where id = 4 ;</code></li>
+<li>删除所有的记录 <code>delete from t4 ;</code> </li>
+<li>删除所有的记录 <code>truncate table t4 ;</code> </li>
+<li>给表t4增加一个字段address <code>alter table t4 add address varchar(100) ;</code><ul>
+<li>删除字段address <code>alter table t4 drop column address ;</code></li>
+</ul>
+</li>
+<li>查看表的结构 <code>desc t4 ;</code></li>
+</ul>
+<p><strong>创建一个学生表</strong></p>
+<ul>
+<li><p><code>create table stu ( 
+id int primary key, // 主键约束
+name varchar(30) unique,  // 唯一约束 
+sex char(2) not null, //非空约束
+age int check (age &gt; 0 and age &lt; 100),// 检查约束
+address varchar(50) default &#39;北京&#39; //默认约束 ) ;</code></p>
+<ul>
+<li><code>insert into stu values(1,&#39;张无忌&#39;,&#39;男&#39;,20,&#39;北京&#39;) ; insert into stu values(2,&#39;小龙女&#39;,&#39;女&#39;,18,&#39;古墓&#39;) ; insert into stu values(3,&#39;黄蓉&#39;,&#39;女&#39;,15,&#39;桃花岛&#39;) ; insert into stu values(4,&#39;韦小宝&#39;,&#39;男&#39;,24,&#39;扬州&#39;) ; insert into stu values(5,&#39;乔峰&#39;,&#39;男&#39;,34,&#39;雁门关&#39;) ; insert into stu values(6,&#39;张果老&#39;,&#39;男&#39;,30,&#39;雁门关&#39;) ; insert into stu values(7,&#39;老张&#39;,&#39;男&#39;,38,&#39;黒木崖&#39;) ; insert into stu values(8,&#39;张&#39;,&#39;男&#39;,34,&#39;桃花岛&#39;) ; insert into stu values(9,&#39;韦小宝&#39;,&#39;女&#39;,24,&#39;新东方&#39;) ; insert into stu(id,name,sex,age) values(10,&#39;令狐冲&#39;,&#39;男&#39;,27) ;</code> </li>
+</ul>
+</li>
+<li><p>查看所有数据 <code>select * from stu ;</code> </p>
+</li>
+<li>查看小龙女的信息 select <em> from stu where id = 2 ; select </em> from stu where name=’小龙女’ ;</li>
+<li>查看年龄在20~30之间的人 select <em> from stu where age &gt;=20 and age &lt;=30 ; select </em> from stu where age between 20 and 30 ; # 包括20和30 #查看所有的的姓名 select name from stu ;</li>
+<li>查看所有的的姓名,年龄，性别 select name,age,sex from stu ;<h4 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h4></li>
+<li>select * from 表名 where 字段名 like 字段表达式 % 表示任意字符数 _ 表示任意的一个字符 [] 表示在某个区间</li>
+<li>查询所有以张开头的人 select * from stu where name like ‘张%’ ;</li>
+<li>查询姓名中含有张这个字的人 select * from stu where name like ‘%张%’ ; </li>
+<li>查询姓名中含有张这个字的人并且姓名的长度是3个字的人<code>select * from stu where name like &#39;张__&#39; or name like &#39;_张_&#39; or name like &#39;__张&#39; ;</code></li>
+<li>查询表中有几种性别 <code>select distinct sex from stu ;</code></li>
+<li>查找姓名和性别整体都不同的记录 <code>select distinct name,sex from stu ;</code></li>
+</ul>
+<h4 id="创建新表分数表"><a href="#创建新表分数表" class="headerlink" title="创建新表分数表"></a>创建新表分数表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table score ( id int primary key, sid int , china int, english int , history int, constraint sid_FK foreign key(sid) references stu(id) ) ;</span><br><span class="line"> insert into score values(1,1,68,54,81) ;</span><br><span class="line"> insert into score values(2,3,89,98,90) ; </span><br><span class="line">insert into score values(3,4,25,60,38) ; </span><br><span class="line">insert into score values(4,6,70,75,59) ;</span><br><span class="line"> insert into score values(5,8,60,65,80) ;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字段可以有表达式 <code>select id,china+10,english,history from score ;</code></li>
+<li>给字段起别名<code>select id as 编号,china as 语文,english as 英语,history as 历史 from score ; select id 编号,china 语文,english 英语,history 历史 from score ;</code></li>
+<li>查看所有人考试的总分是多少 <code>select id,china + english + history 总分 from score ;</code><ul>
+<li>查看总分大于200的人 select * from score where china + english + history &gt; 200 ;</li>
+</ul>
+</li>
+<li><p>查询家在桃花岛或者黒木崖的人<br><code>select * from stu where address = &#39;桃花岛&#39; or address = &#39;黒木崖&#39; ;</code><br><code>select * from stu where address in(&#39;桃花岛&#39;,&#39;黒木崖&#39;) ;</code></p>
+<ul>
+<li>查询没有参加考试的人 select id ,name from stu where id not in(select sid from score) ; </li>
+<li>查询没有地址的人 select <em> from stu where address = null ; #错误的 `select </em> from stu where address is null ;`</li>
+<li>查询有地址的人 <code>select * from stu where address is not null ;</code><h4 id="排序-order-by"><a href="#排序-order-by" class="headerlink" title="排序(order by )"></a>排序(order by )</h4></li>
+<li>对考试的人的语文升序<code>asc</code>排列 <code>select * from score order by china asc;</code></li>
+<li>对考试的人的历史降序<code>desc</code>排列 <code>select * from score order by history desc;</code></li>
+<li><p>根据多个字段进行排序(语文升序，对语文成绩一样的人再进行历史降序类排)<code>select * from score order by china asc,history desc;</code></p>
+</li>
+<li><p>根据考试总分降序进行排序 <code>select *,china + english + history 总分 from score order by china + english + history desc ;</code>主键：唯一的去区分每一条记录的一列或者多列的值. 特点：唯一，非空<br><code>Order by</code>指定排序的列，排序的列即可是表中的列名，也可以是select 语句后指定的列名。<br><code>Asc</code>升序、<code>Desc</code>降序<br><code>ORDER BY</code> 子句应位于SELECT语句的结尾。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="创建引用约束"><a href="#创建引用约束" class="headerlink" title="创建引用约束"></a>创建引用约束</h4><p><code>alter table score add constraint stu_score_FK foreign key(sid) references stu(id) ;</code></p>
+<ul>
+<li>删除约束 <code>alter table score drop foreign key stu_score_FK ;</code></li>
+<li>引用约束 注意：<ul>
+<li><ol>
+<li>添加记录时必须先添加主表中的记录，再添加字表中的记录 </li>
+</ol>
+</li>
+<li><ol start="2">
+<li>不能更改主表中具有外键约束的记录的主键</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>删除记录的时候不允许删除具有外键关系的主表中的记录(删除的顺序应当是先删除字表中的记录，然后删除主表中的记录)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="自动增长-create-table-t5-id-int-primary-key-auto-increment-name-varchar-20"><a href="#自动增长-create-table-t5-id-int-primary-key-auto-increment-name-varchar-20" class="headerlink" title="自动增长 create table t5 ( id int primary key auto_increment, name varchar(20) ) ;"></a>自动增长 create table t5 ( id int primary key auto_increment, name varchar(20) ) ;</h4><ul>
+<li>多表查询 </li>
+<li>交叉查询</li>
+<li><p>查询每个人的考试成绩 <code>select * from stu s cross join score c on s.id = c.sid</code> ;<br><img src="https://upload-images.jianshu.io/upload_images/5363507-0b9e91f84e63e987.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>查询参加考试的人的成绩 <code>select name,china,english,history,china+english+history 总分 from stu s inner join score c on s.id = c.sid ;</code></p>
+</li>
+<li>查询所有人的成绩 <code>select name,china,english,history,china+english+history 总分 from stu s left out join score c on s.id = c.sid ;</code></li>
+<li>查询没有参加考试的人<code>select * from stu where id not in(select sid from score) ;</code><ul>
+<li>查询参加考试的人的成绩<code>select name,china,english,history,china+english+history 总分 from stu s,score c where s.id = c.sid ;</code></li>
+</ul>
+</li>
+<li>聚合函数 <code>sum max,min avg ,count</code><br><img src="https://upload-images.jianshu.io/upload_images/5363507-e6fcf16a4c9fdef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+<li>分组函数<code>select count(*) 数量,sex,name from stu group by sex,name ;</code></li>
+<li>根据多个字段进行分组 </li>
+<li>分组条件<code>select count(*),sex from stu where age &gt;=16 group by sex having count(*) &gt;1 ;</code></li>
+</ul>
+<h2 id="5、在where子句中经常使用的运算符"><a href="#5、在where子句中经常使用的运算符" class="headerlink" title="5、在where子句中经常使用的运算符"></a>5、在where子句中经常使用的运算符</h2><p><strong>运算符</strong><br>Like语句中，% 代表零个或多个任意字符，_ 代表一个字符，例first_name like ‘_a%’<br><img src="https://upload-images.jianshu.io/upload_images/5363507-b6b67c95b7afe3b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="6、数据完整性"><a href="#6、数据完整性" class="headerlink" title="6、数据完整性"></a>6、数据完整性</h2><ul>
+<li>数据完整性是为了保证插入到数据中的数据是正确的，它防止了用户可能的输入错误。</li>
+<li>数据完整性主要分为以下三类：<ul>
+<li>实体完整性：<br>规定表的一行（即每一条记录）在表中是唯一的实体。实体完整性通过表的主键来实现。<strong>主键：唯一的去区分每一条记录的一列或者多列的值. 特点：唯一，非空</strong> </li>
+<li>域完整性：<br>指数据库表的列（即字段）必须符合某种特定的数据类型或约束。比如NOT NULL。主键<code>primary key</code>  唯一约束<code>unique</code> 检查约束 MySQL不支持哦<code>int check (age &gt; 0 and age &lt; 100)</code> 非空约束<code>not null</code> <ul>
+<li><code>create table stu ( 
+id int primary key, // 主键约束
+name varchar(30) unique,  // 唯一约束 
+sex char(2) not null, //非空约束
+age int check (age &gt; 0 and age &lt; 100),// 检查约束
+address varchar(50) default &#39;北京&#39; //默认约束 ) ;</code></li>
+</ul>
+</li>
+<li>参照完整性：<br>保证一个表的外键和另一个表的主键对应。</li>
+</ul>
+</li>
+</ul>
+<h2 id="7、查询"><a href="#7、查询" class="headerlink" title="7、查询"></a>7、查询</h2><ul>
+<li>连接查询<ul>
+<li>交叉连接（cross join）:不带on子句，返回连接表中所有数据行的笛卡儿积。</li>
+<li>内连接（inner join）：返回连接表中符合连接条件及查询条件的数据行。</li>
+<li>外连接：分为左外连接（left out join）、右外连接（right outer join）。与内连接不同的是，外连接不仅返回连接表中符合连接条件及查询条件的数据行，也返回左表（左外连接时）或右表（右外连接时）中仅符合查询条件但不符合连接条件的数据行。</li>
+</ul>
+</li>
+<li>子查询<ul>
+<li>子查询也叫嵌套查询，是指在select子句或者where子句中又嵌入select查询语句 查询“陈冠希”的所有订单信息<br><code>SELECT * FROM orders WHERE customer_id=(SELECT id FROM customer WHERE name LIKE &#39;%陈冠希%&#39;);</code></li>
+</ul>
+</li>
+<li><p>联合查询</p>
+<ul>
+<li>联合查询能够合并两条查询语句的查询结果，去掉其中的重复数据行，然后返回没有重复数据行的查询结果。联合查询使用union关键字<br>SELECT <em> FROM orders WHERE price&gt;200 UNION SELECT </em> FROM orders WHERE customer_id=1;</li>
+</ul>
+</li>
+<li><p>报表查询</p>
+<ul>
+<li>报表查询对数据行进行分组统计，其语法格式为：<br>[select …] from … [where…] [ group by … [having… ]] [ order by … ]<br>其中group by 子句指定按照哪些字段分组，having子句设定分组查询条件。在报表查询中可以使用SQL函数。</li>
+</ul>
+</li>
+</ul>
+<h2 id="8、-MySQL常用数据类型"><a href="#8、-MySQL常用数据类型" class="headerlink" title="8、 MySQL常用数据类型"></a>8、 MySQL常用数据类型</h2><ul>
+<li><p>数值类型</p>
+<ul>
+<li>BIT(M) 位类型。M指定位数，默认值1，范围1-64</li>
+<li>TINYINT [UNSIGNED] [ZEROFILL]  带符号的范围是-128到127。无符号0到255。</li>
+<li>BOOL，BOOLEAN 使用0或1表示真或假</li>
+<li><p>SMALLINT [UNSIGNED] [ZEROFILL]  2的16次方</p>
+</li>
+<li><p>INT [UNSIGNED] [ZEROFILL] 2的32次方</p>
+</li>
+<li><p>BIGINT [UNSIGNED] [ZEROFILL] 2的64次方</p>
+</li>
+<li><p>FLOAT[(M,D)] [UNSIGNED] [ZEROFILL] M指定显示长度，d指定小数位数</p>
+</li>
+<li><p>DOUBLE[(M,D)] [UNSIGNED] [ZEROFILL] 表示比float精度更大的小数</p>
+</li>
+</ul>
+</li>
+<li><p>文本、二进制类型</p>
+<ul>
+<li>CHAR(size) char(20) 固定长度字符串</li>
+<li>VARCHAR(size)  varchar(20)可变长度字符串（但是不可以超过255，   但是在Oracle中是4000）</li>
+<li>BLOB   LONGBLOB 二进制数据( 用在音频或者是视屏)</li>
+<li>TEXT(clob)          LONGTEXT(longclob)大文本（小说）</li>
+</ul>
+</li>
+<li><p>时间日期</p>
+<ul>
+<li>DATE/DATETIME/TimeStamp</li>
+<li>日期类型(YYYY-MM-DD)  (YYYY-MM-DD HH:MM:SS)，<strong>TimeStamp表   示时间戳，它可用于自动记录insert、update操作的时间</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="9、-相关函数"><a href="#9、-相关函数" class="headerlink" title="9、 相关函数"></a>9、 相关函数</h2><ul>
+<li><p>时间日期相关函数<br><img src="https://upload-images.jianshu.io/upload_images/5363507-f8d429e4fbe88680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><code>select addtime(‘02:30:30’,‘01:01:01’);</code>       注意：字符串、时间日期的引号问题<br><code>select date_add(entry_date,INTERVAL 2 year) from student;</code>／／增加两年<br><code>select addtime(time,‘1 1-1 10:09:09’) from student;</code>／／时间戳上增加，注意年后没有</p>
+</li>
+<li><p>字符串相关函数<br><img src="https://upload-images.jianshu.io/upload_images/5363507-dfa4af18498bd690.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>数学相关函数<br><img src="https://upload-images.jianshu.io/upload_images/5363507-eee28e0ba290be15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+</ul>
+<ul>
+<li>数据库备份：<br>  <code>mysqldump -u root -psorry test&gt;D:\test.sql</code></li>
+<li>数据库恢复：<ul>
+<li>创建数据库并选择该数据库</li>
+<li>SOURCE 数据库文件</li>
+<li>或者：<br><code>mysql -u root -psorry test&lt;test.sql</code></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/03/04/SQL学习/">SQL学习</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2019-03-04, 14:14:11</p>
+        <p><span>最后更新:</span>2019-03-04, 14:14:58</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/03/04/SQL学习/" title="SQL学习">http://yoursite.com/2019/03/04/SQL学习/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/03/04/SQL学习/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/12/21/Hement：LifeCycle的使用（五）/">
+                    Hement：LifeCycle的使用（五）
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、SQL简介"><span class="toc-number">1.</span> <span class="toc-text">1、SQL简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL：Structured-Query-Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法"><span class="toc-number">1.0.1.</span> <span class="toc-text">SQL：Structured Query Language的缩写（结构化查询语言）是一种定义、操作、管理关系数据库的句法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、数据库服务器、数据库和表的关系"><span class="toc-number">2.</span> <span class="toc-text">3、数据库服务器、数据库和表的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、DDL数据定义语言"><span class="toc-number">3.</span> <span class="toc-text">4、DDL数据定义语言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库的操作"><span class="toc-number">3.0.1.</span> <span class="toc-text">数据库的操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#针对表的操作"><span class="toc-number">3.0.2.</span> <span class="toc-text">针对表的操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#插入数据"><span class="toc-number">3.0.3.</span> <span class="toc-text">插入数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更新"><span class="toc-number">3.0.4.</span> <span class="toc-text">更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除"><span class="toc-number">3.0.5.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模糊查询"><span class="toc-number">3.0.6.</span> <span class="toc-text">模糊查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建新表分数表"><span class="toc-number">3.0.7.</span> <span class="toc-text">创建新表分数表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#排序-order-by"><span class="toc-number">3.0.8.</span> <span class="toc-text">排序(order by )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建引用约束"><span class="toc-number">3.0.9.</span> <span class="toc-text">创建引用约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动增长-create-table-t5-id-int-primary-key-auto-increment-name-varchar-20"><span class="toc-number">3.0.10.</span> <span class="toc-text">自动增长 create table t5 ( id int primary key auto_increment, name varchar(20) ) ;</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、在where子句中经常使用的运算符"><span class="toc-number">4.</span> <span class="toc-text">5、在where子句中经常使用的运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、数据完整性"><span class="toc-number">5.</span> <span class="toc-text">6、数据完整性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7、查询"><span class="toc-number">6.</span> <span class="toc-text">7、查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8、-MySQL常用数据类型"><span class="toc-number">7.</span> <span class="toc-text">8、 MySQL常用数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9、-相关函数"><span class="toc-number">8.</span> <span class="toc-text">9、 相关函数</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"SQL学习　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/12/21/Hement：LifeCycle的使用（五）/" title="下一篇: Hement：LifeCycle的使用（五）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/SQL学习/">SQL学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/Hement：LifeCycle的使用（五）/">Hement：LifeCycle的使用（五）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/13/Hement：项目中的三方依赖（四）/">Hement：项目中的三方依赖（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/07/Hement：关于项目中的Dagger2的使用三/">Hement：关于项目中的Dagger2的使用三</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/06/Hement：MVP架构中的网络框架-RxJava2-Retrofit2-RxAndroid/">Hement：MVP架构中的网络框架(RxJava2+Retrofit2+RxAndroid)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/04/Hement：MVP架构设计（一）/">Hement：MVP架构设计（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（二）/">Rxjava2-Android-Samlpes（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（一）/">Rxjava2-Android-Samlpes（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/Linux学习/">Linux学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/13/我的第一个正式的Java后端程序/">我的第一个正式的Java后端程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/">Spring Boot整合Swagger2、Mybatis构建RESTfulAPI</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/03/剑指offer中几道算法题的思考/">剑指几道算法题的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/02/智能食柜/">智能食柜</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/27/新零售平台V1/">新零售平台V1</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/22/常用集合的原理分析/">常用集合的原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
