@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
 
     <!--[if lt IE 9]>
         <style>body {display: none; background: none !important} </style>
@@ -8,10 +8,10 @@
     <![endif]-->
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no" />
-<meta name="author" content="Shiming_Li" />
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Shiming_Li">
 
 
     
@@ -29,7 +29,7 @@
 <meta name="twitter:title" content="仕明的后花园">
 <meta name="twitter:description" content="好好学习，天天向上">
 
-<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 
     <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
@@ -103,7 +103,7 @@
     </script>
 
 
-</head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -123,11 +123,11 @@
 
         
             <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="" />
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload>
             <i class="fa fa-times" onclick="resetSearch()"></i>
             </form>
             <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
         
 
 
@@ -284,9 +284,74 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Android源码分析（Handler机制）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/26/Android源码分析（Handler机制）/" class="article-date">
+      <time datetime="2018-05-26T08:20:50.000Z" itemprop="datePublished">2018-05-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="源码基于安卓8-0分析结果"><a href="#源码基于安卓8-0分析结果" class="headerlink" title="源码基于安卓8.0分析结果"></a>源码基于安卓8.0分析结果</h2><h4 id="关键类ActivityThread、Handler、Looper、Message、MessageQueue"><a href="#关键类ActivityThread、Handler、Looper、Message、MessageQueue" class="headerlink" title="关键类ActivityThread、Handler、Looper、Message、MessageQueue"></a>关键类ActivityThread、Handler、Looper、Message、MessageQueue</h4><ul>
+<li>ActivityThread中的流程：应用程序入口是在ActivityThread的main方法中，程序启动，底层去调用C/C++去调用main方法
+          
+      
+    </li></ul></div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handler机制/">Handler机制</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/05/26/Android源码分析（Handler机制）/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-Android源码分析（事件传递）" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -300,7 +365,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -321,7 +386,7 @@
 <li>首先如何看安卓SDK源码，作者尝试过几种的方法，感觉这种比较方便<br>把在本地找到的Android.jar 放到工程中的libs的目录下，直接编译，就可以看到PhoneWindow 和DecorView的源码了<br><img src="https://upload-images.jianshu.io/upload_images/5363507-58562a1784cc86ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png">
           
       
-    </div>
+    </li></ul></div>
     
     <div class="article-info article-info-index">
       
@@ -365,7 +430,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -432,7 +497,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -454,7 +519,7 @@
 <p>当然这个“严重程度”我们可以手动调节，有些原则问题不容侵犯，必须提升到 error，而有的个别问题也可以无视，毕竟人非圣贤孰能无过嘛。<br>
           
       
-    </div>
+    </p></div>
     
     <div class="article-info article-info-index">
       
@@ -498,7 +563,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -525,7 +590,7 @@
 <li>虽然Java SE5提供一些元数据，但是一般来说，主要还是需要我们自己定义新的注解，并且按照自己的方法使用它们
           
       
-    </div>
+    </li></ul></div>
     
     <div class="article-info article-info-index">
       
@@ -569,7 +634,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -589,7 +654,7 @@
               <h3 id="github"><a href="#github" class="headerlink" title="github"></a><a href="https://github.com/Shimingli/ImageLoader" target="_blank" rel="noopener">github</a></h3><p><img src="https://upload-images.jianshu.io/upload_images/5363507-285dae46159d767e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>
           
       
-    </div>
+    </p></div>
     
     <div class="article-info article-info-index">
       
@@ -633,7 +698,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -698,7 +763,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -764,7 +829,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -784,7 +849,7 @@
               <h3 id="Demo的下载地址"><a href="#Demo的下载地址" class="headerlink" title="Demo的下载地址"></a>Demo的下载地址</h3><p><img src="http://upload-images.jianshu.io/upload_images/5363507-fd626ece6fbccfb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="下载地址"><br>
           
       
-    </div>
+    </p></div>
     
     <div class="article-info article-info-index">
       
@@ -828,7 +893,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -879,73 +944,6 @@
 
 
   
-    <article id="post-安卓画笔笔锋的实现探索（二）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/" class="article-date">
-      <time datetime="2017-10-18T08:34:13.000Z" itemprop="datePublished">2017-10-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <ul>
-<li>本篇文章已授权微信公众号 guolin_blog （郭霖）独家发布</li>
-</ul>
-<h4 id="1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3"><a href="#1、下图的效果的实现看这篇文章：http-www-jianshu-com-p-6746d68ef2c3" class="headerlink" title="1、下图的效果的实现看这篇文章：http://www.jianshu.com/p/6746d68ef2c3"></a>1、下图的效果的实现看这篇文章：<a href="http://www.jianshu.com/p/6746d68ef2c3" target="_blank" rel="noopener">http://www.jianshu.com/p/6746d68ef2c3</a></h4><p><img src="http://upload-images.jianshu.io/upload_images/5363507-5c24ce51a1e6f311.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20171018135736.jpg"><br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/10/18/安卓画笔笔锋的实现探索（二）/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -966,7 +964,7 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
+                    <span id="busuanzi_container_site_pv" style="display:none">
                         <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -975,8 +973,8 @@
                     <span>| </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
                         </span>
                     </span>
                 
