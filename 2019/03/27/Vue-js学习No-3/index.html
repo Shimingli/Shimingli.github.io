@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Shiming_Li">
+
+
+
+<meta name="description" content="欢迎关注我的公众号  学习的内容如下">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js学习No.3">
+<meta property="og:url" content="http://yoursite.com/2019/03/27/Vue-js学习No-3/index.html">
+<meta property="og:site_name" content="仕明的后花园">
+<meta property="og:description" content="欢迎关注我的公众号  学习的内容如下">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-dd337e0af85dd024.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-5de2d19abcb32173.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-f62941db775fd367.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-27T01:33:01.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue.js学习No.3">
+<meta name="twitter:description" content="欢迎关注我的公众号  学习的内容如下">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Vue.js学习No.3 | 仕明的后花园</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?1add6c64d9c467153aaed18d249d81c4";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload>
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apk/">Apk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayList/">ArrayList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashMap/">HashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashSet/">HashSet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java后端/">Java后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LifeCycle/">LifeCycle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinckedList/">LinckedList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinkedHashMap/">LinkedHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LruCache/">LruCache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTfulAPI/">RESTfulAPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava2/">RxJava2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SparseArray/">SparseArray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger2/">Swagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vector/">Vector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/依赖/">依赖</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/剑指几道算法题的思考/">剑指几道算法题的思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/架构/">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
+                            
+                                <a class="fa 掘金" target="_blank" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-Vue-js学习No-3" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/27/Vue-js学习No-3/" class="article-date">
+      <time datetime="2019-03-27T01:32:29.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vue.js学习No.3
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li><p><strong>欢迎关注我的公众号</strong><br><img src="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="公众号"></p>
+</li>
+<li><p><strong>学习的内容如下</strong></p>
+<a id="more"></a> 
+</li>
+<li><p><strong>开始</strong></p>
+<h4 id="使用vue-resource"><a href="#使用vue-resource" class="headerlink" title="使用vue-resource"></a>使用<code>vue-resource</code></h4></li>
+<li><p>导入<code>bootstrap</code>也可以这样导入,这个是最新的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&quot;</span><br><span class="line">       integrity=&quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&quot; crossorigin=&quot;anonymous&quot;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>点击这两个删除的区别,一个会重新刷新网页</p>
+<pre><code><figure class="highlight plain"><figcaption><span>href</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&quot;&gt;删除&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>全局配置地址  </p>
+</li>
+<li>如果配置了请求的数据接口根域名，在每次单独发起<code>http</code>的时候，也因该是相对路径开头，不能带斜线，否则不会启用根路径拼接</li>
+<li><code>{emulateJSON:true}</code>以普通表单格式，将数据提交给服务器 <code>application/x-www-form-urlencoded</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.http.options.root = &quot;http://shiming&quot;</span><br><span class="line">  //全局启用这个配置</span><br><span class="line">  Vue.http.options.emulateJSON = true;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Demo<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- vue-resource 依赖于 Vue 有个先后的顺序  this.$http.get --&gt;</span><br><span class="line">    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue-resource@1.5.1&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 这个包才能一样 --&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/bootstrap.min.css&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue-resource@1.5.1&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 这个是个最新的包 --&gt;</span><br><span class="line">    &lt;!-- &lt;link rel=&quot;stylesheet&quot; href=&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&quot;</span><br><span class="line">        integrity=&quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&quot; crossorigin=&quot;anonymous&quot;&gt; --&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;div class=&quot;panel panel-primary&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;panel-heading&quot;&gt;</span><br><span class="line">                &lt;h3 class=&quot;panel-title&quot;&gt;添加&lt;/h3&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;panel-body form-inline&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                &lt;label&gt;</span><br><span class="line">                    Name:</span><br><span class="line">                    &lt;input type=&quot;text&quot; v-model=&quot;name&quot; class=&quot;form-control&quot;&gt;</span><br><span class="line"></span><br><span class="line">                &lt;/label&gt;</span><br><span class="line"></span><br><span class="line">                &lt;input type=&quot;button&quot; value=&quot;添加&quot; @click=&quot;add&quot; class=&quot;btn btn-primary&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;table class=&quot;table table-bordered table-hover table-striped&quot;&gt;</span><br><span class="line">            &lt;thead&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;th&gt;Id&lt;/th&gt;</span><br><span class="line">                    &lt;th&gt;Name&lt;/th&gt;</span><br><span class="line">                    &lt;th&gt;Ctime&lt;/th&gt;</span><br><span class="line">                    &lt;th&gt;Operation&lt;/th&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">            &lt;/thead&gt;</span><br><span class="line">            &lt;tbody&gt;</span><br><span class="line">                &lt;tr v-for=&quot;item in list&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">                    &lt;td&gt;&#123;&#123;item.id&#125;&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&#123;&#123;item.name&#125;&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&#123;&#123;item.ctime&#125;&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;</span><br><span class="line">                        &lt;!-- 点击这两个删除的区别 --&gt;</span><br><span class="line">                        &lt;a href=&quot;&quot; @click.prevent=&quot;del&quot;&gt;删除&lt;/a&gt;</span><br><span class="line">                        &lt;a href=&quot;&quot;&gt;删除&lt;/a&gt;</span><br><span class="line">                    &lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">            &lt;/tbody&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        // 全局配置地址  </span><br><span class="line">        // 如果配置了请求的数据接口根域名，在每次单独发起http的时候，也因该是相对路径开头，不能带斜线，否则不会启用根路径拼接</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Vue.http.options.root = &quot;http://shiming&quot;</span><br><span class="line">        //全局启用这个配置</span><br><span class="line">        Vue.http.options.emulateJSON = true;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line">            data: &#123;</span><br><span class="line"></span><br><span class="line">                name: &quot;&quot;,</span><br><span class="line">                list: [</span><br><span class="line">                    &#123; id: 1, name: &quot;宝马&quot;, ctime: new Date() &#125;,</span><br><span class="line">                    &#123; id: 2, name: &quot;奔驰&quot;, ctime: new Date() &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                // post</span><br><span class="line">                // &#123;emulateJSON:true&#125; 以普通表单格式，将数据提交给服务器 application/x-www-form-urlencoded</span><br><span class="line">                add() &#123;</span><br><span class="line">                    this.$http.post(&quot;&quot;, &#123; name: this.name &#125;, &#123; emulateJSON: true &#125;).then(result =&gt; &#123;</span><br><span class="line">                        if (result.body.status === 0) &#123;</span><br><span class="line">                            //    成功了在获取数据</span><br><span class="line">                            this.getAllList()</span><br><span class="line">                            // 清空输入框</span><br><span class="line">                            this.name = &quot;&quot;</span><br><span class="line"></span><br><span class="line">                        &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;,</span><br><span class="line">                // get</span><br><span class="line">                getAllList() &#123;</span><br><span class="line">                    console.log(&quot;方法请求了 getAllList&quot;)</span><br><span class="line">                    // 如果配置了请求的数据接口根域名，在每次单独发起http的时候，也因该是相对路径开头，不能带斜线，否则不会启用根路径拼接</span><br><span class="line">                    this.$http.get(&quot;api/getprodlist&quot;, &#123; headers: &#123; &apos;Access-Control-Allow-Origin&apos;: &apos;*&apos; &#125; &#125;).then(result =&gt; &#123;</span><br><span class="line"></span><br><span class="line">                        if (result.status === 0) &#123;</span><br><span class="line"></span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                            alert(&quot;请求失败&quot;);</span><br><span class="line">                            console.log(result)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;, response =&gt; &#123;</span><br><span class="line">                        // error callback</span><br><span class="line">                        alert(&quot;请求失败&quot;);</span><br><span class="line">                        console.log(&quot;原因：：：&quot; + response)</span><br><span class="line">                    &#125;</span><br><span class="line">                    )</span><br><span class="line">                &#125;,</span><br><span class="line"></span><br><span class="line">                del() &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            created() &#123;</span><br><span class="line">                console.log(&quot;方法请求了 created&quot;)</span><br><span class="line">                this.getAllList()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Vue动画"><a href="#Vue动画" class="headerlink" title="Vue动画"></a>Vue动画</h4><p>v-enter：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。</p>
+<p>v-enter-active：定义进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。</p>
+<p>v-enter-to: 2.1.8版及以上 定义进入过渡的结束状态。在元素被插入之后下一帧生效 (与此同时 v-enter 被移除)，在过渡/动画完成之后移除。</p>
+<p>v-leave: 定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。</p>
+<p>v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。</p>
+<p>v-leave-to: 2.1.8版及以上 定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-dd337e0af85dd024.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="transition.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css&quot;&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Vue 提供的 实现动画的话，就必须带上 V- 如果不带的话在transition就不能显示   所以我可以在外面显示</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 自定義樣式 --&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        /* 可以设置不同的进入和离开动画 */</span><br><span class="line">        /* 设置持续时间和动画函数 */</span><br><span class="line">        .slide-fade-enter-active &#123;</span><br><span class="line">            transition: all 3s ease;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .slide-fade-leave-active &#123;</span><br><span class="line">            transition: all 8s cubic-bezier(1.0, 0.5, 0.8, 1.0);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /* 進入的時間 */</span><br><span class="line">        .slide-fade-enter,</span><br><span class="line">        .slide-fade-leave-to</span><br><span class="line"></span><br><span class="line">        /* .slide-fade-leave-active for below version 2.1.8 */</span><br><span class="line">            &#123;</span><br><span class="line">            transform: translateX(900px);</span><br><span class="line">            opacity: 0;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        /* 可以设置不同的进入和离开动画 */</span><br><span class="line">        /* 设置持续时间和动画函数 */</span><br><span class="line">        .my-enter-active &#123;</span><br><span class="line">            transition: all 3s ease;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .my-leave-active &#123;</span><br><span class="line">            transition: all 8s cubic-bezier(1.0, 0.5, 0.8, 1.0);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /* 進入的時間 */</span><br><span class="line">        .my-enter,</span><br><span class="line">        .my-leave-to</span><br><span class="line"></span><br><span class="line">        /* .slide-fade-leave-active for below version 2.1.8 */</span><br><span class="line">            &#123;</span><br><span class="line">            transform: translateX(100px);</span><br><span class="line">            opacity: 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;example-1&quot;&gt;</span><br><span class="line">        &lt;button @click=&quot;show = !show&quot;&gt;</span><br><span class="line">            Toggle render</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line"></span><br><span class="line">        &lt;transition name=&quot;slide-fade&quot;&gt;</span><br><span class="line">            &lt;p v-if=&quot;show&quot;&gt;仕明同学&lt;/p&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line">        &lt;!-- Vue 提供的 实现动画的话，就必须带上 V- 如果不带的话在transition就不能显示</span><br><span class="line">        所以我可以在外面显示</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;transition name=&quot;my&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;p v-if=&quot;show&quot;&gt;仕明同学Copy&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        new Vue(&#123;</span><br><span class="line">            el: &apos;#example-1&apos;,</span><br><span class="line">            data: &#123;</span><br><span class="line">                show: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用开源的动画</li>
+<li><strong><a href="https://github.com/daneden/animate.css" target="_blank" rel="noopener">animate.css</a></strong></li>
+<li><p><a href="https://daneden.github.io/animate.css/" target="_blank" rel="noopener">animate.css动画的效果</a></p>
+</li>
+<li><p>需要加<code>animated</code>在前面 同时前面不能有空格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition enter-active-class=&quot;animated bounceIn&quot; leave-active-class=&quot;animated bounceOut&quot;  :duration=&quot;100&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;h1 v-if=&quot;flag&quot;&gt;看我的动画&lt;/h1&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>duration</code>设置动画的执行的时间，但是我写出来好像没有效果</p>
+</li>
+<li><code>duration=&quot;毫秒值&quot;</code> 来设置动画的市场</li>
+<li><code>:duration=&quot;{ enter: 100, leave:500 }&quot;</code> 设置入场和离场的市场<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 使用第三方动画实现的库 --&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;button&quot; value=&quot;按钮&quot; @click=&quot;flag=!flag&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 需要加animated 在前面 同时前面不能有空格 --&gt;</span><br><span class="line">        &lt;transition enter-active-class=&quot;animated bounceIn&quot; leave-active-class=&quot;animated bounceOut&quot;  :duration=&quot;100&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;h1 v-if=&quot;flag&quot;&gt;看我的动画&lt;/h1&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line">        &lt;!-- :duration 我咋设置的不管作用啊  --&gt;</span><br><span class="line">        &lt;!-- duration=&quot;毫秒值&quot; 来设置动画的市场  :duration =  --&gt;</span><br><span class="line">        &lt;transition enter-active-class=&quot;animated zoomOutUp&quot; leave-active-class=&quot;animated zoomOutDown&quot;  :duration=&quot;10000&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;h1 v-if=&quot;flag&quot;&gt;看我的动画有时间 &lt;/h1&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line">        &lt;transition enter-active-class=&quot;animated zoomOutUp&quot; leave-active-class=&quot;animated zoomOutDown&quot; &gt;</span><br><span class="line"></span><br><span class="line">                &lt;h1 v-if=&quot;flag&quot;&gt;看我的动画没时间&lt;/h1&gt;</span><br><span class="line">            &lt;/transition&gt;</span><br><span class="line">        &lt;!--  :duration=&quot;&#123; enter: 100, leave:500 &#125;&quot; 设置入场和离场的市场 --&gt;</span><br><span class="line">        &lt;transition enter-active-class=&quot;animated zoomOutLeft&quot; leave-active-class=&quot;animated zoomOutRight&quot;</span><br><span class="line">            :duration=&quot;&#123; enter: 100, leave:500 &#125;&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;h1 v-if=&quot;flag&quot;&gt;看我的动画duration&lt;/h1&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line">            data: &#123;</span><br><span class="line">                flag: true</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="JavaScript-钩子函数实现半场动画"><a href="#JavaScript-钩子函数实现半场动画" class="headerlink" title="JavaScript 钩子函数实现半场动画"></a><a href="https://cn.vuejs.org/v2/guide/transitions.html#JavaScript-%E9%92%A9%E5%AD%90" title="JavaScript 钩子" target="_blank" rel="noopener">JavaScript 钩子函数实现半场动画</a></h3><ul>
+<li><p>加入购物车的动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition</span><br><span class="line">  v-on:before-enter=&quot;beforeEnter&quot;</span><br><span class="line">  v-on:enter=&quot;enter&quot;</span><br><span class="line">  v-on:after-enter=&quot;afterEnter&quot;</span><br><span class="line">  v-on:enter-cancelled=&quot;enterCancelled&quot;</span><br><span class="line"></span><br><span class="line">  v-on:before-leave=&quot;beforeLeave&quot;</span><br><span class="line">  v-on:leave=&quot;leave&quot;</span><br><span class="line">  v-on:after-leave=&quot;afterLeave&quot;</span><br><span class="line">  v-on:leave-cancelled=&quot;leaveCancelled&quot;</span><br><span class="line">&gt;</span><br><span class="line">  &lt;!-- ... --&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Demo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 使用第三方动画实现的库 --&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .ball &#123;</span><br><span class="line">            width: 15px;</span><br><span class="line">            height: 15px;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            background-color: blueviolet</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;input type=&quot;button&quot; value=&quot;点我&quot; @click=&quot;show=!show&quot;&gt;</span><br><span class="line">&lt;!-- before-enter 动画么有开始，可以设置元素的样式，设置元素的位置 --&gt;</span><br><span class="line">&lt;!-- enter 表示动画开始之后的样式 --&gt;</span><br><span class="line">        &lt;transition @before-enter=&quot;before&quot; @enter=&quot;enter&quot; @after-enter=&quot;ater&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;ball&quot; v-show=&quot;show&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line">            data: &#123;</span><br><span class="line">                show: true</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                // 第一个el参数是一个元素的js对象，</span><br><span class="line">                // el认为就是document.getElementById 获取到的原生对象</span><br><span class="line">                before(el) &#123;</span><br><span class="line">                    console.log(&quot;before&quot;);</span><br><span class="line">                    el.style.transform = &quot;translate(0,0)&quot;</span><br><span class="line"></span><br><span class="line">                &#125;,</span><br><span class="line">                // 细细体会以下这个done的函数</span><br><span class="line">                enter(el,done) &#123;</span><br><span class="line">                    // 这个必须写，要不然出来动画</span><br><span class="line">                    // 可以认为这个方法强制刷新，位置在偏移</span><br><span class="line">                    // 以下方法都是可以的</span><br><span class="line">                    // el.offsetWidth</span><br><span class="line">                    // el.offsetHeigh</span><br><span class="line">                    // el.offsetLeft</span><br><span class="line">                    el.offsetTop</span><br><span class="line">                    console.log(&quot;enter&quot;);</span><br><span class="line">                    el.style.transform = &quot;translate(150px,450px)&quot;</span><br><span class="line">                    el.style.transition=&quot;all 5s ease&quot;</span><br><span class="line">                //    动画结束的时候消失小球作用的</span><br><span class="line">                    done()</span><br><span class="line">                    // done就是ater函数的引用</span><br><span class="line">                &#125;,</span><br><span class="line">                ater(el) &#123;</span><br><span class="line">                    console.log(&quot;ater&quot;);</span><br><span class="line">                    this.show=!this.show;</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="列表动画"><a href="#列表动画" class="headerlink" title="列表动画"></a>列表动画</h4><ul>
+<li><p>鼠标覆盖的颜色:可以设置<code>style</code></p>
+<figure class="highlight plain"><figcaption><span>鼠标覆盖的颜色 */</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">li:hover &#123;</span><br><span class="line">    background-color: aqua;</span><br><span class="line">    /* 背景也可以过度，就是鼠标覆盖在上面有个小小的动画*/</span><br><span class="line">    transition: all 3s ease;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>v-move</code> 和 <code>.v-leave-active</code> 配合使用，可以实现列表元素的删除动画,设置元素位移时候的动画 但是还要设置<code>v-leave-active</code>设置类 <code>absolute</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* 可以设置元素位移时候的动画 但是还要设置 v-leave-active 设置类 absolute*/</span><br><span class="line">      /* .v-move 和 .v-leave-active 配合使用，可以实现列表元素的删除动画 */</span><br><span class="line">      .v-move &#123;</span><br><span class="line">          transition: all 1s ease;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在实现列表过度的时候，如果需要过度的元素是通过<code>v-for</code>渲染出来的，不能使用<code>transition</code> 包裹,需要使用<code>transition-group</code></p>
+</li>
+<li><p>给<code>transitiong-group</code> 加上 <code>appear</code> 实现页面刚展示出来的入场效果</p>
+</li>
+</ul>
+<ul>
+<li>通过tag属性设置，指定transiton-group渲染为指定的元素 如果不指定的，默认渲染为span<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 通过tag属性设置，指定transiton-group渲染为指定的元素 如果不指定的，默认渲染为span --&gt;</span><br><span class="line">           &lt;transition-group appear &gt;</span><br><span class="line">               &lt;li v-for=&quot;(item,i) in list&quot; :key=&quot;item.id&quot; @click=&quot;del(i)&quot;&gt;</span><br><span class="line">                   &#123;&#123;item.id&#125;&#125; ----- &#123;&#123;item.name&#125;&#125;</span><br><span class="line">               &lt;/li&gt;</span><br><span class="line">           &lt;/transition-group&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-5de2d19abcb32173.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>这是指定了<code>tag=&quot;ul&quot;</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 通过tag属性设置，指定transiton-group渲染为指定的元素 如果不指定的，默认渲染为span --&gt;</span><br><span class="line">           &lt;transition-group appear tag=&quot;ul&quot;&gt;</span><br><span class="line">               &lt;li v-for=&quot;(item,i) in list&quot; :key=&quot;item.id&quot; @click=&quot;del(i)&quot;&gt;</span><br><span class="line">                   &#123;&#123;item.id&#125;&#125; ----- &#123;&#123;item.name&#125;&#125;</span><br><span class="line">               &lt;/li&gt;</span><br><span class="line">           &lt;/transition-group&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-f62941db775fd367.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>Demo<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        li &#123;</span><br><span class="line">            border: 2px dashed #ff0;</span><br><span class="line">            margin: 5px;</span><br><span class="line">            line-height: 35px;</span><br><span class="line">            padding: 10px;</span><br><span class="line">            font-size: 50px;</span><br><span class="line">            width: 100%;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /* 鼠标覆盖的颜色 */</span><br><span class="line">        li:hover &#123;</span><br><span class="line">            background-color: aqua;</span><br><span class="line">            /* 背景也可以过度，就是鼠标覆盖在上面有个小小的动画*/</span><br><span class="line">            transition: all 3s ease;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-enter,</span><br><span class="line">        .v-enter-to &#123;</span><br><span class="line">            opacity: 0;</span><br><span class="line">            transform: translateY(80px)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-enter-active,</span><br><span class="line">        .v-enter-active &#123;</span><br><span class="line">            transition: all 2s ease;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /* 可以设置元素位移时候的动画 但是还要设置 v-leave-active 设置类 absolute*/</span><br><span class="line">        /* .v-move 和 .v-leave-active 配合使用，可以实现列表元素的删除动画 */</span><br><span class="line">        .v-move &#123;</span><br><span class="line">            transition: all 1s ease;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-leave-active &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;label&gt;</span><br><span class="line">                Id:</span><br><span class="line">                &lt;input type=&quot;text&quot; v-model=&quot;id&quot;&gt;</span><br><span class="line">            &lt;/label&gt;</span><br><span class="line"></span><br><span class="line">            &lt;label&gt;</span><br><span class="line">                Name:</span><br><span class="line">                &lt;input type=&quot;text&quot; v-model=&quot;name&quot;&gt;</span><br><span class="line">            &lt;/label&gt;</span><br><span class="line"></span><br><span class="line">            &lt;input type=&quot;button&quot; value=&quot;加&quot; @click=&quot;add&quot;&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">            &lt;!-- 在实现列表过度的时候，如果需要过度的元素是通过v-for渲染出来的，不能使用 transition 包裹</span><br><span class="line">        需要使用 transition-group</span><br><span class="line">        --&gt;</span><br><span class="line">            &lt;!-- 当然也必须的设置key的属性 --&gt;</span><br><span class="line">            &lt;!-- &lt;li v-for=&quot;item in list&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">               &#123;&#123;item.id&#125;&#125; ----- &#123;&#123;item.name&#125;&#125;</span><br><span class="line">            &lt;/li&gt; --&gt;</span><br><span class="line">            &lt;!-- 给transitiong-group  加上 appear 实现页面刚展示出来的入场效果 --&gt;</span><br><span class="line">           </span><br><span class="line">           &lt;!-- 通过tag属性设置，指定transiton-group渲染为指定的元素 如果不指定的，默认渲染为span --&gt;</span><br><span class="line">            &lt;transition-group appear tag=&quot;ul&quot;&gt;</span><br><span class="line">                &lt;li v-for=&quot;(item,i) in list&quot; :key=&quot;item.id&quot; @click=&quot;del(i)&quot;&gt;</span><br><span class="line">                    &#123;&#123;item.id&#125;&#125; ----- &#123;&#123;item.name&#125;&#125;</span><br><span class="line">                &lt;/li&gt;</span><br><span class="line">            &lt;/transition-group&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line">            data: &#123;</span><br><span class="line">                id: &quot;&quot;,</span><br><span class="line">                name: &quot;&quot;,</span><br><span class="line">                list: [</span><br><span class="line">                    &#123; id: 1, name: &quot;世明&quot; &#125;,</span><br><span class="line">                    &#123; id: 2, name: &quot;pangfan&quot; &#125;,</span><br><span class="line">                ]</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                add() &#123;</span><br><span class="line">                    this.list.push(&#123;</span><br><span class="line">                        id: this.id,</span><br><span class="line">                        name: this.name</span><br><span class="line">                    &#125;)</span><br><span class="line">                    this.name = &quot;&quot;</span><br><span class="line">                    this.id = &quot;&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                del(i) &#123;</span><br><span class="line">                    this.list.splice(i, 1)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><ul>
+<li><p>组件的创建一</p>
+<ul>
+<li><p>1、使用 Vue.extend 组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var com = Vue.extend(&#123;</span><br><span class="line">          template: &quot;&lt;h3&gt;我是一个com组件&lt;h3&gt;&quot;</span><br><span class="line">      &#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、使用Vue.component</p>
+<figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*  3、使用组件，以html标签引入进来 --&gt;</span><br><span class="line">    ```  &lt;com&gt;&lt;/com&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、驼峰的命名规则，使用my-com来引入，其他的可能有点问题 </p>
+<figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 组件的创建二</span><br><span class="line">  * 使用Vue.component</span><br><span class="line">   ``` </span><br><span class="line">          Vue.component(&quot;com&quot;,Vue.extend(&#123;</span><br><span class="line">            template: &quot;&lt;h3&gt;我是一个myCom组件&lt;h3&gt;&quot;</span><br><span class="line">        &#125;)) </span><br><span class="line">   ``` </span><br><span class="line">* 组件的创建三</span><br><span class="line">   ``` </span><br><span class="line">  Vue.component(&quot;com&quot;,&#123;</span><br><span class="line">            template: &quot;&lt;h3&gt;我是一个com组件&lt;h3&gt;&lt;span&gt;123ddd&lt;/span&gt;&quot;</span><br><span class="line">        &#125;)   </span><br><span class="line">    ``` </span><br><span class="line"></span><br><span class="line">* 定义私有组件 :最重要的引用的方法是 &quot;#app&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<body><br>    <div id="app"><br><br>        <login></login><br>         <test></test><br>    </div><br><br>    <template id="temp"><br><br>        <h1>我是全局组件，但是我在私有里面引用了的</h1><br>    </template><br><br>    <script><br>        var vm = new Vue({<br>            el: “#app”,<br>            //单例<br>            data() {<br>                return {<br><br>                }<br>            },<br>            methods: {<br><br>            },<br>            filters: {<br><br>            },<br>            directives: {},<br>            //定义私有组件<br>            components: {<br>              login:{<br>                  template:”<h1> 私有组件</h1>“<br>              },<br>              test:{<br>                  //记得加上# 引用<br>                    template:”#temp”<br>              }<br>            },<br>            //颜色不一样<br>            beforeCreate() {<br><br>            },<br>        })<br>    </script><br></body><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 组件中的`data`和`methods` :组件中的`data`是一个方法，方法内部返回一个对象</span><br></pre></td></tr></table></figure><br><br>&lt;!DOCTYPE html&gt;<br><html lang="en"><br><br><head><meta name="generator" content="Hexo 3.8.0"><br>    <meta charset="UTF-8"><br>    <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>    <meta http-equiv="X-UA-Compatible" content="ie=edge"><br>    <title>Document</title><br>    <script src="./lib/vue.min.js"></script><br></head><br><br><body><br>    <div id="app"><br>        <tem></tem><br>    </div><br><br><br>    <script><br><br>        Vue.component(“tem”, {<br>            template: “<h1>你要好好学习——</h1> “,<br>            //组件中的data是一个方法，方法内部返回一个对象<br>            data: function () {<br>                return {<br>                    msg: “组件的data的msg属性”<br>                }<br><br>            }<br>        })<br>        var vm = new Vue({<br>            el: “#app”,<br>            data() {<br>                return {<br><br>                }<br>            },<br>            methods: {<br><br>            },<br>        })<br>    </script><br></body>
+
+<p></p></html><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 为什么组件中的`data`返回一个对象，下面的例子可以很好地说明，说通俗一点，当页面上引用了很多组件的话，组件是同一个对象，我们去改变一个对象，其他的就全部改变了，没有意义了</span><br></pre></td></tr></table></figure><p></p>
+<p>&lt;!DOCTYPE html&gt;</p>
+<html lang="en"><br><br><head><meta name="generator" content="Hexo 3.8.0"><br>    <meta charset="UTF-8"><br>    <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>    <meta http-equiv="X-UA-Compatible" content="ie=edge"><br>    <title>Document</title><br>    <script src="./lib/vue.min.js"></script><br></head><br><br><body><br>    <div id="app"><br>        <tem></tem><br>        <!-- 当组件应用更多的时候，就会一起改变，肯定是不行 --><br>        <counter></counter><br>        <hr><br>        <counter></counter><br>        <hr><br>        <counter></counter><br>        <hr><br>        <counter></counter><br>    </div><br><br><br>    <!-- 在外面定义组件可以有代码提醒 --><br>    <template id="temp1"><br>        <div><br>            <input type="button" value="+1" @click="add"><br>            <h3></h3><br>        </div><br><br>    </template><br><br><br>    <script><br><br>        var obj = { count: 0 }<br>        //计数器组件，点击按钮，数目加上1<br>        Vue.component(“counter”, {<br>            // 定义组件 一定要命名争取啊 我错了两次了<br>            template: “#temp1”,<br>            data: function () {<br>                // 所以这里不能够这样返回<br>                // return obj<br>                //保证每次单独的返回一个对象<br>                return { count: 0 }<br>            },<br>            methods: {<br>                add() {<br>                    this.count += 1<br>                }<br>            }<br>        })<br><br>        Vue.component(“tem”, {<br>            template: “<h1>你要好好学习——</h1> “,<br>            //组件中的data是一个方法，方法内部返回一个对象<br>            data: function () {<br>                return {<br>                    msg: “组件的data的msg属性”<br>                }<br><br>            }<br>        })<br>        var vm = new Vue({<br>            el: “#app”,<br>            data() {<br>                return {<br><br>                }<br>            },<br>            methods: {<br><br>            },<br>        })<br>    </script><br></body><br><br></html>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">* **组件的切换**</span><br><span class="line">* 1、v-if和v-else，就是一个判断，但是只能切换两个组件</span><br><span class="line">* 2、Vue提供 component ，来展示对应的名称的组件， componentId 是一个占位符 :is=属性，可以用来展示组件的名称 `&lt;component :is=&quot;name&quot;&gt;&lt;/component&gt;`可以切换多个组件。</span><br><span class="line">* Vue的标签</span><br><span class="line">*  `component`组件 ` template   transition（过渡）   transition-group（列表过渡）`</span><br><span class="line"></span><br><span class="line">* 多个组件的过渡简单很多 - 我们不需要使用 `key `特性。相反，我们只需要使用动态组件：过度的模式`mode=&quot;out-in&quot; `先`out`在`in`</span><br></pre></td></tr></table></figure>
+<p>   <transition mode="out-in"><br>            <component :is="name"></component><br>        </transition><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* Demo</span><br></pre></td></tr></table></figure></p>
+<p>&lt;!DOCTYPE html&gt;</p>
+<html lang="en"><br><br><head><meta name="generator" content="Hexo 3.8.0"><br>    <meta charset="UTF-8"><br>    <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>    <meta http-equiv="X-UA-Compatible" content="ie=edge"><br>    <title>Document</title><br>    <script src="./lib/vue.min.js"></script><br>    <style><br>        .v-enter,<br>        .v-leave-to {<br>            opacity: 0;<br>            transform: translateX(150px)<br>        }<br><br>        .v-enter-active,<br>        .v-leave-active {<br>            transition: all 0.5s ease;<br>        }<br>    </style><br></head><br><br><body><br><br>    <div id="app"><br>        <h1>组件的切换</h1><br><br>        <!-- 只能切换两个 尴尬 --><br>        <a href @click.prevent="flag=true">登陆</a><br>        <a href @click.prevent="flag=false">注册</a><br><br>        <demo1 v-if="flag"></demo1><br>        <demo2 v-else="flag"></demo2><br>        <h1>Vue提供 component ，来展示对应的名称的组件</h1><br>        <component :is="'demo1'"></component><br>        <h1>组件的切换2</h1><br><br>        <a href @click.prevent="name='demo1'">登陆2</a><br>        <a href @click.prevent="name='demo2'">注册2</a><br>        <!--Vue提供 component ，来展示对应的名称的组件  --><br>        <!-- componentId 是一个占位符 :is=属性，可以用来展示组件的名称 --><br><br>        <!-- 多个组件的过渡简单很多 - 我们不需要使用 key 特性。相反，我们只需要使用动态组件： --><br>        <!-- 过度的模式mode="out-in" 先out在in --><br>        <transition mode="out-in"><br>            <component :is="name"></component><br>        </transition><br>    </div><br>    <script><br>        Vue.component(“demo1”, {<br>            template: “<h2>登陆</h2>“<br>        })<br>        Vue.component(“demo2”, {<br>            template: “<h2>注册</h2>“<br>        })<br>        var vm = new Vue({<br>            el: “#app”,<br>            data() {<br>                return {<br>                    flag: true, name: “demo1”<br>                }<br>            },<br>            methods: {<br><br>            },<br>        })<br>    </script><br></body><br><br></html>
+
+<!-- Vue的标签 -->
+<!-- component组件  template   transition   transition-group-->
+<p><code>`</code></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/03/27/Vue-js学习No-3/">Vue.js学习No.3</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
+        <p><span>发布时间:</span>2019-03-27, 09:32:29</p>
+        <p><span>最后更新:</span>2019-03-27, 09:33:01</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/03/27/Vue-js学习No-3/" title="Vue.js学习No.3">http://yoursite.com/2019/03/27/Vue-js学习No-3/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/03/27/Vue-js学习No-3/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/03/20/Vue-js学习No-2/">
+                    Vue.js学习No.2
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用vue-resource"><span class="toc-number">1.</span> <span class="toc-text">使用vue-resource</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue动画"><span class="toc-number">2.</span> <span class="toc-text">Vue动画</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-钩子函数实现半场动画"><span class="toc-number"></span> <span class="toc-text">JavaScript 钩子函数实现半场动画</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#列表动画"><span class="toc-number">1.</span> <span class="toc-text">列表动画</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#组件"><span class="toc-number">2.</span> <span class="toc-text">组件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">我是全局组件，但是我在私有里面引用了的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">组件的切换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">Vue提供 component ，来展示对应的名称的组件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number"></span> <span class="toc-text">组件的切换2</span></a>
+        
+    </li></div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Vue.js学习No.3　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/03/20/Vue-js学习No-2/" title="下一篇: Vue.js学习No.2">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/27/Vue-js学习No-3/">Vue.js学习No.3</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/20/Vue-js学习No-2/">Vue.js学习No.2</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/我的第一个正式的Java后端程序（二）/">我的第一个正式的Java后端程序（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/Vue-js学习No-1/">Vue.js学习No.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/SQL学习/">SQL学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/Hement：LifeCycle的使用（五）/">Hement：LifeCycle的使用（五）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/13/Hement：项目中的三方依赖（四）/">Hement：项目中的三方依赖（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/07/Hement：关于项目中的Dagger2的使用三/">Hement：关于项目中的Dagger2的使用三</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/06/Hement：MVP架构中的网络框架-RxJava2-Retrofit2-RxAndroid/">Hement：MVP架构中的网络框架(RxJava2+Retrofit2+RxAndroid)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/04/Hement：MVP架构设计（一）/">Hement：MVP架构设计（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（二）/">Rxjava2-Android-Samlpes（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（一）/">Rxjava2-Android-Samlpes（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/Linux学习/">Linux学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/13/我的第一个正式的Java后端程序/">我的第一个正式的Java后端程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/">Spring Boot整合Swagger2、Mybatis构建RESTfulAPI</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/03/剑指offer中几道算法题的思考/">剑指几道算法题的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/02/智能食柜/">智能食柜</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/27/新零售平台V1/">新零售平台V1</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/22/常用集合的原理分析/">常用集合的原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 Shiming_Li
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
