@@ -1,340 +1,425 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="zh-CN">
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-
-    <!--[if lt IE 9]>
-        <style>body {display: none; background: none !important} </style>
-        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
-    <![endif]-->
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="author" content="Shiming_Li">
+    <meta charset="utf-8">
+    <meta name="keywords" content="一个Flutter的Demo, 仕明的后花园">
+    <meta name="description" content="
+首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！
+美团技术团队Flutter见解
+下一代移动端跨平台框架-Flutter大解密
 
 
-
-<meta name="description" content="首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！ 美团技术团队Flutter见解 下一代移动端跨平台框架-Flutter大解密">
-<meta name="keywords" content="Flutter,Demo,Apk">
-<meta property="og:type" content="article">
-<meta property="og:title" content="一个Flutter的Demo">
-<meta property="og:url" content="http://yoursite.com/2018/09/14/一个Flutter的Demo/index.html">
-<meta property="og:site_name" content="仕明的后花园">
-<meta property="og:description" content="首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！ 美团技术团队Flutter见解 下一代移动端跨平台框架-Flutter大解密">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-8f053f1f4bdbdaa3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a3a6b8c67f6c91a7.gif?imageMogr2/auto-orient/strip">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a5aa441b40672140.gif?imageMogr2/auto-orient/strip">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a5ac11b98426ed74.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-83593aae936c8b0d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a8bf490c02429f68.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-861c721e72f18243.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5363507-a9422980c719b94d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-09-14T06:42:04.027Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一个Flutter的Demo">
-<meta name="twitter:description" content="首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！ 美团技术团队Flutter见解 下一代移动端跨平台框架-Flutter大解密">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5363507-8f053f1f4bdbdaa3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+Demo 的下载地址（正式包，使用Flutter命令打的正式包）
+App详情
 
 
-    <link rel="alternate" href="/atom.xml" title="仕明的后花园" type="application/atom+xml">
+#">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>一个Flutter的Demo | 仕明的后花园</title>
+    <link rel="icon" type="image/jpeg" href="/avatar.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
 
 
-
-    <link rel="shortcut icon" href="/favicon.png">
-
-
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
-
-
-    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
-
-
-
-    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-
-<title>一个Flutter的Demo | 仕明的后花园</title>
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-<script>
-    var yiliaConfig = {
-        fancybox: true,
-        animate: true,
-        isHome: false,
-        isPost: true,
-        isArchive: false,
-        isTag: false,
-        isCategory: false,
-        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
-        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: true
-    }
-</script>
-
-
-    <script>
-        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
-    </script>
-
-
-
-    <script> yiliaConfig.rootUrl = "\/";</script>
-
-
-
-
-
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?1add6c64d9c467153aaed18d249d81c4";
-            var s = document.getElementsByTagName("script")[0]; 
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-
-
-</head></html>
 <body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
-        </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">Shiming_Li</a></h1>
-        </hgroup>
 
-        
-        <p class="header-subtitle">趁还能折腾的时候多学习！</p>
-        
-
-        
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload>
-            <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
-        
-
-
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
-                    </div>
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
                     
-                </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
-                    </ul>
-                </div>
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">仕明的后花园</span>
+                </a>
             </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
         
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">仕明的后花园</div>
+        <div class="logo-desc">
+            
+            好好学习，天天向上
+            
+        </div>
+    </div>
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa GitHub" href="https://github.com/Shimingli" title="GitHub"></a>
-                            
-                                <a class="fa 知乎" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
-                            
-                                <a class="fa 简书" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
-                            
-                                <a class="fa 掘金" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-9-正式版/">Android 9 正式版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-P/">Android P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android事件传递/">Android事件传递</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码/">Android源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apk/">Apk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayList/">ArrayList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ConcurrentHashMap/">ConcurrentHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger2/">Dagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment-setNextAnim-int-on-a-null-object-reference/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler机制/">Handler机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashMap/">HashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HashSet/">HashSet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java后端/">Java后端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jni/">Jni</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LayoutInflater/">LayoutInflater</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LifeCycle/">LifeCycle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinckedList/">LinckedList</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LinkedHashMap/">LinkedHashMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lint的使用/">Lint的使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LruCache/">LruCache</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLC/">PLC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PopupWindow/">PopupWindow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTfulAPI/">RESTfulAPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava2/">RxJava2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/So库/">So库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SparseArray/">SparseArray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger2/">Swagger2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vector/">Vector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewStub/">ViewStub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/invalidate/">invalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postInvalidate/">postInvalidate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/requestLayout/">requestLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setContentView源码解析/">setContentView源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/依赖/">依赖</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/剑指几道算法题的思考/">剑指几道算法题的思考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作方式/">工作方式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂文/">杂文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/架构/">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解（Annotation）/">注解（Annotation）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/田字格Demo/">田字格Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/绘制/">绘制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/谷歌/">谷歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里域名/">阿里域名</a></li></ul>
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
-                    
-                    </div>
-                </section>
-                
+    
 
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
                 
+                <i class="fa fa-fw fa-home"></i>
                 
-                <section class="switch-part switch-part4">
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
                 
-                    <div id="js-aboutme">专注于移动开发，Go后台开发</div>
-                </section>
+                <i class="fa fa-fw fa-tags"></i>
                 
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank" data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewbox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        一个Flutter的Demo
+                    </div>
+                </div>
             </div>
         </div>
-    </header>                
+    </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Shiming_Li</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                <img src="https://avatars1.githubusercontent.com/u/20720544?s=400&amp;u=c4a1232f66b78874f5f8d1d50479fecdf4458e2c&amp;v=4" class="animated zoomIn">
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Shiming_Li</a></h1>
-            </hgroup>
-            
-            <p class="header-subtitle">趁还能折腾的时候多学习！</p>
-            
-            <nav class="header-menu">
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Flutter/" target="_blank">
+                                <span class="chip bg-color">Flutter</span>
+                            </a>
+                        
+                            <a href="/tags/Demo/" target="_blank">
+                                <span class="chip bg-color">Demo</span>
+                            </a>
+                        
+                            <a href="/tags/Apk/" target="_blank">
+                                <span class="chip bg-color">Apk</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-09-14
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        9 分
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
                 <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                    <li><a href="/about/">关于我</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa GitHub" target="_blank" href="https://github.com/Shimingli" title="GitHub"></a>
-                            
-                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/li-shi-ming-46-52/activities" title="知乎"></a>
-                            
-                                <a class="fa 简书" target="_blank" href="https://www.jianshu.com/u/a58eb984bda4" title="简书"></a>
-                            
-                                <a class="fa 掘金" target="_blank" href="https://juejin.im/user/584a04aea22b9d0058cd2518" title="掘金"></a>
-                            
-                        </ul>
-            </nav>
-        </header>                
-    </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
-</nav>
-      <div class="body-wrap"><article id="post-一个Flutter的Demo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/14/一个Flutter的Demo/" class="article-date">
-      <time datetime="2018-09-14T06:40:31.000Z" itemprop="datePublished">2018-09-14</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      一个Flutter的Demo
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Apk/">Apk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Demo/">Demo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flutter/">Flutter</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <ul>
 <li>首先推荐两篇文章，写的非常的详细，从中可以了解到原理，写的非常的详细！<ul>
 <li><a href="https://mp.weixin.qq.com/s/cJjKZCqc8UuzvEtxK1BJCw" target="_blank" rel="noopener">美团技术团队Flutter见解</a></li>
 <li><a href="https://mp.weixin.qq.com/s/ZMp2fSOTlYkZ_aNIOrUZdw" target="_blank" rel="noopener">下一代移动端跨平台框架-Flutter大解密</a><a id="more"></a></li>
@@ -414,216 +499,467 @@
 <li><a href="https://www.jianshu.com/p/f91b4e84cec8" target="_blank" rel="noopener">打包的流程</a></li>
 </ul>
 <h1 id="求赞或者求星星-FlutterApp"><a href="#求赞或者求星星-FlutterApp" class="headerlink" title="求赞或者求星星 FlutterApp"></a>求赞或者求星星 <strong><a href="https://github.com/Shimingli/FlutterApp" target="_blank" rel="noopener">FlutterApp</a></strong></h1>
-      
+            </div>
+            <hr>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
     
-  </div>
-  
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
     
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">Shiming_Li</a></p>
-        <p><span>发布时间:</span>2018-09-14, 14:40:31</p>
-        <p><span>最后更新:</span>2018-09-14, 14:42:04</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/09/14/一个Flutter的Demo/" title="一个Flutter的Demo">http://yoursite.com/2018/09/14/一个Flutter的Demo/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/09/14/一个Flutter的Demo/　　作者: Shiming_Li" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="http://yoursite.com" class="b-link-green">仕明的后花园</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2018/09/14/一个Flutter的Demo/" class="b-link-green">一个Flutter的Demo</a>
+                </p>
+            </div>
+        </div>
     </div>
 
+    
 
+    
 
-    <nav id="article-nav">
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
         
-            <div id="article-nav-newer" class="article-nav-title">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
                 <a href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/">
-                    Spring Boot整合Swagger2、Mybatis构建RESTfulAPI
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Spring Boot整合Swagger2、Mybatis构建RESTfulAPI">
+                        
+                        <span class="card-title">Spring Boot整合Swagger2、Mybatis构建RESTfulAPI</span>
+                    </div>
                 </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+首先推荐一个好玩的网站 ASCll ,可以把你想要的字母生成文本的图形，然后copy到banner.txt,即可替换Spring Boot的开启图标
+12345678910111213141516171819202122         </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-09-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            Shiming_Li
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring-Boot/" target="_blank">
+                        <span class="chip bg-color">Spring Boot</span>
+                    </a>
+                    
+                    <a href="/tags/Swagger2/" target="_blank">
+                        <span class="chip bg-color">Swagger2</span>
+                    </a>
+                    
+                    <a href="/tags/Mybatis/" target="_blank">
+                        <span class="chip bg-color">Mybatis</span>
+                    </a>
+                    
+                    <a href="/tags/RESTfulAPI/" target="_blank">
+                        <span class="chip bg-color">RESTfulAPI</span>
+                    </a>
+                    
+                </div>
+                
             </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/09/03/剑指offer中几道算法题的思考/">
-                    剑指几道算法题的思考
-                </a>
-            </div>
-        
-    </nav>
-
-  
-</article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#HomePage-里面嵌套了四个页面，使用的是TabBar和-TabBarView的组合，比如安卓中的Fragment-Viewpager"><span class="toc-number">1.</span> <span class="toc-text">HomePage;里面嵌套了四个页面，使用的是TabBar和 TabBarView的组合，比如安卓中的Fragment Viewpager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。"><span class="toc-number">2.</span> <span class="toc-text">SimilarWordsPage寻找近义词Demo，就是一个点击按钮，然后请求网络，刷新页面的流程。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#官方Demo"><span class="toc-number">3.</span> <span class="toc-text">官方Demo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于我"><span class="toc-number">4.</span> <span class="toc-text">关于我</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些总结"><span class="toc-number">5.</span> <span class="toc-text">一些总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#感谢以下资料给与我的帮助"><span class="toc-number">6.</span> <span class="toc-text">感谢以下资料给与我的帮助</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#求赞或者求星星-FlutterApp"><span class="toc-number"></span> <span class="toc-text">求赞或者求星星 FlutterApp</span></a>
-        
-    </li></div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
-
-
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
         </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"一个Flutter的Demo　| 仕明的后花园　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
-
-    
-</div>
-
-
-
-
-
-
-
-    
-
-
-
-
-    <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/" title="上一篇: Spring Boot整合Swagger2、Mybatis构建RESTfulAPI">
-                <i class="fa fa-angle-left"></i>
-            </a>
         
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/09/03/剑指offer中几道算法题的思考/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="剑指几道算法题的思考">
+                        
+                        <span class="card-title">剑指几道算法题的思考</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">1、在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/2018/09/03/剑指offer中几道算法题的思考/" title="下一篇: 剑指几道算法题的思考">
-                <i class="fa fa-angle-right"></i>
-            </a>
+假如二维数组为 { {1, 2, 8, 9}, {2, 4, 9,</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-09-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            Shiming_Li
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/剑指几道算法题的思考/" target="_blank">
+                        <span class="chip bg-color">剑指几道算法题的思考</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
         
     </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/27/Vue-js学习No-3/">Vue.js学习No.3</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/20/Vue-js学习No-2/">Vue.js学习No.2</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/13/我的第一个正式的Java后端程序（二）/">我的第一个正式的Java后端程序（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/08/Vue-js学习No-1/">Vue.js学习No.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/04/SQL学习/">SQL学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/21/Hement：LifeCycle的使用（五）/">Hement：LifeCycle的使用（五）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/13/Hement：项目中的三方依赖（四）/">Hement：项目中的三方依赖（四）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/07/Hement：关于项目中的Dagger2的使用三/">Hement：关于项目中的Dagger2的使用三</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/06/Hement：MVP架构中的网络框架-RxJava2-Retrofit2-RxAndroid/">Hement：MVP架构中的网络框架(RxJava2+Retrofit2+RxAndroid)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/04/Hement：MVP架构设计（一）/">Hement：MVP架构设计（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（二）/">Rxjava2-Android-Samlpes（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/30/Rxjava2-Android-Samlpes（一）/">Rxjava2-Android-Samlpes（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/Linux学习/">Linux学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/13/我的第一个正式的Java后端程序/">我的第一个正式的Java后端程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/Boot整合Swagger2、Mybatis构建RESTfulAPI/">Spring Boot整合Swagger2、Mybatis构建RESTfulAPI</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/14/一个Flutter的Demo/">一个Flutter的Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/03/剑指offer中几道算法题的思考/">剑指几道算法题的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/02/智能食柜/">智能食柜</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/27/新零售平台V1/">新零售平台V1</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/22/常用集合的原理分析/">常用集合的原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Hexo-GitHub-阿里域名搭建自己博客/">Hexo+GitHub+阿里域名搭建自己博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/14/Android-9-Pie-正式版总结/">Android 9 Pie 正式版总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/安卓invalidate、postInvalidate、requestLayout源码分析/">安卓invalidate、postInvalidate、requestLayout源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/Go语言实现RPC/">Go语言实现RPC</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/15/Go语言实现的WebSocket/">Go语言实现的WebSocket</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/06/Go语言使用MySQL数据库/">Go语言使用MySQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/Web的工作方式/">Web的工作方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/Android源码分析-View的绘制流程/">Android源码分析:View的绘制流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析LayoutInflater/">Android源码分析LayoutInflater</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/07/Android源码分析ViewStub源码解析/">Android源码分析ViewStub源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/29/Android源码分析（Activity-setContentView源码析/">Android源码分析（Activity.setContentView源码解析）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/26/Android源码分析（Handler机制）/">Android源码分析（Handler机制）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/14/Android源码分析（事件传递）/">Android源码分析（事件传递）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/安卓代码、图片、布局、网络和电量优化/">安卓代码、图片、布局、网络和电量优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Lint的使用（安卓性能提升必备掌握的工具）/">Lint的使用（安卓性能提升必备掌握的工具）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/Java/">注解（Annotation） by Thinking in Java</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/22/基于Glide4-7-1二次封装/">基于Glide4.7.1二次封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/14/Kotlin中的协变、逆变和不变/">Kotlin中的协变、逆变和不变</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/26/PLC通讯的安卓App/">PLC通讯的安卓App</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/安卓画笔笔锋的实现探索（三）田字格Demo/">安卓画笔笔锋的实现探索（三）田字格Demo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/2018/">2018年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/安卓画笔笔锋的实现探索（二）/">安卓画笔笔锋的实现探索（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/26/自己实现Jni，生成so库，实现高效率的高斯模糊效果/">自己实现Jni，生成so库，实现高效率的高斯模糊效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/23/自定义卡片效果的ViewGroup/">自定义卡片效果的ViewGroup</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/26/安卓画笔笔锋的实现探索（一）/">安卓画笔笔锋的实现探索（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/14/Fragment-setNextAnim/">Fragment.setNextAnim(int) on a null object reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/MVP网络框架Retorfit-Rxjava-Rxandroid/">MVP网络框架Retorfit+Rxjava+Rxandroid</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/30/Glide图片处理框架（模糊图，倒圆角，圆形图片）/">Glide图片处理框架（模糊图，倒圆角，圆形图片）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/自定义PopupWindow的超强使用/">自定义PopupWindow的超强使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Activity的转场动画效果/">Activity的转场动画效果</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/如何用AndroidStudio查看和解决OOM/">如何用AndroidStudio查看和解决OOM</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
+</article>
 </div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                <i class="fa fa-copyright"></i> 
-                2018-2019 Shiming_Li
-            </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
-            </div>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
         </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
         
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style="display:none">
-                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>| </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style="display:none">
-                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
         
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&copy;<a href="https://blinkfox.github.io/" target="_blank">Blinkfox</a>基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">200.4k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Shimingli" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lamshiming@sina.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=737141437@qq.com" class="tooltipped" data-tooltip="QQ联系我: 737141437@qq.com" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+</div>
     </div>
 </footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字" class="search-input">
+        </div>
+        <div id="searchResult"></div>
     </div>
-    
-<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var iPad = window.navigator.userAgent.indexOf('iPad');
-            if (iPad > -1 || $(".left-col").css("display") === "none") {
-                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
-                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
-                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
-            }
-            else {
-                var backgroundnum = 5;
-                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
-                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
-            }
-        })
-    </script>
-
-
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
-<script>
-    // Open in New Window
-    
-        var oOpenInNew = {
-            
-            
-            
-            
-            
-            
-             archives: ".archive-article-title", 
-             miniArchives: "a.post-list-link", 
-            
-             friends: "#js-friends a", 
-             socail: ".social a" 
-        }
-        for (var x in oOpenInNew) {
-            $(oOpenInNew[x]).attr("target", "_blank");
-        }
-    
-</script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
 </script>
-  </div>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
 </body>
 </html>
