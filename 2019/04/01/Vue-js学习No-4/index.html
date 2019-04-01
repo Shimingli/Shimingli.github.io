@@ -1,0 +1,1019 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Vue.js学习No.4, 仕明同学">
+    <meta name="description" content="
+欢迎关注我的公众号 
+学习的内容如下
+
+
+开始
+父组件向子组件传递值
+父组件，可以在引用子组件的时候，通过属性绑定（v-bind:）的 形式，把需要传递给子组件的数据，以属性绑定的形式，传递到子组件的内部&amp;lt;com1 v-bind:p">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Vue.js学习No.4 | 仕明同学</title>
+    <link rel="icon" type="image/jpeg" href="/avatar.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">仕明同学</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">仕明同学</div>
+        <div class="logo-desc">
+            
+            好好学习，天天向上
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank" data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewbox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Vue.js学习No.4
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Vue/" target="_blank">
+                                <span class="chip bg-color">Vue</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-04-01
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        6.5k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        31 分
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <ul>
+<li><strong>欢迎关注我的公众号</strong><br><img src="https://upload-images.jianshu.io/upload_images/5363507-0a0cf2e5fd8f843d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="公众号"><a id="more"></a> </li>
+<li><strong>学习的内容如下</strong></li>
+</ul>
+<ul>
+<li><strong>开始</strong></li>
+<li><strong>父组件向子组件传递值</strong></li>
+<li>父组件，可以在引用子组件的时候，通过属性绑定（v-bind:）的 形式，把需要传递给子组件的数据，以属性绑定的形式，传递到子组件的内部<br><code>&lt;com1 v-bind:parentmsg=&quot;msg&quot;&gt;&lt;/com1&gt;</code></li>
+<li>子组件不能访问到 父组件data中的数据，就是访问不到msg，但是有方法可以访问到</li>
+<li>子组件中的data的数据，并不是通过父组件传递的，是自己私有的，</li>
+<li>子组件通过Ajax请求回来的数据 </li>
+<li><p>data里面的数据是可读可写的</p>
+</li>
+<li><p>把父组件传递过来的属性parentmsg，定义一下，这样才能使用父组件中的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">template:&quot;&lt;h1 @click=&apos;change&apos;&gt;子组件  ---&#123;&#123;parentmsg&#125;&#125;--&lt;/h1&gt;&quot;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把父组件传递过来的属性parentmsg，定义一下，这样才能使用父组件中的数据</p>
+</li>
+<li><p><strong>props里面的数据是只读的，不能够更改的，但是好像现在可以了？？,而且程序不报错？？？？</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">props:[&quot;parentmsg&quot;],</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改了 props里面的数据是只读的，不能够更改的，但是好像现在可以了？？<br><img src="https://upload-images.jianshu.io/upload_images/5363507-472363cee722e992.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>Demo父组件向子组件传递值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">         &lt;!-- 父组件，可以在引用子组件的时候，通过属性绑定（v-bind:）的</span><br><span class="line">        形式，把需要传递给子组件的数据，以属性绑定的形式，传递到子组件的内部 --&gt;</span><br><span class="line">         &lt;com1 v-bind:parentmsg=&quot;msg&quot;&gt;&lt;/com1&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        //可以把vm当成一个组件</span><br><span class="line">    var vm=new Vue(&#123;</span><br><span class="line">        el:&quot;#app&quot;,</span><br><span class="line">        data() &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                 msg:&quot;父组件---我是vue的数据&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;,</span><br><span class="line">        components:&#123;</span><br><span class="line">            //子组件不能访问到 父组件data中的数据，就是访问不到msg，但是有方法可以访问到</span><br><span class="line">            com1:&#123;</span><br><span class="line">                //子组件中的data的数据，并不是通过父组件传递的，是自己私有的，</span><br><span class="line">                // 子组件通过Ajax请求回来的数据 </span><br><span class="line">                // data里面的数据是可读可写的</span><br><span class="line">               data() &#123;</span><br><span class="line">                   return &#123;</span><br><span class="line">                       title:&quot;dd&quot;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;,</span><br><span class="line"></span><br><span class="line">                template:&quot;&lt;h1 @click=&apos;change&apos;&gt;子组件  ---&#123;&#123;parentmsg&#125;&#125;--&lt;/h1&gt;&quot;,</span><br><span class="line">                //  把父组件传递过来的属性parentmsg，定义一下，这样才能使用父组件中的数据</span><br><span class="line">                // props里面的数据是只读的，不能够更改的，但是好像现在可以了？？</span><br><span class="line">                props:[&quot;parentmsg&quot;],</span><br><span class="line">                methods: &#123;</span><br><span class="line">                    change()&#123;</span><br><span class="line">                        this.parentmsg=&quot;修改了 props里面的数据是只读的，不能够更改的，但是好像现在可以了？？&quot;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>子组件向父组件传递值</strong></p>
+</li>
+<li><p>子组件传递给父组件值，其实就是父组件传递一个方法，子组件调用方法，然后把值传递给父组件</p>
+</li>
+<li><p>事件绑定机制，v-on 把父组件的show的方法传递给子组件的event</p>
+</li>
+<li><p><code>v-on</code>可以简写为 <code>@</code>符号  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;com2 v-on:event=&quot;show&quot;&gt;&lt;/com2&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过制定了一个ID，去加载id的template元素中的内容，当做组件的HTML结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">template: &quot;#tmpl&quot;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如何拿到父组件的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 如何拿到父组件的方法</span><br><span class="line">                   //emit 愿意就是触发，调用</span><br><span class="line">                   this.$emit(&quot;event&quot;, this.ddddd)</span><br><span class="line">                   this.$emit(&quot;event&quot;, &quot;我是子组件传递过来的值哦&quot;)</span><br><span class="line">                   this.$emit(&quot;event&quot;, 123456)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>触发父组件的方法<br><img src="https://upload-images.jianshu.io/upload_images/5363507-0edc4462e8a22127.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-c89048579a7ac932.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li><p><strong>為什麼打印不出來這個對象？？？？？ 我已經延遲3s了啊啊啊啊啊,我想打印出来子组件传递给父组件的值，但是代码执行会报错？？？？我开头以为赋值有延迟，还延迟3s去执行，但是还是有问题？</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function () &#123;</span><br><span class="line">                       console.log(&apos;执行了&apos;);</span><br><span class="line">                       console.log(shimingForSon)</span><br><span class="line">                   &#125;, 3000);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Demo子组件向父组件传递值</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;!--  --&gt;</span><br><span class="line">&lt;!-- 子组件传递给父组件值，其实就是父组件传递一个方法，子组件调用方法，然后把值传递给父组件 --&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;!-- 事件绑定机制，v-on 把父组件的show的方法传递给子组件的event--&gt;</span><br><span class="line">        &lt;!-- v-on 可以简写为 @符号  --&gt;</span><br><span class="line">        &lt;com2 v-on:event=&quot;show&quot;&gt;&lt;/com2&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;template id=&quot;tmpl&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h2&gt;我是tmpl组件&lt;/h2&gt;</span><br><span class="line">            &lt;input type=&quot;button&quot; value=&quot;点我，可以触发父组件的方法&quot; @click=&quot;myDemo&quot;&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        //定义了一个字面量类型的组件模板对象 </span><br><span class="line">        var com2 = &#123;</span><br><span class="line">            // 通过制定了一个ID，去加载id的template元素中的内容，当做组件的HTML结构</span><br><span class="line">            template: &quot;#tmpl&quot;,</span><br><span class="line">            data() &#123;</span><br><span class="line">                return &#123;</span><br><span class="line">                    // 对象</span><br><span class="line">                    ddddd: &#123; name: &quot;仕明同学&quot;, age: &quot;18&quot; &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                myDemo() &#123;</span><br><span class="line">                    console.log(&quot;我是子组件&quot;)</span><br><span class="line">                    // 如何拿到父组件的方法</span><br><span class="line">                    //emit 愿意就是触发，调用</span><br><span class="line">                    this.$emit(&quot;event&quot;, this.ddddd)</span><br><span class="line">                    this.$emit(&quot;event&quot;, &quot;我是子组件传递过来的值哦&quot;)</span><br><span class="line">                    this.$emit(&quot;event&quot;, 123456)</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //可以把vm当成一个组件</span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line">            data() &#123;</span><br><span class="line">                console.log(&quot;data我开始执行了&quot;)</span><br><span class="line">                return &#123;</span><br><span class="line">                    msg: &quot;父组件---我是vue的数据&quot;,</span><br><span class="line">                    shimingForSon: null</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                // 这个data可以让子组件传递参数过来</span><br><span class="line">                show(data) &#123;</span><br><span class="line">                    console.log(&quot;我是父组件的方法show&quot; + data)</span><br><span class="line">                    console.log(data)</span><br><span class="line">                    this.shimingForSon = data</span><br><span class="line">                    // 為什麼打印不出來這個對象？？？？？ 我已經延遲3s了啊啊啊啊啊</span><br><span class="line">                     setTimeout(function () &#123;</span><br><span class="line">                        console.log(&apos;执行了&apos;);</span><br><span class="line">                        console.log(shimingForSon)</span><br><span class="line">                    &#125;, 3000);</span><br><span class="line">                    // console.log(shimingForSon)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            components: &#123;</span><br><span class="line">                com2</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Demo 评论的列表</strong></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 注意是rel 啊 --&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/bootstrap.min.css&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">            &lt;!-- loaddata的方法是父组件的传递给子组件  --&gt;</span><br><span class="line">        &lt;box @func=&quot;loadData&quot;&gt;&lt;/box&gt;</span><br><span class="line">        &lt;ul class=&quot;list-group&quot;&gt;</span><br><span class="line">            &lt;li class=&quot;list-group-item&quot; v-for=&quot;item in list&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">                &lt;span class=&quot;badge&quot;&gt;&#123;&#123;item.user&#125;&#125;&lt;/span&gt;</span><br><span class="line">                &#123;&#123;item.content&#125;&#125;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;template id=&quot;tmpl&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">                &lt;label&gt;人：&lt;/label&gt;</span><br><span class="line">                &lt;textarea class=&quot;form-control&quot; v-model=&quot;user&quot;&gt;&lt;/textarea&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">            &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">                &lt;label&gt;内容：&lt;/label&gt;</span><br><span class="line">                &lt;textarea class=&quot;form-control&quot; v-model=&quot;content&quot;&gt;&lt;/textarea&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">                &lt;input type=&quot;button&quot; value=&quot;发表&quot; @click=&quot;add&quot; class=&quot;btn btn-primary&quot;&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var commentBox = &#123;</span><br><span class="line">            template: &quot;#tmpl&quot;,</span><br><span class="line">            data() &#123;</span><br><span class="line">                return &#123;</span><br><span class="line">                    user: &quot;&quot;,</span><br><span class="line">                    content: &quot;&quot;,</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                add() &#123;</span><br><span class="line">                    console.log(&quot;点击组件的&quot;)</span><br><span class="line">                    // 数据存放到了 localStorage中去了 </span><br><span class="line">                    // 组织一个最新的评论数据对选哪个</span><br><span class="line">                    // 把对象存储到localStorage中去</span><br><span class="line">                    // 注意 localStorage中支持存放字符串数据，先调用 JSON.stringify</span><br><span class="line">                    // 注意  数据完整性，新加的数据要和旧的数据一起存储  </span><br><span class="line">                    // 注意 如果数据不存在的话，就直接返回一个空的数组</span><br><span class="line">                    // 注意单词千万不要写错了啊</span><br><span class="line">                    var commentqq = &#123;</span><br><span class="line">                        id: Date.now(), user: this.user, content: this.content</span><br><span class="line">                    &#125;</span><br><span class="line">                    // 从本地获取数据</span><br><span class="line">                    var strdata = localStorage.getItem(&quot;cmts&quot;) || &quot;[]&quot;</span><br><span class="line">                    var list = JSON.parse(strdata)</span><br><span class="line">                    // 注意顺序</span><br><span class="line">                    // list.push(commentqq)</span><br><span class="line">                    // 就是把数据添加到首部 </span><br><span class="line">                    list.unshift(commentqq)</span><br><span class="line"></span><br><span class="line">                    //  保存数据到本地</span><br><span class="line"></span><br><span class="line">                    localStorage.setItem(&quot;cmts&quot;, JSON.stringify(list))</span><br><span class="line"></span><br><span class="line">                    // 清空数据</span><br><span class="line">                    this.user = this.content = &quot;&quot;</span><br><span class="line">                    console.log(&quot;点击组件的 end&quot; + list + this.user)</span><br><span class="line"></span><br><span class="line">                    // 点击完了 我需要刷新数据</span><br><span class="line"></span><br><span class="line">                    // func  是父组件传递过来的方法  子组件来触发这个方法</span><br><span class="line">                    this.$emit(&quot;func&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line">            data: &#123;</span><br><span class="line">                list: [</span><br><span class="line">                    &#123; id: Date.now(), user: &quot;shiming&quot;, content: &quot;text&quot; &#125;,</span><br><span class="line">                    &#123; id: Date.now(), user: &quot;shiming1&quot;, content: &quot;text1&quot; &#125;,</span><br><span class="line">                    &#123; id: Date.now(), user: &quot;shiming2&quot;, content: &quot;text2&quot; &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                loadData() &#123;</span><br><span class="line">                    var strdata = localStorage.getItem(&quot;cmts&quot;) || &quot;[]&quot;</span><br><span class="line">                    var list = JSON.parse(strdata)</span><br><span class="line">                    this.list = list</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            //初始化好了</span><br><span class="line">            created() &#123;</span><br><span class="line">                this.loadData()</span><br><span class="line">            &#125;,</span><br><span class="line">            components: &#123;</span><br><span class="line">                &quot;box&quot;: commentBox</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>ref</code>获取DOM元素和组件的引用</strong> </li>
+<li>说通俗一点就是可以使用子组建的方法和数据</li>
+<li><code>console.log(this.$refs.id_h3.innerText)</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    &lt;div  id=&quot;app&quot;&gt;</span><br><span class="line">         &lt;input type=&quot;button&quot; value=&quot;获取元素&quot; @click=&quot;getElement&quot; ref=&quot;btn&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- ref 可以指定 原生的DOM对象 --&gt;</span><br><span class="line">         &lt;h3 id=&quot;id_h3&quot;  ref=&quot;id_h3&quot;&gt;你好啊&lt;/h3&gt;</span><br><span class="line">    &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5363507-12fb5b541b4c507c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>Demo<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script src=&quot;./lib/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;button&quot; value=&quot;获取元素&quot; @click=&quot;getElement&quot; ref=&quot;btn&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- ref 可以指定 原生的DOM对象 --&gt;</span><br><span class="line">        &lt;h3 id=&quot;id_h3&quot; ref=&quot;id_h3&quot;&gt;你好啊&lt;/h3&gt;</span><br><span class="line">        &lt;hr&gt;</span><br><span class="line">        &lt;!-- 组件也可以使用 --&gt;</span><br><span class="line">         &lt;login ref=&quot;myLogin&quot;&gt;&lt;/login&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    &lt;template id=&quot;login&quot;&gt;</span><br><span class="line">        &lt;h1&gt;登陆&lt;/h1&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">        var login = &#123;</span><br><span class="line">            template: &quot;#login&quot;,</span><br><span class="line">            data() &#123;</span><br><span class="line">                return &#123;</span><br><span class="line">                    msg:&quot;我是组件&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,    </span><br><span class="line">            methods: &#123;</span><br><span class="line">                show()&#123;</span><br><span class="line">                    console.log(&quot;调用了子组件的方法&quot;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line"></span><br><span class="line">            data: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            methods: &#123;</span><br><span class="line">                getElement() &#123;</span><br><span class="line">                    // 通过id获取DOM元素 ，但是Vue不推荐</span><br><span class="line">                    // &lt;h3 id=&quot;id_h3&quot;&gt;你好啊&lt;/h3&gt;</span><br><span class="line">                    console.log(document.getElementById(&quot;id_h3&quot;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    console.log(&quot;我是Vue中获取DOM元素的对象的方法&quot;)</span><br><span class="line">                    //  输出你好  我擦 牛逼</span><br><span class="line">                    // ref 是 reference </span><br><span class="line">                    console.log(this.$refs.id_h3.innerText)</span><br><span class="line"></span><br><span class="line">                    // 获取子组件中的 data</span><br><span class="line">                    console.log(this.$refs.myLogin.msg)</span><br><span class="line"></span><br><span class="line">                    // 调用子组件的方法</span><br><span class="line">                    this.$refs.myLogin.show()</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            components:&#123;</span><br><span class="line">               &quot;login&quot;:login</span><br><span class="line">              </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h4><ul>
+<li>后端的路由：所有的URL地址对应都是服务器上对应的资源</li>
+<li>前端路由：对于单页面的应用程序来说，主要是通过  <code>URL</code>的<code>hash （#）</code>号来实现不同页面之间的切换，同时<code>hash</code>有一个特点，<code>http</code>的请求不会包含<code>ash</code>相关的内容，所以单页面的程序主要是通过<code>hash</code>实现</li>
+<li>使用路由的方法</li>
+<li><p>1、导入包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- vue --&gt;</span><br><span class="line">   &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">   &lt;!-- vue路由 --&gt;</span><br><span class="line">   &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、定义组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var login = &#123;</span><br><span class="line">          template: &quot;&lt;h1&gt;我是登陆组件&lt;/h1&gt;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">      var register = &#123;</span><br><span class="line">          template: &quot;&lt;h1&gt;我是注册组件&lt;/h1&gt;&quot;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、定义对象 注意routes的拼写，没有r</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const router = new VueRouter(&#123;</span><br><span class="line">      // 表示路由匹配的规则  </span><br><span class="line">      routes: [</span><br><span class="line"></span><br><span class="line">          // path 表示监听那个路由连接的地址</span><br><span class="line">          // component 百世路由前面匹配到的path，展示相对的应的那个组件</span><br><span class="line">          // component 必须是一个组件的模板对象，不能是组件应用的名称</span><br><span class="line"></span><br><span class="line">          //  指定默认的为登陆，但是不推荐啊 </span><br><span class="line">          //  &#123;path:&quot;/&quot;,component:login&#125;,</span><br><span class="line">          // redirect进入页面的时候，直接就去login组件的页面</span><br><span class="line">          &#123; path: &quot;/&quot;, redirect: &quot;/login&quot; &#125;,</span><br><span class="line">          &#123; path: &quot;/login&quot;, component: login &#125;,</span><br><span class="line"></span><br><span class="line">          &#123; path: &quot;/register&quot;, component: register &#125;</span><br><span class="line"></span><br><span class="line">      ],</span><br><span class="line">      // 默认值: &quot;router-link-active&quot;</span><br><span class="line"></span><br><span class="line">      // 设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 linkActiveClass 来全局配置。</span><br><span class="line">  //    改成自己的想要的样式</span><br><span class="line">      linkActiveClass:&quot;myStyle&quot;</span><br><span class="line"></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、注册到vm中去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 将路由规则对象，注册到vm实例上，用来监听URL对象的地址的变化。然后展示相对应的组件</span><br><span class="line">      router: router</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>注意事项</strong></p>
+</li>
+<li>redirect进入页面的时候，直接就去login组件的页面 <code>{ path: &quot;/&quot;, redirect: &quot;/login&quot; },</code></li>
+<li>“router-link-active” 设置 链接激活时使用的<code>CSS</code>类名。默认值可以通过路由的构造选项<code>linkActiveClass</code> 来全局配置。 改成自己的想要的样式<br><code>linkActiveClass:&quot;myStyle&quot;</code></li>
+<li><code>path</code> 表示监听那个路由连接的地址</li>
+<li><p><code>component</code> 必须是一个组件的模板对象，不能是组件应用的名称</p>
+</li>
+<li><p><strong>路由传递参数方式一</strong></p>
+</li>
+<li><p>使用<code>k to=&quot;/login?id=10&amp;name=shiming&quot;</code> 传递参数，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- router-link 默认渲染为a标签  tag指定渲染成什么标签--&gt;</span><br><span class="line">      &lt;!-- 如果在路由中，使用查询字符串，给路由传递参数，则不需要修改路由规则的path属性 --&gt;</span><br><span class="line">      &lt;router-link to=&quot;/login?id=10&amp;name=shiming&quot; tag=&quot;span&quot;&gt;登陆&lt;/router-link&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在组件中的<code>created</code>方法中获取参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 组件的生命周期</span><br><span class="line">         created() &#123;</span><br><span class="line">             console.log(&quot;我是登陆组件的日志&quot;)</span><br><span class="line">             console.log(this.$route)</span><br><span class="line">             console.log(this.$route.query.id)</span><br><span class="line">         &#125;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取值为<br><img src="https://upload-images.jianshu.io/upload_images/5363507-473384674ce284d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+</li>
+<li><p>然后显示在控件上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 通过这种的方式可以拿到路径中的值</span><br><span class="line">   var login = &#123;</span><br><span class="line">       template: &quot;&lt;h1&gt;我是登陆组件  &#123;&#123;$route.query.id &#125;&#125;----&#123;&#123;$route.query.name&#125;&#125;&lt;/h1&gt;&quot;,</span><br><span class="line">       // 组件的生命周期</span><br><span class="line">       created() &#123;</span><br><span class="line">           console.log(&quot;我是登陆组件的日志&quot;)</span><br><span class="line">           console.log(this.$route)</span><br><span class="line">           console.log(this.$route.query.id)</span><br><span class="line">       &#125;,</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>router-link-active</code> 其中的值的意思:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/* 实现路由的文字的颜色 */</span><br><span class="line">     .router-link-active &#123;</span><br><span class="line">         color: red;</span><br><span class="line">         font-weight: 800;</span><br><span class="line">         /* 倾斜 */</span><br><span class="line">         font-style: italic;</span><br><span class="line">         /* 大小 */</span><br><span class="line">         font-size: 100px;</span><br><span class="line">         /* 下划线 */</span><br><span class="line">         text-decoration: underline;</span><br><span class="line">         /* 背景色 */</span><br><span class="line">         background-color: goldenrod</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完整的Demo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;!-- vue --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- vue路由 --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        /* 实现路由的文字的颜色 */</span><br><span class="line">        .router-link-active &#123;</span><br><span class="line">            color: red;</span><br><span class="line">            font-weight: 800;</span><br><span class="line">            /* 倾斜 */</span><br><span class="line">            font-style: italic;</span><br><span class="line">            /* 大小 */</span><br><span class="line">            font-size: 100px;</span><br><span class="line">            /* 下划线 */</span><br><span class="line">            text-decoration: underline;</span><br><span class="line">            /* 背景色 */</span><br><span class="line">            background-color: goldenrod</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .myStyle &#123;</span><br><span class="line">            color: hotpink;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-enter,</span><br><span class="line">        .v-leaver-to &#123;</span><br><span class="line">            opacity: 0;</span><br><span class="line">            transform: translateX(100px);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-enter-active,</span><br><span class="line">        .v-leaver-active &#123;</span><br><span class="line">            transition: all 0.5s ease;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;!--不推荐这样使用 --&gt;</span><br><span class="line">        &lt;!-- &lt;a href=&quot;#/login&quot;&gt;登陆&lt;/a&gt;</span><br><span class="line">        &lt;a href=&quot;#/register&quot;&gt;注册&lt;/a&gt; --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- router-link 默认渲染为a标签  tag指定渲染成什么标签--&gt;</span><br><span class="line">        &lt;!-- 如果在路由中，使用查询字符串，给路由传递参数，则不需要修改路由规则的path属性 --&gt;</span><br><span class="line">        &lt;router-link to=&quot;/login?id=10&amp;name=shiming&quot; tag=&quot;span&quot;&gt;登陆&lt;/router-link&gt;</span><br><span class="line">        &lt;router-link to=&quot;/register&quot;&gt;注册&lt;/router-link&gt;</span><br><span class="line">        &lt;!-- 这是 vue-router中提供的元素，专门用来站位使用 --&gt;</span><br><span class="line">        &lt;!-- 包裹动画  mode=&quot;out-in&quot;动画的加载的方式--&gt;</span><br><span class="line">        &lt;transition mode=&quot;out-in&quot;&gt;</span><br><span class="line">            &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        // 通过这种的方式可以拿到路径中的值</span><br><span class="line">        var login = &#123;</span><br><span class="line">            template: &quot;&lt;h1&gt;我是登陆组件  &#123;&#123;$route.query.id &#125;&#125;----&#123;&#123;$route.query.name&#125;&#125;&lt;/h1&gt;&quot;,</span><br><span class="line">            // 组件的生命周期</span><br><span class="line">            created() &#123;</span><br><span class="line">                console.log(&quot;我是登陆组件的日志&quot;)</span><br><span class="line">                console.log(this.$route)</span><br><span class="line">                console.log(this.$route.query.id)</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">        var register = &#123;</span><br><span class="line">            template: &quot;&lt;h1&gt;我是注册组件&lt;/h1&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        const router = new VueRouter(&#123;</span><br><span class="line">            // 表示路由匹配的规则  </span><br><span class="line">            routes: [</span><br><span class="line"></span><br><span class="line">                // path 表示监听那个路由连接的地址</span><br><span class="line">                // component 百世路由前面匹配到的path，展示相对的应的那个组件</span><br><span class="line">                // component 必须是一个组件的模板对象，不能是组件应用的名称</span><br><span class="line"></span><br><span class="line">                //  指定默认的为登陆，但是不推荐啊 </span><br><span class="line">                //  &#123;path:&quot;/&quot;,component:login&#125;,</span><br><span class="line">                // redirect进入页面的时候，直接就去login组件的页面</span><br><span class="line">                &#123; path: &quot;/&quot;, redirect: &quot;/login&quot; &#125;,</span><br><span class="line">                &#123; path: &quot;/login&quot;, component: login &#125;,</span><br><span class="line"></span><br><span class="line">                &#123; path: &quot;/register&quot;, component: register &#125;</span><br><span class="line"></span><br><span class="line">            ],</span><br><span class="line">            // 默认值: &quot;router-link-active&quot;</span><br><span class="line"></span><br><span class="line">            // 设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 linkActiveClass 来全局配置。</span><br><span class="line">            //    改成自己的想要的样式</span><br><span class="line">            linkActiveClass: &quot;myStyle&quot;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line"></span><br><span class="line">            data: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            methods: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            // 将路由规则对象，注册到vm实例上，用来监听URL对象的地址的变化。然后展示相对应的组件</span><br><span class="line">            //    如果属性名一样的话，可以直接写 router</span><br><span class="line">            // router: router</span><br><span class="line">            router</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>路由传递参数方式二</strong></p>
+</li>
+<li><p>1、传入参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- router-link 默认渲染为a标签  tag指定渲染成什么标签--&gt;</span><br><span class="line">      &lt;router-link to=&quot;/login/10/lishiming&quot; tag=&quot;span&quot;&gt;登陆&lt;/router-link&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、router定义<code>{ path: &quot;/login/:id/:name&quot;, component: login },</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const router = new VueRouter(&#123;</span><br><span class="line">        // 表示路由匹配的规则  </span><br><span class="line">        routes: [</span><br><span class="line"></span><br><span class="line">            // path 表示监听那个路由连接的地址</span><br><span class="line">            // component 百世路由前面匹配到的path，展示相对的应的那个组件</span><br><span class="line">            // component 必须是一个组件的模板对象，不能是组件应用的名称</span><br><span class="line"></span><br><span class="line">            //  指定默认的为登陆，但是不推荐啊 </span><br><span class="line">            //  &#123;path:&quot;/&quot;,component:login&#125;,</span><br><span class="line">            // redirect进入页面的时候，直接就去login组件的页面</span><br><span class="line">            &#123; path: &quot;/&quot;, redirect: &quot;/login&quot; &#125;,</span><br><span class="line">            // 第二种传递参数的方法 </span><br><span class="line">            &#123; path: &quot;/login/:id/:name&quot;, component: login &#125;,</span><br><span class="line"></span><br><span class="line">            &#123; path: &quot;/register&quot;, component: register &#125;</span><br><span class="line"></span><br><span class="line">        ],</span><br><span class="line">        // 默认值: &quot;router-link-active&quot;</span><br><span class="line"></span><br><span class="line">        // 设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 linkActiveClass 来全局配置。</span><br><span class="line">        //    改成自己的想要的样式</span><br><span class="line">        linkActiveClass: &quot;myStyle&quot;</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、 <code>router</code>如果属性名一样的话，可以直接写 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 将路由规则对象，注册到vm实例上，用来监听URL对象的地址的变化。然后展示相对应的组件</span><br><span class="line">          //    如果属性名一样的话，可以直接写 router</span><br><span class="line">          // router: router</span><br><span class="line">          router</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Demo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;!-- vue --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- vue路由 --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        /* 实现路由的文字的颜色 */</span><br><span class="line">        .router-link-active &#123;</span><br><span class="line">            color: red;</span><br><span class="line">            font-weight: 800;</span><br><span class="line">            /* 倾斜 */</span><br><span class="line">            font-style: italic;</span><br><span class="line">            /* 大小 */</span><br><span class="line">            font-size: 100px;</span><br><span class="line">            /* 下划线 */</span><br><span class="line">            text-decoration: underline;</span><br><span class="line">            /* 背景色 */</span><br><span class="line">            background-color: goldenrod</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .myStyle &#123;</span><br><span class="line">            color: hotpink;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-enter,</span><br><span class="line">        .v-leaver-to &#123;</span><br><span class="line">            opacity: 0;</span><br><span class="line">            transform: translateX(100px);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .v-enter-active,</span><br><span class="line">        .v-leaver-active &#123;</span><br><span class="line">            transition: all 0.5s ease;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;!--不推荐这样使用 --&gt;</span><br><span class="line">        &lt;!-- &lt;a href=&quot;#/login&quot;&gt;登陆&lt;/a&gt;</span><br><span class="line">        &lt;a href=&quot;#/register&quot;&gt;注册&lt;/a&gt; --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- router-link 默认渲染为a标签  tag指定渲染成什么标签--&gt;</span><br><span class="line">        &lt;router-link to=&quot;/login/10/lishiming&quot; tag=&quot;span&quot;&gt;登陆&lt;/router-link&gt;</span><br><span class="line">        &lt;router-link to=&quot;/register&quot;&gt;注册&lt;/router-link&gt;</span><br><span class="line">        &lt;!-- 这是 vue-router中提供的元素，专门用来站位使用 --&gt;</span><br><span class="line">        &lt;!-- 包裹动画  mode=&quot;out-in&quot;动画的加载的方式--&gt;</span><br><span class="line">        &lt;transition mode=&quot;out-in&quot;&gt;</span><br><span class="line">            &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">        &lt;/transition&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        // 通过这种的方式可以拿到路径中的值</span><br><span class="line">        var login = &#123;</span><br><span class="line">            template: &quot;&lt;h1&gt;我是登陆组件  &#123;&#123;$route.params.id&#125;&#125;----&#123;&#123;$route.params.name&#125;&#125;&lt;/h1&gt;&quot;,</span><br><span class="line">            // 组件的生命周期</span><br><span class="line">            created() &#123;</span><br><span class="line">                console.log(&quot;我是登陆组件的日志&quot;)</span><br><span class="line">                console.log(this.$route.params.id)</span><br><span class="line">            </span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">        var register = &#123;</span><br><span class="line">            template: &quot;&lt;h1&gt;我是注册组件&lt;/h1&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        const router = new VueRouter(&#123;</span><br><span class="line">            // 表示路由匹配的规则  </span><br><span class="line">            routes: [</span><br><span class="line"></span><br><span class="line">                // path 表示监听那个路由连接的地址</span><br><span class="line">                // component 百世路由前面匹配到的path，展示相对的应的那个组件</span><br><span class="line">                // component 必须是一个组件的模板对象，不能是组件应用的名称</span><br><span class="line"></span><br><span class="line">                //  指定默认的为登陆，但是不推荐啊 </span><br><span class="line">                //  &#123;path:&quot;/&quot;,component:login&#125;,</span><br><span class="line">                // redirect进入页面的时候，直接就去login组件的页面</span><br><span class="line">                &#123; path: &quot;/&quot;, redirect: &quot;/login&quot; &#125;,</span><br><span class="line">                // 第二种传递参数的方法 </span><br><span class="line">                &#123; path: &quot;/login/:id/:name&quot;, component: login &#125;,</span><br><span class="line"></span><br><span class="line">                &#123; path: &quot;/register&quot;, component: register &#125;</span><br><span class="line"></span><br><span class="line">            ],</span><br><span class="line">            // 默认值: &quot;router-link-active&quot;</span><br><span class="line"></span><br><span class="line">            // 设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 linkActiveClass 来全局配置。</span><br><span class="line">            //    改成自己的想要的样式</span><br><span class="line">            linkActiveClass: &quot;myStyle&quot;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line"></span><br><span class="line">            data: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            methods: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            // 将路由规则对象，注册到vm实例上，用来监听URL对象的地址的变化。然后展示相对应的组件</span><br><span class="line">            //    如果属性名一样的话，可以直接写 router</span><br><span class="line">            // router: router</span><br><span class="line">            router</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>路由的嵌套</strong></p>
+</li>
+<li>使用<code>children</code>的属性 实现路由的嵌套 </li>
+<li>使用<code>children</code>属性，实现子路由，同时，子路由的<code>path</code>前面不要带 <code>/</code> ，如果带了，就永远以根路径开始请求，这样不方便我们用户去理解<code>URL</code>地址</li>
+<li><code>&lt;router-view&gt;&lt;/router-view&gt;</code>如果使用需要了使用就必须使用占位符</li>
+<li><p>Demo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;!-- vue --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- vue路由 --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;!-- 这种方式也是可以引用组件的哦 --&gt;</span><br><span class="line">        &lt;!-- &lt;shiming&gt;&lt;/shiming&gt; --&gt;</span><br><span class="line">        &lt;router-link to=&quot;/acount&quot;&gt;Acount&lt;/router-link&gt;</span><br><span class="line">        &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;template id=&quot;tmpl&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h1&gt;这是 Account组件 里面还嵌套了一个路由&lt;/h1&gt;</span><br><span class="line">            &lt;!-- 路由的嵌套 --&gt;</span><br><span class="line">            &lt;router-link to=&quot;/acount/login&quot;&gt; 登陆&lt;/router-link&gt;</span><br><span class="line"></span><br><span class="line">            &lt;router-link to=&quot;/acount/register&quot;&gt;注册&lt;/router-link&gt;</span><br><span class="line">            &lt;!-- 占位符 必须要 --&gt;</span><br><span class="line">            &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">        var account = &#123;</span><br><span class="line">            template: &quot;#tmpl&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        var login = &#123;</span><br><span class="line">            template: &quot;&lt;h3&gt;登陆&lt;/h3&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        var register = &#123;</span><br><span class="line">            template: &quot;&lt;h3&gt;组成&lt;/h3&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        const router = new VueRouter(&#123;</span><br><span class="line">            //  这里的不能写成 routers 哦</span><br><span class="line">            routes: [</span><br><span class="line">                &#123;</span><br><span class="line">                    path: &quot;/acount&quot;,</span><br><span class="line">                    component: account,</span><br><span class="line">                    // 使用children的属性 实现路由的嵌套 </span><br><span class="line">                    // 记住 ，login前面不能加上 / </span><br><span class="line">                    // 虽然还有另外的方式，但是呢？建议这样使用，然后方便去理解</span><br><span class="line">                    // 使用children属性，实现子路由，同时，子路由的paht前面不要带 / ，如果带了，就永远以根路径开始请求，这样不方便我们用户去理解URL地址</span><br><span class="line">                    children: [</span><br><span class="line">                        &#123; path: &quot;login&quot;, component: login &#125;,</span><br><span class="line">                        &#123; path: &quot;register&quot;, component: register &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;,</span><br><span class="line">                // // </span><br><span class="line">                //  &#123; path: &quot;/acount/login&quot;, component: login &#125;,</span><br><span class="line"></span><br><span class="line">                //  &#123; path: &quot;/acount/register&quot;, component: register &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;)</span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line"></span><br><span class="line">            data: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            methods: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            components: &#123;</span><br><span class="line">                &quot;shiming&quot;: account</span><br><span class="line">            &#125;,</span><br><span class="line">            router</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>经典布局</strong></p>
+</li>
+<li><code>components</code> 对应很多的组件</li>
+<li><p><code>&lt;router-view&gt;&lt;/router-view&gt;</code>三个坑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">    &lt;!-- vue --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- vue路由 --&gt;</span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        /* 设置html页面中的 body边距  */</span><br><span class="line">        html,body&#123;</span><br><span class="line">            margin: 0;</span><br><span class="line">            padding: 0;</span><br><span class="line">        &#125;</span><br><span class="line">        .container &#123;</span><br><span class="line">            display: flex;</span><br><span class="line">        &#125;</span><br><span class="line">        /* h1 标签没有逗号哦 记住哦 */</span><br><span class="line">        h1&#123;</span><br><span class="line">            margin: 0;</span><br><span class="line">            padding: 0;</span><br><span class="line">            font-size: 20px;</span><br><span class="line">        &#125;</span><br><span class="line">        .header &#123;</span><br><span class="line">            background-color: aqua;</span><br><span class="line">            height: 100px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .left &#123;</span><br><span class="line">            background-color: yellow;</span><br><span class="line">            flex: 2;</span><br><span class="line">            height: 600px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .main &#123;</span><br><span class="line">            background-color: blueviolet;</span><br><span class="line">            flex: 10;</span><br><span class="line">            height: 600px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 3个坑 --&gt;</span><br><span class="line">        &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">        &lt;div class=&quot;container&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;router-view name=&quot;left&quot;&gt;&lt;/router-view&gt;</span><br><span class="line"></span><br><span class="line">            &lt;router-view name=&quot;main&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">        var header = &#123;</span><br><span class="line">            template: &quot;&lt;h1 class=&apos;header&apos;&gt;Header 头部&lt;/h1&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        var leftBox = &#123;</span><br><span class="line">            template: &quot;&lt;h1 class=&apos;left&apos;&gt;left 侧边栏&lt;/h1&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        var mainBox = &#123;</span><br><span class="line">            template: &quot;&lt;h1 class=&apos;main&apos;&gt;mainBox 主体区域&lt;/h1&gt;&quot;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        const router = new VueRouter(&#123;</span><br><span class="line">            routes: [</span><br><span class="line">                // 这种方法不能实现 </span><br><span class="line">                // &#123;path:&quot;/&quot;,component:header&#125;,</span><br><span class="line">                // &#123;path:&quot;/left&quot;,component:left&#125;,</span><br><span class="line">                // &#123;path:&quot;/mainBox&quot;,component:mainBox&#125;,</span><br><span class="line">                //  components 对应很多的组件</span><br><span class="line">                &#123;</span><br><span class="line">                    path: &quot;/&quot;, components: &#123;</span><br><span class="line">                        &quot;default&quot;: header,</span><br><span class="line">                        &quot;left&quot;: leftBox,</span><br><span class="line">                        &quot;main&quot;: mainBox</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        var vm = new Vue(&#123;</span><br><span class="line">            el: &quot;#app&quot;,</span><br><span class="line"></span><br><span class="line">            data: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            methods: &#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            // router名字一样 可以简写哦</span><br><span class="line">            router</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以上，待续</p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="https://github.com/Shimingli" class="b-link-green">仕明同学</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/04/01/Vue-js学习No-4/" class="b-link-green">Vue.js学习No.4</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/04/01/Vue-js学习No-4/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Vue.js学习No.4">
+                        
+                        <span class="card-title">Vue.js学习No.4</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+欢迎关注我的公众号 
+学习的内容如下
+
+
+开始
+父组件向子组件传递值
+父组件，可以在引用子组件的时候，通过属性绑定（v-bind:）的 形式，把需要传递给子组件的数据，以属性绑定的形式，传递到子组件的内部&lt;com1 v-bind:p</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            Shiming_Li
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/27/Vue-js学习No-3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue.js学习No.3">
+                        
+                        <span class="card-title">Vue.js学习No.3</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+欢迎关注我的公众号
+
+学习的内容如下
+ 
+
+开始
+使用vue-resource
+导入bootstrap也可以这样导入,这个是最新的版本
+12&lt;link rel=&quot;stylesheet&quot; href=&quot;ht</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            Shiming_Li
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Vue/" target="_blank">
+                        <span class="chip bg-color">Vue</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            本站由&copy;<a href="https://blinkfox.github.io/" target="_blank">Blinkfox</a>基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">206.8k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Shimingli" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lamshiming@sina.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=737141437@qq.com" class="tooltipped" data-tooltip="QQ联系我: 737141437@qq.com" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字" class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>
