@@ -1,5 +1,9 @@
 # yisi
 
 
-http://www.shimingli.com/yisi/lifelist.html
-http://www.shimingli.com/yisi/led.html
+
+https://shimingli.github.io/yisi/lifelist.html
+
+https://shimingli.github.io/yisi/led.html
+
+https://shimingli.github.io/yisi/led.html
