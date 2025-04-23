@@ -203,12 +203,65 @@
           场景描述：通过识别设备信息和地理位置和网络信息用于创建智能标签，为用户提供更智能合理的广告。
         </li>
         <li> 收集方式：调用系统相关接口自动采集</li>
-        <li>个人信息类型：个人常用设备信息、位置信息、网络信息、个人通信信息</li>
-        <li>个人信息字段：设备信息：加速度传感器、设备标识符（IMEI、IDFA、Android ID、MAC、OAID等相关信息）、应用信息（应用崩溃信息、通知开关状态、获取的用户信息是传感器信息，包括“加速度传感器、线性加速度传感器、陀螺仪传感器”、软件列表等相关信息）、设备参数及系统信息（设备类型、设备型号、操作系统及硬件相关信息） 网络信息：IP地址，WiFi信息，基站信息等相关信息</li>
-        <li> 用途或目的：展示第三方广告</li>
+        <li>个人信息类型：设备信息、位置信息、网络信息、个人通信信息，传感器信息。性能数据。广告信息。传感器信息。应用信息</li>
+        <li>个人信息字段：必选信息：
+          【Android+iOS+HarmonyOS】设备品牌、型号、软件系统版本、屏幕密度、屏幕分辨率、设备语言、设备时区、sim卡信息（mcc&mnc）、CPU信息、可用存储空间大小等基础信息
+          【Android】AndroidID、OAID
+          【iOS】手机系统重启时间、磁盘总空间、系统总内存空间、IDFV
+          【HarmonyOS】ODID
+          可选信息：
+          【Android+iOS】设备MAC地址（如为iOS端，则仅适用于IOS3200以下版本）
+          【Android】设备标识符（如IMEI、IMSI、ICCID、GAID（仅GMS服务）、MEID、硬件序列号build_serial，具体字段因软硬件版本不同而存在差异）
+          【iOS】设备标识符（如IDFA，具体字段因软硬件版本不同而存在差异）
+          【HarmonyOS】OAID
+
+          必选信息：
+          【Android+iOS+HarmonyOS】运营商信息、Wi-Fi状态、网络信号强度
+          必选信息：
+          【Android+iOS+HarmonyOS】IP地址
+
+
+          必选信息：
+          【Android+HarmonyOS】应用包名、运行中的进程信息、版本号、应用前后台状态
+          可选信息：
+          【Android】软件列表信息
+
+          可选信息：
+          【Android】线性加速度传感器、磁场传感器、旋转矢量传感器
+          【Android+iOS+HarmonyOS】加速度传感器、陀螺仪传感器
+          必选信息：
+          【Android+iOS+HarmonyOS】对广告的展示、点击及转化等交互数据
+
+          可选信息：
+          【Android+iOS+HarmonyOS】精确位置信息、粗略位置信息（WiFi列表、WLAN接入点（如SSID，BSSID）、基站）
+
+          必选信息：
+          【Android+iOS+HarmonyOS】如崩溃数据、性能数据
+
+        </li>
+        <li> 用途或目的：展示第三方广告。广告投放及广告反作弊。 其中，IMEI、IDFA、AndroidID、OAID、设备的MAC地址、设备型号还会用于广告监测归因。</li>
         <li> 是否为必要信息：是</li>
         <li> 信息处理方式：采用去标识化方式对个人信息进行脱敏展示</li>
         <li> 隐私政策： https://partner.oceanengine.com/privacy </li>
+      </ul>
+
+
+
+      <ul class="title4">
+        <li>使用SDK名称： 融合SDK</li>
+        <li>第三方名称：北京巨量引擎网络技术有限公司 </li>
+        <li> 用途目的:使用GroMore服务调整广告变现策略</li>
+        <li>
+          设备信息： 设备品牌、型号、操作系统版本信息、设备标识符（如IMEI、AndroidID、OAID、IMSI、ICCID、GAID、MEID、IDFV、IDFA，具体字段因软硬件版本不同而存在差异）等基础信息
+          应用信息：开发者应用名、应用包名、版本号等信息
+          其他信息：运营商信息、设备时区、设备地理位置、网络设备硬件地址（MAC地址）、IP 地址、WLAN接入点（如SSID，BSSID）、蓝牙（Bluetooth）、基站、软件版本号、网络接入方式、类型、状态、网络质量数据、操作、使用、服务日志。
+        </li>
+        <li> 用途或目的：向您提供帮助调整广告变现策略的服务</li>
+        <li> 是否为必要信息：是</li>
+
+        <li></li>
+        <li> 隐私政策: https://www.csjplatform.com/supportcenter/5879</li>
+
       </ul>
 
       <ul class="title4">
@@ -217,6 +270,9 @@
         <li>请您了解，个性化推荐功能及服务开启后我们会在收集、使用个人信息时进行标识化处理，数据分析仅对应特定的、无法直接关联用户身份的编码，无法也绝不会与您的真实身份相关联</li>
         <li>您可以通过【关于】-【关于我们】-【关闭广告个性化推荐】，关闭广告个性化推荐，我们将不提供个性化推荐服务，且不影响我们提供的其他产品和服务正常使用。</li>
       </ul>
+
+
+
 
 
       <ul class="title4">
@@ -231,8 +287,6 @@
         <li>
           个人信息收集范围:常用设备信息(如IMEI/IMSI、SIM卡序列号/MAC地址、android_id)、位置信息、应用列表
         </li>
-        <li></li>
-        <li></li>
         <li></li>
         <li> 隐私政策: https://union.jd.com/helpcenter/12188-12382-107770</li>
 
