@@ -207,24 +207,71 @@
             </ul>
 
 
+
             <ul class="title4">
-                <li>使用SDK名称：穿山甲SDK</li>
-                <li>第三方名称： 北京巨量引擎网络技术有限公司</li>
-                <li>
-                    场景描述：通过识别设备信息和地理位置和网络信息用于创建智能标签，为用户提供更智能合理的广告。
+                <li>产品类型：穿山甲广告 SDK</li>
+                <li>第三方公司名称：北京巨量引擎网络技术有限公司及其关联方（穿山甲广告平台）</li>
+                <li>共享信息名称：
+                    <ul>
+                        <li>【Android】：
+                            <ul>
+                                <li>设备信息：设备MAC地址、设备标识符（IMEI、IMSI、CCID、GAID（仅GMS服务）、MEID、硬件序列号buildserial、OAID）、设备品牌、型号、软件系统版本、分辨率、网络信号强度、IP地址、设备语言、传感器信息、AndroidID、网络运营商</li>
+                                <li>应用信息：软件列表信息</li>
+                                <li>位置信息：精确位置信息、粗略位置信息（WiFi列表WLAN接入点（SSID，BSSID）、基站）</li>
+                            </ul>
+                        </li>
+                        <li>【iOS】：
+                            <ul>
+                                <li>设备信息：设备MAC地址、设备标识符（IDFA，具体字段因软硬件版本不同而存在差异）</li>
+                                <li>位置信息：精确位置信息、粗略位置信息（WiFi列表WLAN接入点（SSID，BSSID）、基站）</li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
-                <li> 收集方式：调用系统相关接口自动采集</li>
-                <li>个人信息类型：个人常用设备信息、位置信息、网络信息、个人通信信息</li>
-                <li>个人信息字段：设备信息：加速度传感器、设备标识符（IMEI、IDFA、Android
-                    ID、MAC、OAID等相关信息）、应用信息（应用崩溃信息、通知开关状态、获取的用户信息是传感器信息，包括“加速度传感器、线性加速度传感器、陀螺仪传感器”、软件列表等相关信息）、设备参数及系统信息（设备类型、设备型号、操作系统及硬件相关信息）
-                    网络信息：IP地址，WiFi信息，基站信息等相关信息
-                </li>
-                <li> 用途或目的：展示第三方广告</li>
-                <li> 是否为必要信息：是</li>
-                <li> 信息处理方式：采用去标识化方式对个人信息进行脱敏展示</li>
-                <li> 隐私政策： https://partner.oceanengine.com/privacy</li>
+                <li>使用目的：在进行广告投放和广告投放效果分析时使用</li>
+                <li>使用场景：浏览时展示广告</li>
+                <li>共享方式：SDK 本机采集</li>
+                <li>第三方个人信息处理规则：<a href=" https://partner.oceanengine.com/privacy" target="_blank"> https://partner.oceanengine.com/privacy</a></li>
             </ul>
 
+            <ul>
+                <li>产品类型：穿山甲融合 SDK</li>
+                <li>第三方公司名称：北京巨量引擎网络技术有限公司及其关联方（穿山甲广告平台）</li>
+                <li>共享信息名称：
+                    <ul>
+                        <li>【Android】：
+                            <ul>
+                                <li>设备信息：设备品牌、型号、软件系统版本、屏幕密度、屏幕分辨率、设备语言、设备时区、SIM卡信息（MCC&MNC）、CPU信息、可用存储空间大小、基础信息、AndroidID、OAID、设备标识符（IMEI、IMSI、ICOID、GAID（仅GMS服务）、MEID、硬件序列号build serial，具体字段因软硬件版本不同而存在差异）、MAC地址</li>
+                                <li>应用信息：应用包名、运行中的进程信息、应用版本号、应用前后台状态、软件列表信息</li>
+                                <li>网络信息：IP地址、运营商信息、WiFi状态、网络信号强度</li>
+                                <li>位置信息：系统国家/区域信息、精确位置信息、粗略位置信息（WiFi列表、WLAN接入点（SSID，BSSID）、基站）</li>
+                                <li>传感器信息：线性加速度传感器、磁场传感器、旋转矢量传感器、加速度传感器、陀螺仪传感器</li>
+                                <li>广告信息：对广告的展示、点击及转化交互数据</li>
+                                <li>性能数据：崩溃数据、性能数据</li>
+                            </ul>
+                        </li>
+                        <li>【iOS】：
+                            <ul>
+                                <li>设备信息：设备品牌、型号、软件系统版本、屏幕密度、屏幕分辨率、设备语言、设备时区、SIM卡信息（MCC&MNC）、CPU信息、可用存储空间大小、基础信息、手机系统重启时间、磁盘总空间、系统内存空间、DFV</li>
+                                <li>应用信息：应用包名、运行中的进程信息、应用版本号、应用前后台状态</li>
+                                <li>网络信息：IP地址、运营商信息、WiFi状态、网络信号强度</li>
+                                <li>位置信息：系统国家/区域信息、精确位置信息、粗略位置信息（WiFi列表、WLAN接入点（SSID，BSSID）、基站）</li>
+                                <li>传感器信息：加速度传感器、陀螺仪传感器</li>
+                                <li>广告信息：对广告的展示、点击及转化交互数据</li>
+                                <li>性能数据：崩溃数据、性能数据</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>使用目的：在进行广告投放和广告投放效果分析时使用</li>
+                <li>使用场景：浏览时展示广告</li>
+                <li>共享方式：SDK 本机采集</li>
+                <li>第三方个人信息处理规则：
+                    <a href="https://www.csjplatform.com/terms/gromoresdk-privacy" target="_blank">
+                        https://www.csjplatform.com/terms/gromoresdk-privacy
+                    </a>
+                </li>
+            </ul>
 
 
 
