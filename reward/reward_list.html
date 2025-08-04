@@ -10,80 +10,77 @@
             margin: 0;
         }
         .list {
-            max-width: 700px;
-            margin: 36px auto;
+            max-width: 600px;
+            margin: 32px auto;
+            padding: 0 8px;
         }
         .item {
             display: flex;
             background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px #e3e8f1;
-            margin-bottom: 36px;
-            min-height: 110px;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px #e6e7ef77;
+            margin-bottom: 22px;
+            overflow: hidden;
             align-items: stretch;
             transition: box-shadow 0.2s;
         }
         .item:hover {
-            box-shadow: 0 10px 32px #c5cbe6;
-        }
-        .pic-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 120px;
-            background: #eee;
-            border-radius: 18px 0 0 18px;
-            overflow: hidden;
+            box-shadow: 0 8px 24px #c9cdf0bb;
         }
         .pic {
-            width: 120px;
-            height: 90px;
+            width: 95px;
+            height: 70px;
             object-fit: cover;
-            border-radius: 16px 0 0 16px;
-            display: block;
+            background: #e0e0e0;
+            border-right: 1px solid #f2f2f2;
+            flex-shrink: 0;
         }
-        .main-content {
+        .info {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 20px 32px 20px 24px;
+            padding: 13px 18px 13px 15px;
+            min-width: 0;
             justify-content: center;
+        }
+        .title {
+            font-size: 16px;
+            color: #1c1d24;
+            font-weight: 500;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 3px;
         }
         .row {
             display: flex;
             align-items: center;
-            margin-bottom: 7px;
+            margin-bottom: 2px;
         }
         .amount {
-            font-size: 24px;
-            color: #ff8b21;
+            font-size: 18px;
+            color: #ff7d27;
             font-weight: bold;
-            margin-right: 16px;
-            letter-spacing: 1px;
+            margin-right: 12px;
         }
         .type {
-            font-size: 16px;
-            color: #b5bdcb;
-            margin-right: 10px;
+            font-size: 14px;
+            color: #93a1b7;
+            margin-right: 8px;
         }
         .time {
-            font-size: 15px;
-            color: #bcc3ce;
+            font-size: 13px;
+            color: #b0b7c3;
             margin-left: auto;
-            font-weight: 500;
-        }
-        .title {
-            font-size: 18px;
-            color: #313241;
-            font-weight: bold;
-            margin-bottom: 6px;
         }
         .desc {
-            font-size: 15px;
-            color: #adb3c3;
-            margin-top: 1px;
+            font-size: 13px;
+            color: #757a8a;
+            margin-top: 2px;
             white-space: pre-line;
             line-height: 1.6;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -94,56 +91,108 @@
     let data = [
       {
         pic: '06215.png',
-        amount: 5.00,
-        type: '收入',
-        time: '06-21 16:30',
         title: '来自*姚',
+        type: '收入',
+        amount: 5.00,
+        time: '06-21 16:30',
         desc: '感谢支持！'
       },
       {
+        pic: '06225.png',
+        title: '来自*涛',
+        type: '收入',
+        amount: 5.00,
+        time: '06-22 08:39',
+        desc: '你的帮助是动力！'
+      },
+      {
         pic: '062410.png',
-        amount: 10.00,
-        type: '收入',
-        time: '06-24 11:19',
         title: '来自**远',
+        type: '收入',
+        amount: 10.00,
+        time: '06-24 11:19',
         desc: '感恩每一份温暖~'
       },
-      {
+        {
+        pic: '0710_05.png',
+        title: '来自*博',
+        type: '收入',
+        amount: 0.50,
+        time: '07-10 18:47',
+        desc: '感恩每一份温暖~'
+      },
+        {
+        pic: '071805.png',
+        title: '来自**宏',
+        type: '收入',
+        amount: 5.00,
+        time: '07-18 22:45',
+        desc: '感恩每一份温暖~'
+      },
+        {
+        pic: '07191.png',
+        title: '来自**星',
+        type: '收入',
+        amount: 1.00,
+        time: '07-19 01:33',
+        desc: '感恩每一份温暖~'
+      },
+
+
+        {
+        pic: '07305.png',
+        title: '来自**盛',
+        type: '收入',
+        amount: 5.00,
+        time: '07-30 09:30',
+        desc: '感恩每一份温暖~'
+      },
+
+
+         {
         pic: '073110.png',
-        amount: 20.00,
-        type: '收入',
-        time: '07-31 13:44',
         title: '来自*泉',
+        type: '收入',
+        amount: 20.00,
+        time: '07-31 13:44',
         desc: '感恩每一份温暖~'
       },
-      {
+
+         {
         pic: '0801100.png',
-        amount: 100.00,
-        type: '收入',
-        time: '08-01 00:27',
         title: '来自**怡',
+        type: '收入',
+        amount: 100.00,
+        time: '08-01 00:27',
         desc: '感恩每一份温暖~'
-      }
+      },
+         {
+        pic: '080210.png',
+        title: '来自*珺',
+        type: '收入',
+        amount: 10.00,
+        time: '08-02 16:39',
+        desc: '感恩每一份温暖~'
+      },
+
     ];
-    // 金额从高到低排序
+    // 按金额从高到低排序
     data.sort((a,b) => b.amount - a.amount);
 
     let html = '';
     for (let d of data) {
       html += `
         <div class="item">
-          <div class="pic-wrap">
-            <img src="${d.pic}" class="pic" alt="图片"/>
-          </div>
-          <div class="main-content">
-            <div class="row">
-              <span class="amount">+${d.amount.toFixed(2)}</span>
-              <span class="type">${d.type}</span>
-              <span class="time">${d.time}</span>
+            <img src="${d.pic}" class="pic">
+            <div class="info">
+                <div class="row">
+                    <span class="amount">+${d.amount.toFixed(2)}</span>
+                    <span class="type">${d.type}</span>
+                    <span class="time">${d.time}</span>
+                </div>
+                <div class="title">${d.title}</div>
+                <div class="desc">${d.desc ? d.desc : ''}</div>
             </div>
-            <div class="title">${d.title}</div>
-            <div class="desc">${d.desc ? d.desc : ''}</div>
-          </div>
         </div>
       `;
     }
