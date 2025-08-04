@@ -79,7 +79,16 @@
     </style>
 </head>
 <body>
-<div class="list"></div>
+<div class="main-wrap">
+    <div class="summary">
+        <div class="total" id="total"></div>
+        <div class="tips">
+            做了一些微不足道的小事，没想到收到了你们的打赏，真的非常感激。<br>
+            如果以后有幸发达了，我一定会用更多实际行动去帮助他人，做更多有意义的事，谢谢你们的鼓励和善意！
+        </div>
+    </div>
+    <div class="list"></div>
+</div>
 
 <script>
     let data = [
@@ -172,6 +181,10 @@
     ];
     // 按金额从高到低排序
     data.sort((a,b) => b.amount - a.amount);
+    // 计算总金额
+let total = data.reduce((sum, d) => sum + d.amount, 0);
+// 显示总金额
+document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;
 
    let html = '';
 for (let d of data) {
