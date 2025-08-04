@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>打赏记录</title>
+    <style>
+        body {
+            background: #f6f8fa;
+            font-family: "微软雅黑", sans-serif;
+            margin: 0;
+        }
+        .list {
+            max-width: 600px;
+            margin: 32px auto;
+            padding: 0 8px;
+        }
+        .item {
+            display: flex;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px #e6e7ef77;
+            margin-bottom: 22px;
+            overflow: hidden;
+            align-items: stretch;
+            transition: box-shadow 0.2s;
+        }
+        .item:hover {
+            box-shadow: 0 8px 24px #c9cdf0bb;
+        }
+        .pic {
+            width: 95px;
+            height: 70px;
+            object-fit: cover;
+            background: #e0e0e0;
+            border-right: 1px solid #f2f2f2;
+            flex-shrink: 0;
+        }
+        .info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 13px 18px 13px 15px;
+            min-width: 0;
+            justify-content: center;
+        }
+        .title {
+            font-size: 16px;
+            color: #1c1d24;
+            font-weight: 500;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 3px;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+        .amount {
+            font-size: 18px;
+            color: #ff7d27;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .type {
+            font-size: 14px;
+            color: #93a1b7;
+            margin-right: 8px;
+        }
+        .time {
+            font-size: 13px;
+            color: #b0b7c3;
+            margin-left: auto;
+        }
+        .desc {
+            font-size: 13px;
+            color: #757a8a;
+            margin-top: 2px;
+            white-space: pre-line;
+            line-height: 1.6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+<div class="list"></div>
+
+<script>
+    let data = [
+      {
+        pic: 'avatar01.png',
+        title: '收钱码收款-来自*涛',
+        type: '收入',
+        amount: 5.00,
+        time: '06-22 08:39',
+        desc: '感谢支持！'
+      },
+      {
+        pic: 'avatar02.png',
+        title: '收钱码收款-来自*美',
+        type: '收入',
+        amount: 10.00,
+        time: '06-21 15:30',
+        desc: '你的帮助是动力！'
+      },
+      {
+        pic: 'avatar03.png',
+        title: '扫码收款-来自*亮',
+        type: '收入',
+        amount: 25.00,
+        time: '06-20 17:12',
+        desc: '感恩每一份温暖~'
+      }
+    ];
+    // 按金额从高到低排序
+    data.sort((a,b) => b.amount - a.amount);
+
+    let html = '';
+    for (let d of data) {
+      html += `
+        <div class="item">
+            <img src="${d.pic}" class="pic">
+            <div class="info">
+                <div class="row">
+                    <span class="amount">+${d.amount.toFixed(2)}</span>
+                    <span class="type">${d.type}</span>
+                    <span class="time">${d.time}</span>
+                </div>
+                <div class="title">${d.title}</div>
+                <div class="desc">${d.desc ? d.desc : ''}</div>
+            </div>
+        </div>
+      `;
+    }
+    document.querySelector('.list').innerHTML = html;
+</script>
+</body>
+</html>
