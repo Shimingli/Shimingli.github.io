@@ -121,7 +121,13 @@
             最后，祝大家天天开心，钱多事少，都能心想事成！<br>
         </div>
 
-<!--        <div class="total" id="total"></div>-->
+        <!--        <div class="total" id="total"></div>
+
+            // 计算总金额        // 显示总金额
+        let total = data.reduce((sum, d) => sum + d.amount, 0);-->
+
+        <!--document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;-->
+
     </div>
 
     <div class="list"></div>
@@ -218,10 +224,6 @@
     ];
     // 按金额从高到低排序
     data.sort((a,b) => b.amount - a.amount);
-    // 计算总金额
-<!--let total = data.reduce((sum, d) => sum + d.amount, 0);-->
-// 显示总金额
-<!--document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;-->
 
    let html = '';
 for (let d of data) {
