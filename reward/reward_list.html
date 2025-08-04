@@ -219,9 +219,9 @@
     // 按金额从高到低排序
     data.sort((a,b) => b.amount - a.amount);
     // 计算总金额
-let total = data.reduce((sum, d) => sum + d.amount, 0);
+<!--let total = data.reduce((sum, d) => sum + d.amount, 0);-->
 // 显示总金额
-document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;
+<!--document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;-->
 
    let html = '';
 for (let d of data) {
