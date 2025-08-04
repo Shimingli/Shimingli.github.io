@@ -10,77 +10,71 @@
             margin: 0;
         }
         .list {
-            max-width: 600px;
-            margin: 32px auto;
-            padding: 0 8px;
+            max-width: 700px;
+            margin: 36px auto;
         }
         .item {
-            display: flex;
             background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 2px 10px #e6e7ef77;
-            margin-bottom: 22px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px #e3e8f1;
+            margin-bottom: 36px;
             overflow: hidden;
-            align-items: stretch;
-            transition: box-shadow 0.2s;
-        }
-        .item:hover {
-            box-shadow: 0 8px 24px #c9cdf0bb;
-        }
-        .pic {
-            width: 95px;
-            height: 70px;
-            object-fit: cover;
-            background: #e0e0e0;
-            border-right: 1px solid #f2f2f2;
-            flex-shrink: 0;
-        }
-        .info {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 13px 18px 13px 15px;
-            min-width: 0;
-            justify-content: center;
         }
-        .title {
-            font-size: 16px;
-            color: #1c1d24;
-            font-weight: 500;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            margin-bottom: 3px;
+        .info {
+            padding: 22px 28px 12px 28px;
+            display: flex;
+            flex-direction: column;
         }
         .row {
             display: flex;
             align-items: center;
-            margin-bottom: 2px;
+            margin-bottom: 7px;
         }
         .amount {
-            font-size: 18px;
-            color: #ff7d27;
+            font-size: 24px;
+            color: #ff8b21;
             font-weight: bold;
-            margin-right: 12px;
+            margin-right: 16px;
+            letter-spacing: 1px;
         }
         .type {
-            font-size: 14px;
-            color: #93a1b7;
-            margin-right: 8px;
+            font-size: 16px;
+            color: #b5bdcb;
+            margin-right: 10px;
         }
         .time {
-            font-size: 13px;
-            color: #b0b7c3;
+            font-size: 15px;
+            color: #bcc3ce;
             margin-left: auto;
+            font-weight: 500;
+        }
+        .title {
+            font-size: 18px;
+            color: #313241;
+            font-weight: bold;
+            margin-bottom: 6px;
         }
         .desc {
-            font-size: 13px;
-            color: #757a8a;
-            margin-top: 2px;
+            font-size: 15px;
+            color: #adb3c3;
+            margin-top: 1px;
             white-space: pre-line;
             line-height: 1.6;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        }
+        .pic-wrap {
+            width: 100%;
+            background: #f2f2f2;
+            text-align: center;
+            padding: 0;
+        }
+        .pic {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            display: block;
+            border-radius: 0 0 18px 18px;
         }
     </style>
 </head>
@@ -179,23 +173,25 @@
     // 按金额从高到低排序
     data.sort((a,b) => b.amount - a.amount);
 
-    let html = '';
-    for (let d of data) {
-      html += `
-        <div class="item">
-            <img src="${d.pic}" class="pic">
-            <div class="info">
-                <div class="row">
-                    <span class="amount">+${d.amount.toFixed(2)}</span>
-                    <span class="type">${d.type}</span>
-                    <span class="time">${d.time}</span>
-                </div>
-                <div class="title">${d.title}</div>
-                <div class="desc">${d.desc ? d.desc : ''}</div>
+   let html = '';
+for (let d of data) {
+  html += `
+    <div class="item">
+        <div class="info">
+            <div class="row">
+                <span class="amount">+${d.amount.toFixed(2)}</span>
+                <span class="type">${d.type}</span>
+                <span class="time">${d.time}</span>
             </div>
+            <div class="title">${d.title}</div>
+            <div class="desc">${d.desc ? d.desc : ''}</div>
         </div>
-      `;
-    }
+        <div class="pic-wrap">
+            <img src="${d.pic}" class="pic" alt="图片"/>
+        </div>
+    </div>
+  `;
+}
     document.querySelector('.list').innerHTML = html;
 </script>
 </body>
