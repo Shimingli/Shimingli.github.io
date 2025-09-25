@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>打赏记录</title>
+    <style>
+        body {
+            background: #f6f8fa;
+            font-family: "微软雅黑", sans-serif;
+            margin: 0;
+        }
+        .list {
+            max-width: 700px;
+            margin: 36px auto;
+        }
+        .item {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px #e3e8f1;
+            margin-bottom: 36px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .info {
+            padding: 22px 28px 12px 28px;
+            display: flex;
+            flex-direction: column;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+        .amount {
+            font-size: 24px;
+            color: #ff8b21;
+            font-weight: bold;
+            margin-right: 16px;
+            letter-spacing: 1px;
+        }
+        .type {
+            font-size: 16px;
+            color: #b5bdcb;
+            margin-right: 10px;
+        }
+        .time {
+            font-size: 15px;
+            color: #bcc3ce;
+            margin-left: auto;
+            font-weight: 500;
+        }
+        .title {
+            font-size: 18px;
+            color: #313241;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .desc {
+            font-size: 15px;
+            color: #adb3c3;
+            margin-top: 1px;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        .pic-wrap {
+            width: 100%;
+            background: #f2f2f2;
+            text-align: center;
+            padding: 0;
+        }
+        .pic {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            display: block;
+            border-radius: 0 0 18px 18px;
+        }
+        . .summary {
+            background: #fffbe7;
+            border-radius: 18px;
+            box-shadow: 0 2px 10px #f1e9b5aa;
+            padding: 38px 38px 30px 38px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        .summary .total {
+            font-size: 20px;
+            color: #ff9800;
+            font-weight: 600;
+            margin-bottom: 18px;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px #ffe6b7;
+             margin-top: 20px;
+        }
+        .summary .tips {
+            font-size: 14px;
+            color: #000000;
+            margin-bottom: 5px;
+            font-weight: 400;
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrap">
+    <div class="summary">
+
+
+        <div class="tips">
+            微有琐事，聊尽绵力。<br>
+            自度无足挂齿，乃蒙诸君垂青，实不自胜欣感。<br>
+            暗自窃喜，心怀感佩，手比“耶”以志吾志✌️。<br>
+            君等所赐，每一钱帛，皆为吾“偷闲”生涯之殊荣也。<br>
+            所得分文，悉心积蓄，或他日小有所成，庶几可展“致富”宏愿。<br>
+            承诸君之厚意善心，使吾愈益坚信：<br>
+            惟守善良热忱，世间自有微妙之奇迹。<br>
+            倘若异日得志，必将加倍施惠，<br>
+            广为济人，令福祉温暖，流布众生矣！<br>
+            <br>
+            最后，祝大家天天开心，钱多事少，都能心想事成！<br>
+        </div>
+
+        <!--        <div class="total" id="total"></div>
+
+            // 计算总金额        // 显示总金额
+        let total = data.reduce((sum, d) => sum + d.amount, 0);-->
+
+        <!--document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;-->
+
+    </div>
+
+    <div class="list"></div>
+</div>
+
+<script>
+
+    let data = [
+
+
+      {
+        pic: '20250915-30.png',
+        title: '来自**霖',
+        type: '收入',
+        amount: 30,
+        time: '2025-09-15 06:52',
+         desc: '感谢霖哥的鼓励！双倍好运双倍喜，祝你日进斗金，鸿运当头！'
+      },
+
+
+
+ {
+        pic: '20250910-30.png',
+        title: '来自**霖',
+        type: '收入',
+        amount: 30,
+        time: '2025-09-10 05:15',
+         desc: '感谢霖哥的打赏！十全十美，万事胜意，祝你阖家幸福，笑口常开！'
+      },
+
+
+
+      {
+        pic: '20250907-001.png',
+        title: '来自**生',
+        type: '收入',
+        amount: 0.01,
+        time: '2025-09-07 23:57',
+         desc: '生哥这波操作帅呆了！我爱你'
+      },
+
+
+     {
+        pic: '20250830_6.png',
+        title: '来自**锋',
+        type: '收入',
+        amount: 6,
+        time: '2025-08-30 23:04',
+         desc: '锋哥这波操作帅呆了！六六大顺，看来我要准备给你打工了！'
+      },
+
+
+      {
+        pic: '20250824_12.png',
+        title: '来自**茂',
+        type: '收入',
+        amount: 12,
+        time: '2025-08-27 20:49',
+    desc: '谢谢茂哥！月月红，年年好，祝你财源滚滚，心想事成！'
+      },
+
+
+
+
+     {
+        pic: '20250824_10.png',
+        title: '来自**龙',
+        type: '收入',
+        amount: 10,
+        time: '2025-08-24 11:14',
+  desc: '感谢龙哥的打赏！十全十美，万事胜意，祝你阖家幸福，笑口常开！'
+      },
+
+
+
+      {
+        pic: '20250823_20.png',
+        title: '来自**楠',
+        type: '收入',
+        amount: 20,
+        time: '2025-08-23 09:49',
+     desc: '感谢楠哥的鼓励！双倍好运双倍喜，祝你日进斗金，鸿运当头！'
+      },
+
+
+
+      {
+        pic: '20250821_003.png',
+        title: '来自*亮',
+        type: '收入',
+        amount: 0.03,
+        time: '2025-08-21 10:35',
+    desc: '感谢亮哥的心意！点滴都是情，分分见真心，祝你万事如意，好运连连！'
+      },
+
+
+
+      {
+        pic: '20250821_5.png',
+        title: '来自*兢',
+        type: '收入',
+        amount: 5,
+        time: '2025-08-21 13:17',
+        desc: '谢谢兢哥的支持！五福临门好运到，祝你事业高升，天天开心！'
+      },
+
+
+      {
+        pic: '20250816_05.png',
+        title: '来自**磊',
+        type: '收入',
+        amount: 0.5,
+        time: '2025-08-16 21:34',
+        desc: '感谢磊哥的心意！礼轻情意重，祝你笑口常开，快乐每一天！'
+      },
+
+
+
+      {
+        pic: '20250815_5.png',
+        title: '来自*宝',
+        type: '收入',
+        amount: 5,
+        time: '2025-08-15 23:30',
+        desc: '谢谢宝哥的打赏！五谷丰登，财源广进，祝你家庭美满，幸福安康！'
+      },
+
+
+
+     {
+        pic: '20250813_1.png',
+        title: '来自*辰',
+        type: '收入',
+        amount: 1,
+        time: '2025-08-13 11:35',
+        desc: '感谢辰哥的支持！一元复始，万象更新，祝你前程似锦，一帆风顺！'
+      },
+
+
+
+     {
+        pic: '20250808_4_95.png',
+        title: '来自*凯',
+        type: '收入',
+        amount: 4.95,
+        time: '2025-08-08 11:10',
+        desc: '感谢，8月8日祝您一路发发'
+      },
+      {
+        pic: '06215.png',
+        title: '来自*姚',
+        type: '收入',
+        amount: 5.00,
+        time: '2025-06-21 16:30',
+        desc: '感谢支持！第一份打赏，呜呜呜'
+      },
+      {
+        pic: '06225.png',
+        title: '来自*涛',
+        type: '收入',
+        amount: 5.00,
+        time: '2025-06-22 08:39',
+        desc: '你的帮助是动力！第二份，哈哈'
+      },
+      {
+        pic: '062410.png',
+        title: '来自**远',
+        type: '收入',
+        amount: 10.00,
+        time: '2025-06-24 11:19',
+        desc: '感恩每一份温暖~'
+      },
+        {
+        pic: '0710_05.png',
+        title: '来自*博',
+        type: '收入',
+        amount: 0.50,
+        time: '2025-07-10 18:47',
+        desc: '感恩每一份温暖~'
+      },
+        {
+        pic: '071805.png',
+        title: '来自**宏',
+        type: '收入',
+        amount: 5.00,
+        time: '2025-07-18 22:45',
+        desc: '感恩每一份温暖~'
+      },
+        {
+        pic: '07191.png',
+        title: '来自**星',
+        type: '收入',
+        amount: 1.00,
+        time: '2025-07-19 01:33',
+        desc: '感恩每一份温暖~'
+      },
+
+
+        {
+        pic: '07305.png',
+        title: '来自**盛',
+        type: '收入',
+        amount: 5.00,
+        time: '2025-07-30 09:30',
+        desc: '感恩每一份温暖~'
+      },
+
+
+         {
+        pic: '073110.png',
+        title: '来自*泉',
+        type: '收入',
+        amount: 20.00,
+        time: '2025-07-31 13:44',
+        desc: '感恩每一份温暖~哈哈'
+      },
+
+         {
+        pic: '0801100.png',
+        title: '来自**怡',
+        type: '收入',
+        amount: 100.00,
+        time: '2025-08-01 00:27',
+        desc: '大哥大气，小弟祝大哥有很多花不完的钱~'
+      },
+         {
+        pic: '080210.png',
+        title: '来自*珺',
+        type: '收入',
+        amount: 10.00,
+        time: '2025-08-02 16:39',
+        desc: '感恩每一份温暖~'
+      },
+
+    ];
+    // 按金额从高到低排序
+    data.sort((a,b) => b.amount - a.amount);
+
+   let html = '';
+for (let d of data) {
+  html += `
+    <div class="item">
+        <div class="info">
+            <div class="row">
+                <span class="amount">+${d.amount.toFixed(2)}</span>
+                <span class="type">${d.type}</span>
+                <span class="time">${d.time}</span>
+            </div>
+            <div class="title">${d.title}</div>
+            <div class="desc">${d.desc ? d.desc : ''}</div>
+        </div>
+        <div class="pic-wrap">
+            <img src="${d.pic}" class="pic" alt="图片"/>
+        </div>
+    </div>
+  `;
+}
+    document.querySelector('.list').innerHTML = html;
+</script>
+</body>
+</html>
