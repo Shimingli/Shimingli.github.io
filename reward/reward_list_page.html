@@ -123,10 +123,12 @@
 
         <div class="total" id="total"></div>
 
-        // 计算总金额 // 显示总金额
-        let total = data.reduce((sum, d) => sum + d.amount, 0);-->
-
-        document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;
+        <script>
+            // 计算总金额
+            let total = data.reduce((sum, d) => sum + d.amount, 0);
+            // 显示总金额
+            document.getElementById('total').innerHTML = `已收到打赏总金额：¥${total.toFixed(2)}`;
+        </script>
 
     </div>
 
