@@ -20,3 +20,7 @@ http://reward.shimingli.com/reward_list_page_new.html
 
 
 http://114.132.42.74/reward/reward_list_page.html
+
+usr/share/nginx/html
+
+http://114.132.42.74/mts-club-promo.html
