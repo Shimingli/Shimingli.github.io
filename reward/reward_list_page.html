@@ -2,297 +2,57 @@
 <html lang="zh">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>打赏记录 · 感恩有你</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+        <meta name="theme-color" content="#f6f8fa" />
+        <title>Sponsor Log · 谢谢投喂</title>
         <style>
             :root {
-                --warm-1: #ff8b21;
-                --warm-2: #ffb347;
-                --warm-soft: #fff4e6;
-                --ink: #2b2f3a;
-                --ink-soft: #6b7280;
-                --ink-faint: #9aa1ad;
-                --line: #eceef3;
-                --card-bg: #ffffff;
-                --bg: #f4f6fb;
-                --shadow-sm: 0 2px 8px rgba(40, 50, 70, 0.05);
-                --shadow-md: 0 8px 28px rgba(40, 50, 70, 0.08);
-                --shadow-lg: 0 14px 44px rgba(40, 50, 70, 0.12);
-                --radius: 20px;
+                --bg: #f6f8fa;
+                --surface: #ffffff;
+                --surface-2: #f0f2f5;
+                --border: #d8dee4;
+                --border-soft: #e6e8eb;
+                --text: #424a53;
+                --text-bright: #1f2328;
+                --muted: #636c76;
+                --muted-2: #848d97;
+                --green: #1a7f37;
+                --green-bright: #1a7f37;
+                --green-dim: #2da44e;
+                --green-bg: rgba(26, 127, 55, 0.1);
+                --blue: #0969da;
+                --orange: #9a6700;
+                --mono:
+                    "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas,
+                    "Liberation Mono", monospace;
+                --sans:
+                    -apple-system, BlinkMacSystemFont, "PingFang SC",
+                    "Microsoft YaHei", "Segoe UI", sans-serif;
             }
 
             * {
                 box-sizing: border-box;
             }
-
             html {
                 -webkit-text-size-adjust: 100%;
             }
-
             body {
+                margin: 0;
                 background:
                     radial-gradient(
-                        1200px 600px at 50% -10%,
-                        #fff6ea 0%,
-                        rgba(255, 246, 234, 0) 60%
+                        900px 500px at 50% -10%,
+                        rgba(56, 139, 253, 0.08),
+                        transparent 60%
                     ),
                     var(--bg);
-                font-family:
-                    "PingFang SC",
-                    "Microsoft YaHei",
-                    "微软雅黑",
-                    -apple-system,
-                    BlinkMacSystemFont,
-                    "Segoe UI",
-                    sans-serif;
-                margin: 0;
-                color: var(--ink);
+                color: var(--text);
+                font-family: var(--sans);
                 line-height: 1.6;
-            }
-
-            /* ===== 顶部致谢区 ===== */
-            .hero {
-                max-width: 720px;
-                margin: 0 auto;
-                padding: 44px 20px 8px;
-                text-align: center;
-            }
-            .hero .badge {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                background: #fff;
-                border: 1px solid var(--line);
-                color: var(--warm-1);
-                font-size: 13px;
-                font-weight: 600;
-                padding: 6px 14px;
-                border-radius: 999px;
-                box-shadow: var(--shadow-sm);
-                margin-bottom: 18px;
-                letter-spacing: 1px;
-            }
-            .hero h1 {
-                font-size: 28px;
-                margin: 0 0 6px;
-                font-weight: 800;
-                letter-spacing: 1px;
-                background: linear-gradient(120deg, var(--warm-1), #ff5d2e);
-                -webkit-background-clip: text;
-                background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .hero .subtitle {
-                font-size: 14px;
-                color: var(--ink-faint);
-                margin: 0;
-            }
-
-            /* ===== 统计卡 ===== */
-            .stats {
-                max-width: 720px;
-                margin: 24px auto 8px;
-                padding: 0 20px;
-                display: grid;
-                grid-template-columns: 1.4fr 1fr 1fr;
-                gap: 12px;
-            }
-            .stat {
-                background: var(--card-bg);
-                border: 1px solid var(--line);
-                border-radius: var(--radius);
-                padding: 18px 16px;
-                box-shadow: var(--shadow-sm);
-                text-align: center;
-            }
-            .stat .num {
-                font-size: 26px;
-                font-weight: 800;
-                color: var(--warm-1);
-                line-height: 1.1;
-                letter-spacing: 0.5px;
-            }
-            .stat .num small {
-                font-size: 14px;
-                font-weight: 600;
-            }
-            .stat .lbl {
-                font-size: 12px;
-                color: var(--ink-faint);
-                margin-top: 6px;
-                letter-spacing: 1px;
-            }
-
-            /* ===== 致谢寄语 ===== */
-            .thanks {
-                max-width: 720px;
-                margin: 14px auto 0;
-                padding: 0 20px;
-            }
-            .thanks .card {
-                position: relative;
-                background: linear-gradient(135deg, #fffaf2, #fff6ea);
-                border: 1px solid #fbe7cf;
-                border-radius: var(--radius);
-                padding: 26px 28px 24px;
-                box-shadow: var(--shadow-sm);
-                font-size: 14.5px;
-                color: #7a5b34;
-                line-height: 2;
-                white-space: pre-line;
-                overflow: hidden;
-            }
-            .thanks .card::before {
-                content: "“";
-                position: absolute;
-                top: -28px;
-                left: 12px;
-                font-size: 120px;
-                color: rgba(255, 139, 33, 0.12);
-                font-family: Georgia, serif;
-                line-height: 1;
-            }
-            .thanks .signoff {
-                margin-top: 10px;
-                font-weight: 700;
-                color: var(--warm-1);
-            }
-
-            /* ===== 列表 ===== */
-            .list {
-                max-width: 720px;
-                margin: 30px auto 60px;
-                padding: 0 20px;
-            }
-            .item {
-                background: var(--card-bg);
-                border: 1px solid var(--line);
-                border-radius: var(--radius);
-                box-shadow: var(--shadow-sm);
-                margin-bottom: 20px;
-                overflow: hidden;
-                transition:
-                    box-shadow 0.25s ease,
-                    transform 0.25s ease;
-            }
-            .item:hover {
-                box-shadow: var(--shadow-md);
-                transform: translateY(-2px);
-            }
-            .info {
-                padding: 20px 22px 14px;
-            }
-            .row {
-                display: flex;
-                align-items: baseline;
-                flex-wrap: wrap;
-                gap: 6px 12px;
-                margin-bottom: 10px;
-            }
-            .amount {
-                font-size: 26px;
-                color: var(--warm-1);
-                font-weight: 800;
-                letter-spacing: 0.5px;
-                font-variant-numeric: tabular-nums;
-            }
-            .amount .cur {
                 font-size: 15px;
-                font-weight: 700;
-                margin-right: 1px;
-                opacity: 0.85;
-            }
-            .tag {
-                font-size: 12px;
-                font-weight: 600;
-                color: var(--warm-1);
-                background: var(--warm-soft);
-                border: 1px solid #fbe3c8;
-                padding: 3px 10px;
-                border-radius: 999px;
-                letter-spacing: 1px;
-            }
-            .time {
-                font-size: 13px;
-                color: var(--ink-faint);
-                margin-left: auto;
-                font-variant-numeric: tabular-nums;
-            }
-            .title {
-                font-size: 16px;
-                color: var(--ink);
-                font-weight: 700;
-                margin-bottom: 4px;
-            }
-            .desc {
-                font-size: 14px;
-                color: var(--ink-soft);
-                white-space: pre-line;
-                line-height: 1.7;
-            }
-            .pic-wrap {
-                width: 100%;
-                background: repeating-conic-gradient(
-                        #eef0f4 0% 25%,
-                        #f7f8fb 0% 50%
-                    )
-                    0 0 / 18px 18px;
-                cursor: zoom-in;
-                position: relative;
-            }
-            .pic {
-                width: 100%;
-                max-height: 240px;
-                object-fit: contain;
-                display: block;
-            }
-            .pic-wrap::after {
-                content: "🔍 点击查看大图";
-                position: absolute;
-                right: 12px;
-                bottom: 10px;
-                font-size: 12px;
-                color: #fff;
-                background: rgba(0, 0, 0, 0.55);
-                padding: 4px 10px;
-                border-radius: 999px;
-                opacity: 0;
-                transition: opacity 0.2s ease;
-                pointer-events: none;
-            }
-            .pic-wrap:hover::after {
-                opacity: 1;
-            }
-
-            /* ===== 灯箱 ===== */
-            .lightbox {
-                position: fixed;
-                inset: 0;
-                background: rgba(15, 18, 28, 0.92);
-                display: none;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                padding: 24px;
-                cursor: zoom-out;
-            }
-            .lightbox.open {
-                display: flex;
-            }
-            .lightbox img {
-                max-width: 100%;
-                max-height: 90vh;
-                border-radius: 10px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            }
-
-            footer {
-                max-width: 720px;
-                margin: 0 auto 50px;
-                padding: 0 20px;
-                text-align: center;
-                font-size: 13px;
-                color: var(--ink-faint);
+                -webkit-font-smoothing: antialiased;
             }
 
             /* ===== 内容层置于粒子之上 ===== */
@@ -300,15 +60,19 @@
             .stats,
             .thanks,
             .list,
-            .intro,
             .section-label,
             .closing,
             footer {
                 position: relative;
                 z-index: 1;
             }
+            .cur {
+                font-size: 0.62em;
+                font-weight: 600;
+                opacity: 0.75;
+            }
 
-            /* ===== 漂浮微光（每一份善意化作一点光） ===== */
+            /* ===== 漂浮微光 ===== */
             .particles {
                 position: fixed;
                 inset: 0;
@@ -322,12 +86,11 @@
                 border-radius: 50%;
                 background: radial-gradient(
                     circle,
-                    rgba(255, 190, 110, 0.95) 0%,
-                    rgba(255, 139, 33, 0) 70%
+                    rgba(86, 211, 100, 0.7) 0%,
+                    rgba(86, 211, 100, 0) 70%
                 );
                 animation: rise linear infinite;
                 opacity: 0;
-                filter: blur(0.2px);
             }
             @keyframes rise {
                 0% {
@@ -335,10 +98,10 @@
                     opacity: 0;
                 }
                 12% {
-                    opacity: 0.85;
+                    opacity: 0.7;
                 }
                 88% {
-                    opacity: 0.55;
+                    opacity: 0.4;
                 }
                 100% {
                     transform: translateY(-112vh) scale(1.15);
@@ -346,48 +109,89 @@
                 }
             }
 
-            /* ===== Hero 呼吸光晕 + 入场 ===== */
-            .hero::before {
-                content: "";
-                position: absolute;
-                left: 50%;
-                top: 24%;
-                width: 480px;
-                height: 480px;
-                transform: translateX(-50%);
-                background: radial-gradient(
-                    circle,
-                    rgba(255, 179, 71, 0.2) 0%,
-                    rgba(255, 179, 71, 0) 66%
-                );
-                z-index: -1;
-                animation: breathe 6s ease-in-out infinite;
-                pointer-events: none;
+            /* ===== 终端窗口 Hero ===== */
+            .hero {
+                max-width: 680px;
+                margin: 0 auto;
+                padding: 16px;
             }
-            @keyframes breathe {
-                0%,
-                100% {
-                    opacity: 0.65;
-                    transform: translateX(-50%) scale(1);
-                }
+            .term {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 34px rgba(31, 35, 40, 0.14);
+                animation: fadeUp 0.7s ease both;
+            }
+            .term-bar {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                padding: 10px 14px;
+                background: var(--surface-2);
+                border-bottom: 1px solid var(--border);
+            }
+            .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+            }
+            .dot.r {
+                background: #ff5f56;
+            }
+            .dot.y {
+                background: #ffbd2e;
+            }
+            .dot.g {
+                background: #27c93f;
+            }
+            .term-title {
+                margin-left: 8px;
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--muted);
+            }
+            .term-body {
+                padding: 18px 16px;
+            }
+            .cmd {
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--blue);
+                margin-bottom: 12px;
+            }
+            .term-body h1 {
+                font-family: var(--mono);
+                font-size: 21px;
+                margin: 0 0 8px;
+                color: var(--green-bright);
+                font-weight: 700;
+                letter-spacing: 0.5px;
+            }
+            .lead {
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--muted-2);
+                margin: 0;
+            }
+            .cursor {
+                display: inline-block;
+                width: 8px;
+                height: 14px;
+                background: var(--green);
+                margin-left: 4px;
+                vertical-align: -2px;
+                animation: blink 1.1s steps(1) infinite;
+            }
+            @keyframes blink {
                 50% {
-                    opacity: 1;
-                    transform: translateX(-50%) scale(1.09);
+                    opacity: 0;
                 }
-            }
-            .hero .badge {
-                animation: fadeUp 0.8s ease both;
-            }
-            .hero h1 {
-                animation: fadeUp 0.8s ease 0.12s both;
-            }
-            .hero .subtitle {
-                animation: fadeUp 0.8s ease 0.24s both;
             }
             @keyframes fadeUp {
                 from {
                     opacity: 0;
-                    transform: translateY(18px);
+                    transform: translateY(16px);
                 }
                 to {
                     opacity: 1;
@@ -395,82 +199,225 @@
                 }
             }
 
-            /* ===== 引语区 ===== */
-            .intro {
-                max-width: 560px;
-                margin: 10px auto 0;
-                padding: 0 20px;
+            /* ===== 统计 ===== */
+            .stats {
+                max-width: 680px;
+                margin: 14px auto;
+                padding: 0 16px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .stat {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 12px 6px;
                 text-align: center;
-                font-size: 15px;
-                color: var(--ink-soft);
-                line-height: 2;
             }
-            .intro p {
-                margin: 0 0 4px;
+            .stat .num {
+                font-family: var(--mono);
+                font-size: 17px;
+                font-weight: 700;
+                color: var(--green-bright);
+                line-height: 1.2;
+                font-variant-numeric: tabular-nums;
             }
-            .intro .em {
-                color: var(--warm-1);
-                font-weight: 600;
+            .stat .lbl {
+                font-size: 11px;
+                color: var(--muted);
+                margin-top: 5px;
+                letter-spacing: 0.5px;
             }
 
-            /* ===== 列表前的分隔语 ===== */
+            /* ===== 致谢：代码注释块 ===== */
+            .thanks {
+                max-width: 680px;
+                margin: 14px auto;
+                padding: 0 16px;
+            }
+            .comment {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-left: 3px solid var(--green-dim);
+                border-radius: 10px;
+                padding: 16px;
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--muted);
+                line-height: 2;
+                white-space: pre-line;
+            }
+            .comment .kw {
+                color: var(--green);
+            }
+            .comment .str {
+                color: var(--orange);
+            }
+
+            /* ===== 列表前分隔 ===== */
             .section-label {
-                max-width: 720px;
-                margin: 44px auto 20px;
-                padding: 0 20px;
-                text-align: center;
+                max-width: 680px;
+                margin: 24px auto 12px;
+                padding: 0 16px;
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--muted);
             }
-            .section-label .line {
-                display: inline-flex;
-                align-items: center;
-                gap: 14px;
-                color: var(--warm-1);
-                font-size: 15px;
-                font-weight: 700;
-                letter-spacing: 3px;
-            }
-            .section-label .line::before,
-            .section-label .line::after {
-                content: "";
-                width: 38px;
-                height: 1px;
-                background: linear-gradient(90deg, transparent, #f0c9a0);
-            }
-            .section-label .line::after {
-                background: linear-gradient(90deg, #f0c9a0, transparent);
+            .section-label .hash {
+                color: var(--blue);
             }
             .section-label .sub {
                 display: block;
-                margin-top: 10px;
-                font-size: 13px;
-                color: var(--ink-faint);
-                font-weight: 400;
-                letter-spacing: 0;
+                color: var(--muted-2);
+                font-size: 12px;
+                margin-top: 3px;
             }
 
-            /* ===== 结尾寄语 ===== */
-            .closing {
-                max-width: 560px;
-                margin: 14px auto 0;
-                padding: 0 20px 44px;
-                text-align: center;
-                font-size: 15.5px;
-                color: var(--ink-soft);
-                line-height: 2.15;
+            /* ===== 列表 ===== */
+            .list {
+                max-width: 680px;
+                margin: 0 auto 36px;
+                padding: 0 16px;
+            }
+            .item {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                margin-bottom: 12px;
+                overflow: hidden;
+                transition:
+                    border-color 0.2s ease,
+                    transform 0.2s ease;
+            }
+            .item:hover {
+                border-color: var(--green-dim);
+                transform: translateY(-1px);
+            }
+            .info {
+                padding: 14px;
+            }
+            .row {
+                display: flex;
+                align-items: baseline;
+                flex-wrap: wrap;
+                gap: 4px 10px;
+                margin-bottom: 8px;
+            }
+            .amount {
+                font-family: var(--mono);
+                font-size: 20px;
+                font-weight: 700;
+                font-variant-numeric: tabular-nums;
+            }
+            .amount .sign {
+                color: var(--green-dim);
+                margin-right: 1px;
+            }
+            .tag {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--green);
+                background: var(--green-bg);
+                border: 1px solid rgba(46, 160, 67, 0.3);
+                padding: 2px 8px;
+                border-radius: 6px;
+            }
+            .time {
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--muted);
+                margin-left: auto;
+                font-variant-numeric: tabular-nums;
+            }
+            .title {
+                font-size: 15px;
+                color: var(--text-bright);
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+            .desc {
+                font-size: 13.5px;
+                color: var(--muted);
+                line-height: 1.75;
                 white-space: pre-line;
             }
-            .closing .highlight {
-                color: var(--warm-1);
-                font-weight: 700;
+            .pic-wrap {
+                position: relative;
+                cursor: zoom-in;
+                background: #f0f2f5;
+                border-top: 1px solid var(--border);
+            }
+            .pic-wrap::before {
+                content: "// screenshot";
+                position: absolute;
+                top: 6px;
+                left: 10px;
+                z-index: 1;
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--muted-2);
+                pointer-events: none;
+            }
+            .pic {
+                width: 100%;
+                max-height: 220px;
+                object-fit: contain;
+                display: block;
+            }
+
+            /* ===== 灯箱 ===== */
+            .lightbox {
+                position: fixed;
+                inset: 0;
+                background: rgba(31, 35, 40, 0.72);
+                backdrop-filter: blur(4px);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: 20px;
+                cursor: zoom-out;
+            }
+            .lightbox.open {
+                display: flex;
+            }
+            .lightbox img {
+                max-width: 100%;
+                max-height: 90vh;
+                border-radius: 8px;
+                border: 1px solid var(--border);
+            }
+
+            /* ===== 结尾 ===== */
+            .closing {
+                max-width: 680px;
+                margin: 6px auto 0;
+                padding: 0 16px 26px;
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--muted);
+                line-height: 2;
+                white-space: pre-line;
+                text-align: center;
+            }
+            footer {
+                max-width: 680px;
+                margin: 0 auto 32px;
+                padding: 0 16px;
+                text-align: center;
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--muted-2);
             }
 
             /* ===== 滚动渐入 ===== */
             .reveal {
                 opacity: 0;
-                transform: translateY(26px);
+                transform: translateY(22px);
                 transition:
-                    opacity 0.7s ease,
-                    transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+                    opacity 0.6s ease,
+                    transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
             }
             .reveal.in {
                 opacity: 1;
@@ -484,7 +431,8 @@
                     transition: none;
                 }
                 .particle,
-                .hero::before {
+                .cursor,
+                .term {
                     animation: none !important;
                 }
                 .particle {
@@ -492,39 +440,22 @@
                 }
             }
 
-            @media (max-width: 560px) {
-                .hero {
-                    padding-top: 32px;
+            /* 桌面端略微放大 */
+            @media (min-width: 600px) {
+                body {
+                    font-size: 16px;
                 }
-                .hero h1 {
-                    font-size: 23px;
-                }
-                .hero::before {
-                    width: 320px;
-                    height: 320px;
-                }
-                .stats {
-                    grid-template-columns: 1fr;
+                .term-body h1 {
+                    font-size: 26px;
                 }
                 .amount {
-                    font-size: 23px;
+                    font-size: 24px;
                 }
-                .info {
-                    padding: 18px 16px 12px;
+                .stat .num {
+                    font-size: 20px;
                 }
-                .list,
-                .stats,
-                .thanks,
-                .hero,
-                .intro,
-                .section-label,
-                .closing,
-                footer {
-                    padding-left: 14px;
-                    padding-right: 14px;
-                }
-                .pic-wrap::after {
-                    opacity: 1;
+                .pic {
+                    max-height: 260px;
                 }
             }
         </style>
@@ -533,71 +464,73 @@
         <div class="particles" id="particles"></div>
 
         <section class="hero">
-            <span class="badge">✦ 打赏致谢 ✦</span>
-            <h1>感恩每一份温暖</h1>
-            <p class="subtitle">
-                不过是随手写下的几行字，<br />却换来你们，如此郑重的善意
-            </p>
-        </section>
-
-        <section class="intro reveal">
-            <p>我常想，自己<span class="em">何德何能</span>。</p>
-            <p>
-                不过是把所学所悟、所思所感，原原本本写下；<br />却总有素未谋面的你们，愿意为这些文字，递上一份温暖。
-            </p>
+            <div class="term">
+                <div class="term-bar">
+                    <span class="dot r"></span>
+                    <span class="dot y"></span>
+                    <span class="dot g"></span>
+                    <span class="term-title">~/sponsor-log</span>
+                </div>
+                <div class="term-body">
+                    <div class="cmd">$ cat THANKS.md</div>
+                    <h1># 谢谢你们的投喂</h1>
+                    <p class="lead">
+                        // 每一笔打赏，都是人生路上的一束光 ✨<span
+                            class="cursor"
+                        ></span>
+                    </p>
+                </div>
+            </div>
         </section>
 
         <section class="stats reveal">
             <div class="stat">
-                <div class="num"><small>¥</small><span id="total">0</span></div>
-                <div class="lbl">点滴汇成</div>
+                <div class="num">
+                    <span class="cur">¥</span><span id="total">0</span>
+                </div>
+                <div class="lbl">累计投喂</div>
             </div>
             <div class="stat">
                 <div class="num" id="count">0</div>
-                <div class="lbl">份温暖</div>
+                <div class="lbl">投喂次数</div>
             </div>
             <div class="stat">
-                <div class="num" id="max">0</div>
-                <div class="lbl">最深心意 ¥</div>
+                <div class="num">
+                    <span class="cur">¥</span><span id="max">0</span>
+                </div>
+                <div class="lbl">单笔最高</div>
             </div>
         </section>
 
         <section class="thanks reveal">
-            <div class="card">
-                微有琐事，聊尽绵力。<br />
-                自度无足挂齿，乃蒙诸君垂青，实不自胜欣感。<br />
-                暗自窃喜，心怀感佩，手比"耶"以志吾志✌️。<br />
-                君等所赐，每一钱帛，皆为吾"偷闲"生涯之殊荣也。<br />
-                所得分文，悉心积蓄，或他日小有所成，庶几可展"致富"宏愿。<br />
-                承诸君之厚意善心，使吾愈益坚信：<br />
-                惟守善良热忱，世间自有微妙之奇迹。<br />
-                倘若异日得志，必将加倍施惠，广为济人，令福祉温暖，流布众生矣！<br />
-                <span class="signoff"
-                    >最后，祝大家天天开心，钱多事少，都能心想事成！</span
-                >
+            <div class="comment">
+                /* * 做这个 App，本是解决一个自己也烦的小问题。 *
+                没想到，它也被你们喜欢。 * * 每一次打赏，都让我觉得—— *
+                <span class="kw">那些熬过的夜、修过的 bug，都值了。</span> * *
+                钱会用来续服务器、买杯咖啡、偶尔加个鸡腿， *
+                但更珍贵的，是被你们认可的那份感觉。 * * 我会继续写下去。 *
+                也愿你写的每一行代码，都能 <span class="str">跑通</span>。💚 */
             </div>
         </section>
 
         <div class="section-label reveal">
-            <span class="line">每一笔，都是一束光</span>
-            <span class="sub">无论一分还是百元，在我心里，都同样珍贵</span>
+            <span class="hash">##</span> 打赏记录
+            <span style="color: var(--muted-2)">// 按金额排序</span>
+            <span class="sub">// 每一笔都值得被记住，感谢每一位</span>
         </div>
 
         <div class="list"></div>
 
         <div class="closing reveal">
-            这些钱，我会认真收着。<br />
-            <span class="highlight">但更让我珍藏的，是这份被你们惦记的感觉</span
-            >——<br />
-            我会记很久，很久。<br /><br />
-            愿你们，也被这个世界，温柔以待。💛
+            // 愿我们的代码少一些 bug， // 愿我们的生活少一点 404。
+            <span style="color: var(--green-bright)">谢谢你们。</span>💚
         </div>
 
         <div class="lightbox" id="lightbox">
             <img id="lightbox-img" alt="打赏截图大图" />
         </div>
 
-        <footer>—— 感谢一路同行的每一位 ——</footer>
+        <footer>— end of log · made with 💚 —</footer>
 
         <script src="data.js"></script>
         <script>
@@ -609,7 +542,7 @@
             const max = data.reduce((m, d) => Math.max(m, d.amount), 0);
 
             // 数字滚动动画
-            function countUp(el, target, decimals = 0, duration = 1600) {
+            function countUp(el, target, decimals = 0, duration = 1500) {
                 const start = performance.now();
                 function tick(now) {
                     const p = Math.min((now - start) / duration, 1);
@@ -624,19 +557,18 @@
             countUp(document.getElementById("count"), data.length, 0);
             countUp(document.getElementById("max"), max, 2);
 
-            // 金额分级配色：金额越大越浓烈
+            // 金额越大，绿色越亮（diff 风格）
             function amountColor(a) {
-                if (a >= 100) return "#ff4d2e";
-                if (a >= 50) return "#ff6a2e";
-                if (a >= 18) return "#ff7a2e";
-                if (a >= 6) return "#ff8b21";
-                if (a >= 1) return "#ffa64d";
-                return "#ffb978";
+                if (a >= 100) return "#56d364";
+                if (a >= 50) return "#46c75d";
+                if (a >= 18) return "#3fb950";
+                if (a >= 6) return "#3fb950";
+                if (a >= 1) return "#2ea043";
+                return "#2ea043";
             }
 
             let html = "";
             for (let d of data) {
-                // 除 pic 外，其余字段均可缺省；缺失部分靠截图展示
                 const amount = Number(d.amount) || 0;
                 const color = amountColor(amount);
                 const amt = amount.toFixed(2);
@@ -654,7 +586,7 @@
         <div class="info">
             <div class="row">
                 <span class="amount" style="color:${color}">
-                    <span class="cur">¥</span>${amtParts[0]}<small style="font-size:.62em;font-weight:700;opacity:.85">.${amtParts[1]}</small>
+                    <span class="sign">+</span><span class="cur">¥</span>${amtParts[0]}<small style="font-size:.62em;opacity:.7">.${amtParts[1]}</small>
                 </span>
                 ${tag}
                 ${time}
@@ -669,7 +601,7 @@
             }
             document.querySelector(".list").innerHTML = html;
 
-            // 滚动渐入：每一份温暖，缓缓浮现
+            // 滚动渐入
             if ("IntersectionObserver" in window) {
                 const io = new IntersectionObserver(
                     (entries) => {
@@ -691,13 +623,13 @@
                     .forEach((el) => el.classList.add("in"));
             }
 
-            // 漂浮微光：每一份善意，化作一点光
+            // 漂浮微光
             const pField = document.getElementById("particles");
-            const PCOUNT = 26;
+            const PCOUNT = 22;
             for (let i = 0; i < PCOUNT; i++) {
                 const p = document.createElement("span");
                 p.className = "particle";
-                const size = 3 + Math.random() * 7;
+                const size = 3 + Math.random() * 6;
                 p.style.left = Math.random() * 100 + "%";
                 p.style.width = p.style.height = size + "px";
                 p.style.animationDuration = 12 + Math.random() * 16 + "s";
