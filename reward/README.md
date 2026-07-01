@@ -24,3 +24,7 @@ http://114.132.42.74/reward/reward_list_page.html
 usr/share/nginx/html
 
 http://114.132.42.74/mts-club-promo.html
+
+
+
+
